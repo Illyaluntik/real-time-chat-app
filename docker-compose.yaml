@@ -1,0 +1,20 @@
+version: '3'
+services:
+  vpwa-server:
+    build:
+      context: ./vpwa-server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    container_name: vpwa-server
+    volumes:
+       - ./vpwa-server:/usr/src/app/vpwa-server
+  vpwa-ui:
+    build:
+      context: ./vpwa-ui
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    container_name: vpwa-ui
+    volumes:
+       - ./vpwa-ui:/usr/src/app/vpwa-ui
