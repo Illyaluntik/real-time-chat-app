@@ -2,7 +2,7 @@ FROM node:16
 
 WORKDIR /usr/src/app/vpwa-ui
 
-COPY package*.json ./
+COPY . .
 
 RUN npm install
 

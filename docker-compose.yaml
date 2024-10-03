@@ -9,6 +9,7 @@ services:
     container_name: vpwa-server
     volumes:
        - ./vpwa-server:/usr/src/app/vpwa-server
+       - /usr/src/app/vpwa-server/node_modules
   vpwa-ui:
     build:
       context: ./vpwa-ui
@@ -18,3 +19,4 @@ services:
     container_name: vpwa-ui
     volumes:
        - ./vpwa-ui:/usr/src/app/vpwa-ui
+       - /usr/src/app/vpwa-ui/node_modules
