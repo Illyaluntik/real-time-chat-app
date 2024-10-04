@@ -6,6 +6,8 @@ COPY . .
 
 RUN npm install
 
+RUN chmod -R 777 ./node_modules
+
 EXPOSE 3000
 
 CMD ["npm", "run", "dev"]
