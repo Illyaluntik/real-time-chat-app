@@ -48,7 +48,7 @@
   </div>
 </template>
 
-<style lang="less" scoped>
+<style scoped>
 .container {
   max-width: 700px;
   margin-top: 10vh;
