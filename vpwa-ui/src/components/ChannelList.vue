@@ -1,25 +1,24 @@
 <template>
+<q-space></q-space>
 <div class="channels">
-    <div class="q-pa-md" style="max-width: 400px">
-        <q-list dense bordered padding class="rounded-borders">
+    <div class="q-mx-lg" style="max-width: 400px">
+        <q-list dense padding>
           <q-item v-for="channel in channels" :key="channel.id" clickable v-ripple>
-          <q-icon v-if=channel.private name="lock"></q-icon>
-          <q-item-label>
-              {{ channel.name }}
-          </q-item-label>
+          <q-icon v-if=channel.isPrivate name="lock"></q-icon>
           <q-item-section>
+              {{ channel.name }}
+          </q-item-section>
+          <q-item-section style="max-width: 10px">
             <q-btn round flat icon="more_vert">
               <q-menu auto-close>
-                <q-item clickabble>
-                  <q-item-section>
-                    Leave
-                  </q-item-section>
-                </q-item>
-                <q-item clickabble>
-                  <q-item-section>
-                    Delete
-                  </q-item-section>
-                </q-item>
+                <q-list dense style="min-width: 100px">
+                  <q-item clickable v-close-popup>
+                    <q-item-section>Leave</q-item-section>
+                 </q-item>
+                 <q-item v-if=channel.isAdmin clickable v-close-popup>
+                    <q-item-section>Delete</q-item-section>
+                 </q-item>
+                </q-list>
               </q-menu>
             </q-btn>
           </q-item-section>
@@ -65,37 +64,46 @@
 import { ref } from 'vue';
 
 export default {
-  setup() {
-    return { prompt: ref(false), channelName: ref(''), channelType: ref(false) };
-  },
   data() {
     return {
+      prompt: ref(false),
+      channelName: ref(''),
+      channelType: ref(false),
       channels: [
         {
           id: 1,
           name: 'Channel 1',
-          private: false,
+          isPrivate: false,
+          isAdmin: false,
+          readInvite: false,
         },
         {
           id: 2,
           name: 'Channel 2',
-          private: false,
+          isPrivate: false,
+          isAdmin: true,
+          readInvite: false,
         },
         {
           id: 3,
           name: 'Channel 3',
-          private: true,
+          isPrivate: true,
+          isAdmin: false,
+          readInvite: false,
         },
       ],
     };
   },
   methods: {
-    // addChannel() {
-    //   this.channels.push({
-    //     name: this.channelName,
-    //     private: this.channelType,
-    //   });
-    // },
+    addChannel() {
+      this.channels.unshift({
+        id: 4,
+        name: this.channelName,
+        isPrivate: this.channelType,
+        isAdmin: true,
+        readInvite: false,
+      });
+    },
   },
 };
 </script>

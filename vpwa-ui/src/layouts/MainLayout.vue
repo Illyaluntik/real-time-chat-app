@@ -12,6 +12,7 @@
         />
 
       </q-toolbar>
+      Title
     </q-header>
 
     <q-drawer
@@ -19,9 +20,7 @@
       show-if-above
       bordered
     >
-      <q-list>
-
-      </q-list>
+      <channel-list></channel-list>
     </q-drawer>
     <q-page-container>
       <router-view />
@@ -32,6 +31,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import ChannelList from 'src/components/ChannelList.vue';
 
 export default defineComponent({
   data() {
@@ -44,5 +44,6 @@ export default defineComponent({
       this.leftDrawerOpen = !this.leftDrawerOpen;
     },
   },
+  components: { ChannelList },
 });
 </script>
