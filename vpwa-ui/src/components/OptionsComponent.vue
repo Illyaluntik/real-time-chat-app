@@ -21,34 +21,34 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: true,
+      required: true
     },
     todos: {
       type: Array as PropType<Todo[]>,
-      default: () => [] as Todo[],
+      default: () => [] as Todo[]
     },
     meta: {
       type: Object as PropType<Meta>,
-      required: true,
+      required: true
     },
     active: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   data(): { clickCount: number } {
     return {
-      clickCount: 0,
+      clickCount: 0
     };
   },
   methods: {
     increment(): void {
       this.clickCount += 1;
-    },
+    }
   },
   computed: {
     todoCount(): number {
       return this.todos.length;
-    },
-  },
+    }
+  }
 });
 </script>

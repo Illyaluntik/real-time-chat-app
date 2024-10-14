@@ -13,6 +13,7 @@ module.exports = {
     // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#eslint
     // Needed to make the parser take into account 'vue' files
     extraFileExtensions: ['.vue'],
+    // parser: 'vue-eslint-parser',
     parser: '@typescript-eslint/parser',
     project: resolve(__dirname, './tsconfig.json'),
     tsconfigRootDir: __dirname,
@@ -38,6 +39,7 @@ module.exports = {
     // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
     // See https://eslint.vuejs.org/rules/#available-rules
+    // 'eslint:recommended',
     'plugin:vue/vue3-essential', // Priority A: Essential (Error Prevention)
     // 'plugin:vue/vue3-strongly-recommended', // Priority B: Strongly Recommended (Improving Readability)
     // 'plugin:vue/vue3-recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
@@ -86,9 +88,27 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'prefer-promise-reject-errors': 'off',
 
+    'no-explicit-any': 'off',
+    'quotes': [ 2, 'single', { "avoidEscape": true } ],
+    'comma-dangle': [ 2, 'never'],
+    'nonblock-statement-body-position': ['error', 'below'],
+    'curly': 'off',
+    'no-return-assign': 'off',
+    'no-unused-vars': 'error',
+    'semi': 'error',
+    'max-len': ['error', {
+      'code': 130,
+      'tabWidth': 2,
+      'ignoreStrings': true,
+      'ignoreTemplateLiterals': true
+    }],
+
     // TypeScript
-    quotes: ['warn', 'single', { avoidEscape: true }],
+    // '@typescript-eslint/no-floating-promises': 'off',
+    // '@typescript-eslint/no-unsafe-call': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

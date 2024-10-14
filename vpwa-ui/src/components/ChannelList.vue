@@ -74,19 +74,19 @@ export default {
         {
           id: 1,
           name: 'Channel 1',
-          private: false,
+          private: false
         },
         {
           id: 2,
           name: 'Channel 2',
-          private: false,
+          private: false
         },
         {
           id: 3,
           name: 'Channel 3',
-          private: true,
-        },
-      ],
+          private: true
+        }
+      ]
     };
   },
   methods: {
@@ -96,6 +96,6 @@ export default {
     //     private: this.channelType,
     //   });
     // },
-  },
+  }
 };
 </script>
