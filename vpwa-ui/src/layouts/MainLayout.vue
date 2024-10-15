@@ -22,6 +22,7 @@
           aria-label="Menu"
         />
       </q-toolbar>
+      Title
     </q-header>
 
     <q-drawer
@@ -29,7 +30,7 @@
       show-if-above
       bordered
     >
-      <q-list>
+      <!-- <q-list>
         <div
           v-for="c in channels"
           :key="c.id"
@@ -40,7 +41,8 @@
           <span class="text-subtitle1 text-weight-medium">{{c.name}}</span>
           <q-icon v-if="c.isPrivate" name="lock" />
         </div>
-      </q-list>
+      </q-list> -->
+      <channel-list></channel-list>
     </q-drawer>
     <q-page-container class="relative-position">
       <router-view />
@@ -71,6 +73,7 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import { useRoute } from 'vue-router';
+import ChannelList from 'src/components/ChannelList.vue';
 
 export default defineComponent({
   setup() {
@@ -78,6 +81,7 @@ export default defineComponent({
       route: useRoute()
     };
   },
+  components: { ChannelList },
   data() {
     return {
       leftDrawerOpen: false
