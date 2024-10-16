@@ -96,6 +96,8 @@ module.exports = {
     'no-return-assign': 'off',
     'no-unused-vars': 'error',
     'semi': 'error',
+    'prefer-template': 'off',
+    'no-console': 'off',
     'max-len': ['error', {
       'code': 130,
       'tabWidth': 2,

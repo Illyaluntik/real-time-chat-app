@@ -104,8 +104,6 @@ export default defineComponent({
             .catch((err) => console.log(err));
         })
         .catch((err) => {
-          console.error(err);
-
           this.$q.notify({
             type: 'negative',
             message: err.message

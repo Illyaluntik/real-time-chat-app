@@ -63,10 +63,12 @@ export default {
   getAccount() {
     // return of<AxiosResponse<AccountDtoInterface> | AxiosError<AccountDtoInterface>>(axios.get('/api/account'));
 
+    // return of(new Promise<AxiosResponse<void>>((res, rej) => setTimeout(() => rej({ code: 404, message: 'error' }), 1000)));
+
     return of(new Promise<AxiosResponse<AccountDtoInterface>>((res) => setTimeout(() => res({
       data: {
-        id: uuidv4(),
-        username: 'username',
+        id: 'a0e0f130-8c21-11df-92d9-95795a3bcd40',
+        username: 'usernameEx1',
         email: 'example@example.com',
         firstName: 'FirstName',
         lastName: 'LastName'
@@ -75,7 +77,7 @@ export default {
       statusText: 'OK',
       headers: '',
       config: {}
-    }), 1000)));
+    }), 100)));
   },
   // [200, 401]
   getInvites() {

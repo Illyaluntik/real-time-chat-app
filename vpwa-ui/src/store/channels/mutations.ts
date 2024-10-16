@@ -1,9 +1,10 @@
 import { MutationTree } from 'vuex';
-import { ChannelsDtoInterface, ChannelsStateInterface } from './state';
+import { ChannelInterface, ChannelsStateInterface } from './state';
 
 const mutation: MutationTree<ChannelsStateInterface> = {
-  setChannels: (state, dto: ChannelsDtoInterface) => state.dto = dto,
-  setActiveChannel: (state, id: string) => state.activeChannel = id
+  setChannels: (state, dto: Array<ChannelInterface>) => state.dto = dto,
+  // setActiveChannel: (state, id: string) => state.dto.filter() state.activeChannel = id
+  setActiveChannel: (state, id: string) => state.activeChannel = state.dto?.find((v) => v.id === id) || null
 };
 
 export default mutation;

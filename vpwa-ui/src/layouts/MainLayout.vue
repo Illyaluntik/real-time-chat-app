@@ -3,48 +3,46 @@
     <q-header elevated class="bg-grey-9">
       <q-toolbar class="flex justify-between">
         <q-btn
+          v-if="user"
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
-          @click="toggleLeftDrawer"
+          @click="toggleChannelsList"
         />
-        <div v-if="activeChannel !== null" class="chat-info">
-          <span>{{activeChannel}}</span>
-          <!-- <span><q-icon name="people" />&nbsp; {{activeChannel.users}}</span> -->
+        <div v-if="activeChannel" class="chat-info">
+          <span>{{activeChannel.name}}</span>
         </div>
         <q-btn
+          v-show="activeChannel"
           flat
           dense
           round
           icon="info"
-          aria-label="Menu"
+          aria-label="Info"
+          @click="toggleChannelInfo"
         />
       </q-toolbar>
-      Title
     </q-header>
 
     <q-drawer
-      v-model="leftDrawerOpen"
+      v-if="user"
+      v-model="channelsListOpen"
       show-if-above
       bordered
     >
-      <!-- <q-list>
-        <div
-          v-for="c in channels"
-          :key="c.id"
-          @click="() => selectChannel(c.id)"
-          class="q-pa-md flex justify-between items-center cursor-pointer"
-          :class="{'bg-grey-3': activeChannel === c.id}"
-        >
-          <span class="text-subtitle1 text-weight-medium">{{c.name}}</span>
-          <q-icon v-if="c.isPrivate" name="lock" />
-        </div>
-      </q-list> -->
-      <channel-list></channel-list>
+      <channel-list />
     </q-drawer>
-    <q-page-container class="relative-position">
+    <q-drawer
+      v-model="channelInfoOpen"
+      side="right"
+      bordered
+    >
+      <channel-info />
+    </q-drawer>
+
+    <q-page-container class="relative-position q-pt-auto">
       <router-view />
       <!-- <q-input
         outlined
@@ -72,44 +70,33 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import { useRoute } from 'vue-router';
 import ChannelList from 'src/components/ChannelList.vue';
+import ChannelInfo from 'src/components/ChannelInfo.vue';
 
 export default defineComponent({
-  setup() {
-    return {
-      route: useRoute()
-    };
-  },
-  components: { ChannelList },
+  components: { ChannelList, ChannelInfo },
   data() {
     return {
-      leftDrawerOpen: false
+      channelsListOpen: false,
+      channelInfoOpen: false
     };
   },
   computed: {
-    ...mapGetters({ channels: 'channels', activeChannel: 'activeChannel' })
-  },
-  watch: {
-    activeChannel(id) {
-      // console.log(v);
-      // this.$router.push()
-      void this.$router.push({ name: 'channels', params: { id } });
-    }
+    ...mapGetters({ activeChannel: 'activeChannel', user: 'user' })
   },
   methods: {
-    selectChannel(id: string) {
-      this.$store.commit('setActiveChannel', id);
+    toggleChannelsList() {
+      this.channelsListOpen = !this.channelsListOpen;
     },
-    toggleLeftDrawer() {
-      this.leftDrawerOpen = !this.leftDrawerOpen;
+    toggleChannelInfo() {
+      this.channelInfoOpen = !this.channelInfoOpen;
     }
   },
   beforeMount() {
-    void this.$store.dispatch('getChannels');
-
-    if (this.route.params.id)
-      this.selectChannel(this.route.params.id as string);
+    if (!this.user)
+      this.$store.dispatch('getAccount')
+        .then(() => this.$store.dispatch('getChannels'))
+        .catch(() => this.$router.push({ name: 'login' }));
   }
 });
 </script>

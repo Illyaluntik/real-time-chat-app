@@ -1,109 +1,148 @@
 <template>
-<q-space></q-space>
-<div class="channels">
-    <div class="q-mx-lg" style="max-width: 400px">
-        <q-list dense padding>
-          <q-item v-for="channel in channels" :key="channel.id" clickable v-ripple>
-          <q-icon v-if=channel.isPrivate name="lock"></q-icon>
-          <q-item-section>
-              {{ channel.name }}
-          </q-item-section>
-          <q-item-section style="max-width: 10px">
-            <q-btn round flat icon="more_vert">
-              <q-menu auto-close>
-                <q-list dense style="min-width: 100px">
-                  <q-item clickable v-close-popup>
-                    <q-item-section>Leave</q-item-section>
-                 </q-item>
-                 <q-item v-if=channel.isAdmin clickable v-close-popup>
-                    <q-item-section>Delete</q-item-section>
-                 </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
-          </q-item-section>
-          </q-item>
-        </q-list>
+<q-btn-dropdown
+  bg-color="white"
+  class="absolute-top justify-between"
+>
+  <template v-slot:label>
+    <div class="flex items-center">
+      <q-avatar size="60px">
+        <img src="https://cdn.quasar.dev/img/avatar1.jpg">
+      </q-avatar>
+      <span>{{user?.username}}</span>
     </div>
-    <div class="newChannel">
-      <q-btn round color="primary" icon="group_add" @click="prompt = true"></q-btn>
+  </template>
+
+  <div class="q-pa-sm">
+    <q-btn
+      label="Logout"
+      color="grey-7"
+      size="md"
+      v-close-popup
+      @click="onLogout"
+    />
+  </div>
+
+  <!-- <div class="row no-wrap q-pa-md">
+    <div class="column">
+      <div class="text-h6 q-mb-md">Settings</div>
+      <q-toggle v-model="mobileData" label="Use Mobile Data" />
+      <q-toggle v-model="bluetooth" label="Bluetooth" />
     </div>
 
-    <q-dialog v-model="prompt" persistent>
-      <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-h6">New channel name:</div>
-        </q-card-section>
+    <q-separator vertical inset class="q-mx-lg" />
 
-        <q-card-section class="q-pt-none">
-          <q-input dense v-model="channelName" autofocus @keyup.enter="prompt = false" />
-        </q-card-section>
+    <div class="column items-center">
+      <q-avatar size="72px">
+        <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+      </q-avatar>
 
-        <q-card-section>
-          <div>
-          <q-toggle
-              v-model="channelType"
-              color="secondary"
-              label="Private"
-              keep-color
-          />
-        </div>
+      <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
 
-        </q-card-section>
+      <q-btn
+        color="primary"
+        label="Logout"
+        push
+        size="sm"
+        v-close-popup
+      />
+    </div>
+  </div> -->
+</q-btn-dropdown>
+<q-scroll-area style="height: calc(100% - 36px - 68px); margin-top: 68px;">
+  <q-list bordered separator>
+    <q-item
+      v-for="c in channels"
+      :key="c.id"
+      @click="() => selectChannel(c.id)"
+      class="justify-between items-center"
+      :class="{'bg-grey-4': activeChannel?.id === c.id}"
+      clickable
+      v-ripple
+    >
+      <div>
+        <span class="text-subtitle2">{{c.name}}</span>
+        <q-icon v-if="c.isPrivate" name="lock" class="q-ml-sm" />
+      </div>
+      <q-badge rounded color="primary" label="2" />
+    </q-item>
+  </q-list>
+</q-scroll-area>
 
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" v-close-popup />
-          <q-btn flat label="Add channel" v-close-popup @click="addChannel" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-</div>
+<q-btn
+  color="grey-7"
+  text-color="white"
+  label="Create Channel"
+  class="absolute-bottom"
+  @click="toggleCreateChannel"
+/>
+
+<q-dialog v-model="createChannelOpen" persistent>
+  <q-card style="min-width: 350px">
+    <q-card-section>
+      <span class="text-h6">New channel name:</span>
+    </q-card-section>
+
+    <q-card-section class="q-pt-none">
+      <q-input dense v-model="newChannel.name" autofocus @keyup.enter="createChannelOpen = false" />
+    </q-card-section>
+
+    <q-card-section>
+      <q-checkbox v-model="newChannel.isPrivate" label="Private" />
+    </q-card-section>
+
+    <q-card-actions align="right" class="text-primary">
+      <q-btn flat label="Cancel" v-close-popup />
+      <q-btn flat label="Add channel" v-close-popup @click="addChannel" />
+    </q-card-actions>
+  </q-card>
+</q-dialog>
 </template>
 
-<script>
-import { ref } from 'vue';
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
+import { useRoute } from 'vue-router';
 
-export default {
-  data() {
+export default defineComponent({
+  setup() {
     return {
-      prompt: ref(false),
-      channelName: ref(''),
-      channelType: ref(false),
-      channels: [
-        {
-          id: 1,
-          name: 'Channel 1',
-          isPrivate: false,
-          isAdmin: false,
-          readInvite: false
-        },
-        {
-          id: 2,
-          name: 'Channel 2',
-          isPrivate: false,
-          isAdmin: true,
-          readInvite: false
-        },
-        {
-          id: 3,
-          name: 'Channel 3',
-          isPrivate: true,
-          isAdmin: false,
-          readInvite: false
-        }
-      ]
+      route: useRoute()
     };
   },
+  data() {
+    return {
+      createChannelOpen: false,
+      newChannel: {
+        isPrivate: false,
+        name: ''
+      }
+    };
+  },
+  computed: {
+    ...mapGetters({ channels: 'channels', activeChannel: 'activeChannel', user: 'user' })
+  },
+  watch: {
+    activeChannel({ id }) {
+      void this.$router.push({ name: 'channels', params: { id } });
+    },
+    channels() {
+      if (this.route.params.id)
+        this.selectChannel(this.route.params.id as string);
+    }
+  },
   methods: {
-    addChannel() {
-      // this.channels.unshift({
-      //   id: 4,
-      //   name: this.channelName,
-      //   isPrivate: this.channelType,
-      //   isAdmin: true,
-      //   readInvite: false
-      // });
+    onLogout() {
+      void this.$router.push({ name: 'login' });
+    },
+    selectChannel(id: string) {
+      this.$store.commit('setActiveChannel', id);
+    },
+    toggleCreateChannel() {
+      // console.log(this.channels);
+      this.newChannel.isPrivate = false;
+      this.newChannel.name = '';
+      this.createChannelOpen = !this.createChannelOpen;
     }
   }
-};
+});
 </script>

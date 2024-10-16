@@ -1,7 +1,7 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-
-  </q-page>
+  <div class="text-center">
+    <h4>Select channel</h4>
+  </div>
 </template>
 
 <script lang="ts">
