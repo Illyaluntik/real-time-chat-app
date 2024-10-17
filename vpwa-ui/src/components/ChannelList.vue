@@ -92,7 +92,7 @@
 
     <q-card-actions align="right" class="text-primary">
       <q-btn flat label="Cancel" v-close-popup />
-      <q-btn flat label="Add channel" v-close-popup @click="addChannel" />
+      <q-btn flat label="Add channel" v-close-popup @click="onAddChannel" />
     </q-card-actions>
   </q-card>
 </q-dialog>
@@ -133,6 +133,9 @@ export default defineComponent({
   methods: {
     onLogout() {
       void this.$router.push({ name: 'login' });
+    },
+    onAddChannel() {
+      console.log('not implemented');
     },
     selectChannel(id: string) {
       this.$store.commit('setActiveChannel', id);

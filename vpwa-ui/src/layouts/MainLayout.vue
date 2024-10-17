@@ -45,13 +45,23 @@
     <q-page-container class="relative-position q-pt-auto">
       <router-view />
       <!-- <q-input
-        outlined
-        v-model="password"
-        label="Password"
-        type="password"
+        v-model="mainInput"
+        autogrow
         bg-color="white"
         class="fixed-bottom full-width"
+        :class="{'channels-list-open': channelsListOpen, 'channel-info-open': channelInfoOpen}"
       /> -->
+      <q-input
+        v-model="mainInput"
+        filled
+        class="fixed-bottom full-width"
+        :class="{'channels-list-open': channelsListOpen, 'channel-info-open': channelInfoOpen}"
+      />
+        <!-- <q-input
+          v-model="text"
+          filled
+          autogrow
+        /> -->
     </q-page-container>
   </q-layout>
 </template>
@@ -65,6 +75,12 @@
 .q-page-container {
   padding-bottom: 80px;
 }
+.channels-list-open {
+  padding-left: 300px;
+}
+.channel-info-open {
+  padding-right: 300px;
+}
 </style>
 
 <script lang="ts">
@@ -77,6 +93,7 @@ export default defineComponent({
   components: { ChannelList, ChannelInfo },
   data() {
     return {
+      mainInput: '',
       channelsListOpen: false,
       channelInfoOpen: false
     };
