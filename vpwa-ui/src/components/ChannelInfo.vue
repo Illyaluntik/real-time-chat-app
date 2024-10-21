@@ -5,6 +5,9 @@
     <q-icon v-if="activeChannel?.isPrivate" name="lock" class="q-ml-sm" />
   </div>
   <div>
+    <member-list></member-list>
+  </div>
+  <div>
     <q-btn
       v-if="(activeChannel?.isPrivate && activeChannel?.adminId === user?.id) || !activeChannel?.isPrivate"
       color="grey-7"
@@ -31,6 +34,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import MemberList from './MemberList.vue';
 
 export default defineComponent({
   computed: {
@@ -43,6 +47,7 @@ export default defineComponent({
     onLeaveChannel() {
       console.log('not implemented');
     }
-  }
+  },
+  components: { MemberList }
 });
 </script>
