@@ -12,6 +12,12 @@ export default {
     return of(new Promise<AxiosResponse<Array<ChannelInterface>>>((res) => setTimeout(() => res({
       data: [
         {
+          id: 'new-channel',
+          adminId: uuidv4(),
+          name: 'New Channel Example',
+          isPrivate: false
+        },
+        {
           id: 'test-1',
           adminId: uuidv4(),
           name: 'Channel Name 1',

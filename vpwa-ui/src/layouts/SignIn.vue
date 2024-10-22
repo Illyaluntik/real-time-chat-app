@@ -7,6 +7,9 @@
       label="Username"
       bg-color="white"
       class="q-mb-md"
+      @blur="v$.username.$touch"
+      :error="v$.username.$dirty && v$.username.$invalid"
+      :error-message="v$.username.$errors[0]?.$message"
     />
     <q-input
       outlined
@@ -15,6 +18,9 @@
       type="password"
       bg-color="white"
       class="q-mb-xl"
+      @blur="v$.password.$touch"
+      :error="v$.password.$dirty && v$.password.$invalid"
+      :error-message="v$.password.$errors[0]?.$message"
     />
     <q-btn
       color="white"
@@ -53,6 +59,9 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import useVuelidate from '@vuelidate/core';
+import {
+  required as VRequired, alphaNum as VAlphaNum, minLength as VMinLength, maxLength as VMaxLength
+} from '@vuelidate/validators';
 
 export default defineComponent({
   setup() {
@@ -79,12 +88,21 @@ export default defineComponent({
     },
     ...mapGetters(['busy'])
   },
+  validations() {
+    return {
+      username: {
+        VRequired,
+        VAlphaNum,
+        minLengthValue: VMinLength(3),
+        maxLengthValue: VMaxLength(15)
+      },
+      password: {
+        VRequired
+      }
+    };
+  },
   methods: {
     async onSignIn() {
-      // this.$store.dispatch('login')
-      //   .then(() => this.$router.push({ name: 'main' }))
-      //   .catch((err) => console.error(err));
-
       const result = await this.v$.$validate();
 
       if (!result)

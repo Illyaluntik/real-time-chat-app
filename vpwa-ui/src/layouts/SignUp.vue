@@ -161,7 +161,7 @@ export default defineComponent({
         .then(() => {
           this.$q.notify({
             type: 'positive',
-            message: 'Successfully logged in'
+            message: 'Successfully created account'
           });
           this.$store.dispatch('getAccount')
             .then(() => this.$router.push({ name: 'channels' }))
