@@ -6,8 +6,9 @@
   <template v-slot:label>
     <div class="flex items-center">
       <q-avatar size="60px">
-        <img src="https://cdn.quasar.dev/img/avatar1.jpg">
+          <img src="https://cdn.quasar.dev/img/avatar1.jpg">
       </q-avatar>
+      <q-btn round flat :style="{ backgroundColor }" size="7px" style="position:absolute; bottom:0; left:90px;"/>
       <span>{{user?.username}}</span>
     </div>
   </template>
@@ -20,6 +21,26 @@
       v-close-popup
       @click="onLogout"
     />
+    <div class="q-pa-sm">
+      <span text-h1>Status:</span>
+      <q-list>
+        <q-item clickable v-close-popup @click="setOnline">
+            <q-item-section>
+                Online
+            </q-item-section>
+        </q-item>
+        <q-item clickable v-close-popup @click="setOffline">
+            <q-item-section>
+                Offline
+            </q-item-section>
+        </q-item>
+        <q-item clickable v-close-popup @click="setDND">
+            <q-item-section>
+                Do not disturb
+            </q-item-section>
+        </q-item>
+      </q-list>
+    </div>
   </div>
 
   <!-- <div class="row no-wrap q-pa-md">
@@ -115,11 +136,16 @@ export default defineComponent({
       newChannel: {
         isPrivate: false,
         name: ''
-      }
+      },
+      statusColour: '#2C9F1D'
     };
   },
   computed: {
-    ...mapGetters({ channels: 'channels', activeChannel: 'activeChannel', user: 'user' })
+    ...mapGetters({ channels: 'channels', activeChannel: 'activeChannel', user: 'user' }),
+    backgroundColor() {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return this.statusColour;
+    }
   },
   watch: {
     activeChannel({ id }) {
@@ -145,6 +171,15 @@ export default defineComponent({
       this.newChannel.isPrivate = false;
       this.newChannel.name = '';
       this.createChannelOpen = !this.createChannelOpen;
+    },
+    setOnline() {
+      this.statusColour = '#2C9F1D';
+    },
+    setOffline() {
+      this.statusColour = 'grey';
+    },
+    setDND() {
+      this.statusColour = '#D81919';
     }
   }
 });
