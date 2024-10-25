@@ -1,12 +1,10 @@
 <template>
-<div class="q-pa-md flex column justify-between full-height">
-  <div class="flex justify-center items-center">
+<div class="flex column no-wrap justify-between full-height">
+  <div class="flex justify-center items-center shadow-2 q-pa-sm">
     <span class="text-h6">{{activeChannel?.name}}</span>
     <q-icon v-if="activeChannel?.isPrivate" name="lock" class="q-ml-sm" />
   </div>
-  <div>
-    <member-list></member-list>
-  </div>
+  <members-list />
   <div>
     <q-btn
       v-if="(activeChannel?.isPrivate && activeChannel?.adminId === user?.id) || !activeChannel?.isPrivate"
@@ -27,16 +25,13 @@
 </div>
 </template>
 
-<style lang="less" scoped>
-
-</style>
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import MemberList from './MemberList.vue';
+import MembersList from './MembersList.vue';
 
 export default defineComponent({
+  components: { MembersList },
   computed: {
     ...mapGetters({ activeChannel: 'activeChannel', user: 'user' })
   },
@@ -47,7 +42,6 @@ export default defineComponent({
     onLeaveChannel() {
       console.log('not implemented');
     }
-  },
-  components: { MemberList }
+  }
 });
 </script>

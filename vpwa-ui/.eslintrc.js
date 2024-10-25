@@ -98,7 +98,7 @@ module.exports = {
     'semi': 'error',
     'prefer-template': 'off',
     'no-console': 'off',
-    'max-len': ['error', {
+    'max-len': [2, {
       'code': 130,
       'tabWidth': 2,
       'ignoreStrings': true,

@@ -68,7 +68,7 @@ function state(): ChannelsStateInterface {
         ]
       },
       'test-2': {
-        total: 12,
+        total: 16,
         messages: [
           {
             id: uuidv4(), name: 'Name', text: 'Message example text', sent: true, timestamp: Date.now() - 1000000000
@@ -93,6 +93,18 @@ function state(): ChannelsStateInterface {
           },
           {
             id: uuidv4(), name: 'Name', text: 'Message example text', sent: true, timestamp: Date.now()
+          },
+          {
+            id: uuidv4(), name: 'Name', text: 'Message example text', sent: true, timestamp: Date.now()
+          },
+          {
+            id: uuidv4(), name: 'Name', text: 'Message example text', sent: false, timestamp: Date.now()
+          },
+          {
+            id: uuidv4(), name: 'Name', text: 'Message example text', sent: true, timestamp: Date.now()
+          },
+          {
+            id: uuidv4(), name: 'Name', text: 'Message example text', sent: false, timestamp: Date.now()
           },
           {
             id: uuidv4(), name: 'Name', text: 'Message example text', sent: true, timestamp: Date.now()

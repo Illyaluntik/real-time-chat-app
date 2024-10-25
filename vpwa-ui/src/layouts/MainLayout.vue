@@ -30,12 +30,15 @@
       v-if="user"
       v-model="channelsListOpen"
       show-if-above
+      side="left"
       bordered
     >
-      <channel-list />
+      <channels-list />
     </q-drawer>
     <q-drawer
+      v-if="user"
       v-model="channelInfoOpen"
+      show-if-above
       side="right"
       bordered
     >
@@ -54,6 +57,7 @@
       <q-input
         v-model="mainInput"
         filled
+        aria-placeholder="Message"
         class="fixed-bottom full-width"
         :class="{'channels-list-open': channelsListOpen, 'channel-info-open': channelInfoOpen}"
       />
@@ -86,11 +90,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import ChannelList from 'src/components/ChannelList.vue';
+import ChannelsList from 'src/components/ChannelsList.vue';
 import ChannelInfo from 'src/components/ChannelInfo.vue';
 
 export default defineComponent({
-  components: { ChannelList, ChannelInfo },
+  components: { ChannelsList, ChannelInfo },
   data() {
     return {
       mainInput: '',
