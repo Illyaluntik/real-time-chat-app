@@ -79,6 +79,7 @@
       :class="{'bg-grey-4': activeChannel?.id === c.id}"
       clickable
       v-ripple
+      :style="{ backgroundColor: c.id === 'new-channel' ? '#CEB008' : 'white' }"
     >
       <div>
         <span class="text-subtitle2">{{c.name}}</span>
