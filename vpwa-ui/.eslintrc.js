@@ -105,6 +105,8 @@ module.exports = {
       'ignoreTemplateLiterals': true
     }],
     'linebreak-style': 'off',
+    'indent': ['error', 2],
+
 
     // TypeScript
     // '@typescript-eslint/no-floating-promises': 'off',

@@ -9,6 +9,7 @@ const mutation: MutationTree<AccountStateInterface> = {
   updateRegisterUsername: (state, value: string) => state.registerData.username = value,
   updateRegisterPassword: (state, value: string) => state.registerData.password = value,
   setUser: (state, dto: AccountDtoInterface) => state.dto = dto,
+  setUserStatus: (state, status: 'online' | 'offline' | 'dnd') => state.status = status,
   setInvites: (state, dto: AccountInvitesInterface) => state.invites = dto,
   busy: (state, value: boolean) => state.state.busy = value
 };

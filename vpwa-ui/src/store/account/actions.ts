@@ -6,8 +6,6 @@ import API from './api';
 const actions: ActionTree<AccountStateInterface, StateInterface> = {
   async login(state) {
     state.commit('busy', true);
-    // add validation
-
     const data: AccountLoginData = state.state.loginData;
 
     const [, err] = await API.login(data);
@@ -29,12 +27,11 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
       throw err;
     }
 
+    state.commit('setUser', null);
     state.commit('busy', false);
   },
   async register(state) {
     state.commit('busy', true);
-    // add validation
-
     const data: AccountRegisterData = state.state.registerData;
 
     const [, err] = await API.register(data);

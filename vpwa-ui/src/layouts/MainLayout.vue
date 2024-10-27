@@ -11,8 +11,8 @@
           aria-label="Menu"
           @click="toggleChannelsList"
         />
-        <div v-if="activeChannel" class="chat-info">
-          <span>{{activeChannel.name}}</span>
+        <div v-if="activeChannel">
+          {{activeChannel.name}}
         </div>
         <q-btn
           v-show="activeChannel"
@@ -36,7 +36,7 @@
       <channels-list />
     </q-drawer>
     <q-drawer
-      v-if="user"
+      v-if="user && activeChannel"
       v-model="channelInfoOpen"
       show-if-above
       side="right"
@@ -47,35 +47,32 @@
 
     <q-page-container class="relative-position q-pt-auto">
       <router-view />
-      <!-- <q-input
-        v-model="mainInput"
-        autogrow
-        bg-color="white"
-        class="fixed-bottom full-width"
-        :class="{'channels-list-open': channelsListOpen, 'channel-info-open': channelInfoOpen}"
-      /> -->
       <q-input
         v-model="mainInput"
         filled
-        aria-placeholder="Message"
-        class="fixed-bottom full-width"
+        borderless
+        square
+        bg-color="white"
+        placeholder="Enter message or command"
+        autogrow
+        color="white"
+        class="fixed-bottom full-width shadow-3"
         :class="{'channels-list-open': channelsListOpen, 'channel-info-open': channelInfoOpen}"
-      />
-        <!-- <q-input
-          v-model="text"
-          filled
-          autogrow
-        /> -->
+        @keydown.enter="onSend"
+      >
+        <template v-slot:append>
+          <q-icon
+            name="send"
+            class="cursor-pointer"
+            @click="onSend"
+          />
+        </template>
+      </q-input>
     </q-page-container>
   </q-layout>
 </template>
 
 <style lang="less" scoped>
-.chat-info {
-  display: flex;
-  justify-items: center;
-  gap: 20px;
-}
 .q-page-container {
   padding-bottom: 80px;
 }
@@ -106,6 +103,9 @@ export default defineComponent({
     ...mapGetters({ activeChannel: 'activeChannel', user: 'user' })
   },
   methods: {
+    onSend() {
+      this.mainInput = '';
+    },
     toggleChannelsList() {
       this.channelsListOpen = !this.channelsListOpen;
     },
@@ -118,6 +118,8 @@ export default defineComponent({
       this.$store.dispatch('getAccount')
         .then(() => this.$store.dispatch('getChannels'))
         .catch(() => this.$router.push({ name: 'login' }));
+    else
+      void this.$store.dispatch('getChannels');
   }
 });
 </script>

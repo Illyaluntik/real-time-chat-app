@@ -1,6 +1,6 @@
 <template>
 <div class="flex column no-wrap justify-between full-height">
-  <div class="flex justify-center items-center shadow-2 q-pa-sm">
+  <div class="flex justify-center items-center shadow-2 q-py-md">
     <span class="text-h6">{{activeChannel?.name}}</span>
     <q-icon v-if="activeChannel?.isPrivate" name="lock" class="q-ml-sm" />
   </div>

@@ -129,7 +129,7 @@ export default defineComponent({
       fullName: {
         VRequired,
         noDigits: helpers.withMessage('Must not contain digits', (v: string) => /^([^0-9]*)$/g.test(v)),
-        atLeastTwoWords: helpers.withMessage('This field should be at least 2 words', (v: string) => /^[a-zA-Z]{2,40}(?: +[a-zA-Z]{2,40})+$/g.test(v))
+        atLeastTwoWords: helpers.withMessage('Full name must contain at least 2 words', (v: string) => /^[a-zA-Z]{2,40}(?: +[a-zA-Z]{2,40})+$/g.test(v))
       },
       email: { VRequired, VEmail },
       username: {
@@ -164,7 +164,7 @@ export default defineComponent({
             message: 'Successfully created account'
           });
           this.$store.dispatch('getAccount')
-            .then(() => this.$router.push({ name: 'channels' }))
+            .then(() => this.$router.push({ name: 'home' }))
             .catch((err) => console.log(err));
         })
         .catch((err) => {

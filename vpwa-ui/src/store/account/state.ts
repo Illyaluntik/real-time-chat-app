@@ -35,6 +35,7 @@ export interface StoreStateInterfase {
 export interface AccountStateInterface {
   dto: AccountDtoInterface | null,
   invites: AccountInvitesInterface | null,
+  status: 'online' | 'offline' | 'dnd',
   loginData: AccountLoginData,
   registerData: AccountRegisterData,
   state: StoreStateInterfase
@@ -44,6 +45,7 @@ function state(): AccountStateInterface {
   return {
     dto: null,
     invites: null,
+    status: 'online',
     loginData: {
       username: '',
       password: ''

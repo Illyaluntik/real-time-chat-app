@@ -118,7 +118,7 @@ export default defineComponent({
             message: 'Successfully logged in'
           });
           this.$store.dispatch('getAccount')
-            .then(() => this.$router.push({ name: 'channels' }))
+            .then(() => this.$router.push({ name: 'home' }))
             .catch((err) => console.log(err));
         })
         .catch((err) => {

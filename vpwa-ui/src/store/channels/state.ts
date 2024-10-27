@@ -38,6 +38,10 @@ function state(): ChannelsStateInterface {
     dto: null,
     activeChannel: null,
     chats: {
+      'new-channel': {
+        total: 0,
+        messages: []
+      },
       'test-1': {
         total: 8,
         messages: [
