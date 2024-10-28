@@ -7,15 +7,10 @@ export interface ChannelInterface {
   isPrivate: boolean
 }
 
-// export interface ChannelsDtoInterface {
-//   chanels: Array<ChannelInterface>
-// }
-
 export interface MessageInterfase {
   id: string,
   name: string,
   text: string,
-  // type: 'sent' | 'recieved',
   sent: boolean,
   timestamp: number
 }
@@ -72,7 +67,7 @@ function state(): ChannelsStateInterface {
         ]
       },
       'test-2': {
-        total: 16,
+        total: 100,
         messages: [
           {
             id: uuidv4(), name: 'Name', text: 'Message example text', sent: true, timestamp: Date.now() - 1000000000
@@ -147,6 +142,62 @@ function state(): ChannelsStateInterface {
         messages: []
       },
       'test-6': {
+        total: 0,
+        messages: []
+      },
+      'test-7': {
+        total: 0,
+        messages: []
+      },
+      'test-8': {
+        total: 0,
+        messages: []
+      },
+      'test-9': {
+        total: 0,
+        messages: []
+      },
+      'test-10': {
+        total: 0,
+        messages: []
+      },
+      'test-11': {
+        total: 0,
+        messages: []
+      },
+      'test-12': {
+        total: 0,
+        messages: []
+      },
+      'test-13': {
+        total: 0,
+        messages: []
+      },
+      'test-14': {
+        total: 0,
+        messages: []
+      },
+      'test-15': {
+        total: 0,
+        messages: []
+      },
+      'test-16': {
+        total: 0,
+        messages: []
+      },
+      'test-17': {
+        total: 0,
+        messages: []
+      },
+      'test-18': {
+        total: 0,
+        messages: []
+      },
+      'test-19': {
+        total: 0,
+        messages: []
+      },
+      'test-20': {
         total: 0,
         messages: []
       }

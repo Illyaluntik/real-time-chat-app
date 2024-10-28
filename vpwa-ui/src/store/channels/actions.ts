@@ -5,7 +5,6 @@ import API from './api';
 
 const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   async getChannels(state) {
-    console.log('getChannels');
     const [res, err] = await API.getChannels();
 
     if (err)
