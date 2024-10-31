@@ -28,6 +28,7 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
     }
 
     state.commit('setUser', null);
+    state.commit('setUserStatus', 'online');
     state.commit('busy', false);
   },
   async register(state) {

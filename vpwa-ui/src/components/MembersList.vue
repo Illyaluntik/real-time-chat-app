@@ -31,6 +31,7 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import userStatusEnum from 'src/constants/userStatus.enum';
+import { v4 as uuidv4 } from 'uuid';
 
 export default defineComponent({
   data() {
@@ -47,82 +48,82 @@ export default defineComponent({
           status: 'offline'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'offline'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'offline'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'dnd'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'offline'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'offline'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'offline'
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'username',
           status: 'online'
         },

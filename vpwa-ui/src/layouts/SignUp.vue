@@ -95,7 +95,7 @@ export default defineComponent({
         return this.$store.state.account.registerData.fullName;
       },
       set(v) {
-        this.$store.commit('updateFullName', v);
+        this.$store.commit('updateRegisterData', { field: 'fullName', value: v });
       }
     },
     email: {
@@ -103,7 +103,7 @@ export default defineComponent({
         return this.$store.state.account.registerData.email;
       },
       set(v) {
-        this.$store.commit('updateEmail', v);
+        this.$store.commit('updateRegisterData', { field: 'email', value: v });
       }
     },
     username: {
@@ -111,7 +111,7 @@ export default defineComponent({
         return this.$store.state.account.registerData.username;
       },
       set(v) {
-        this.$store.commit('updateRegisterUsername', v);
+        this.$store.commit('updateRegisterData', { field: 'username', value: v });
       }
     },
     password: {
@@ -119,7 +119,7 @@ export default defineComponent({
         return this.$store.state.account.registerData.password;
       },
       set(v) {
-        this.$store.commit('updateRegisterPassword', v);
+        this.$store.commit('updateRegisterData', { field: 'password', value: v });
       }
     },
     ...mapGetters(['busy'])
@@ -163,6 +163,7 @@ export default defineComponent({
             type: 'positive',
             message: 'Successfully created account'
           });
+          this.$store.commit('resetRegisterForm');
           this.$store.dispatch('getAccount')
             .then(() => this.$router.push({ name: 'home' }))
             .catch((err) => console.log(err));

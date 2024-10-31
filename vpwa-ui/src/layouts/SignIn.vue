@@ -75,7 +75,7 @@ export default defineComponent({
         return this.$store.state.account.loginData.username;
       },
       set(v) {
-        this.$store.commit('updateUsername', v);
+        this.$store.commit('updateLoginData', { field: 'username', value: v });
       }
     },
     password: {
@@ -83,7 +83,7 @@ export default defineComponent({
         return this.$store.state.account.loginData.password;
       },
       set(v) {
-        this.$store.commit('updatePassword', v);
+        this.$store.commit('updateLoginData', { field: 'password', value: v });
       }
     },
     ...mapGetters(['busy'])
@@ -117,6 +117,7 @@ export default defineComponent({
             type: 'positive',
             message: 'Successfully logged in'
           });
+          this.$store.commit('resetLoginForm');
           this.$store.dispatch('getAccount')
             .then(() => this.$router.push({ name: 'home' }))
             .catch((err) => console.log(err));
