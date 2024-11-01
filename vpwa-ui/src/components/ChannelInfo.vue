@@ -4,7 +4,9 @@
     <span class="text-h6">{{activeChannel?.name}}</span>
     <q-icon v-if="activeChannel?.isPrivate" name="lock" class="q-ml-sm" />
   </div>
+
   <members-list />
+
   <div>
     <q-btn
       v-if="(activeChannel?.isPrivate && activeChannel?.adminId === user?.id) || !activeChannel?.isPrivate"

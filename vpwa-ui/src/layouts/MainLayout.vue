@@ -45,7 +45,7 @@
       <channel-info />
     </q-drawer>
 
-    <q-page-container class="relative-position q-pt-auto">
+    <q-page-container>
       <router-view />
       <q-input
         v-model="mainInput"

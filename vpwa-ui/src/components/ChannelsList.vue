@@ -22,35 +22,8 @@
     </q-list>
   </q-scroll-area>
 
-  <q-btn
-    color="grey-7"
-    text-color="white"
-    label="Create Channel"
-    class="full-width"
-    @click="toggleCreateChannel"
-  />
+  <create-channel />
 </div>
-
-<q-dialog v-model="createChannelOpen" persistent>
-  <q-card style="min-width: 350px">
-    <q-card-section>
-      <span class="text-h6">New channel name:</span>
-    </q-card-section>
-
-    <q-card-section class="q-pt-none">
-      <q-input dense v-model="newChannel.name" autofocus @keyup.enter="createChannelOpen = false" />
-    </q-card-section>
-
-    <q-card-section>
-      <q-checkbox v-model="newChannel.isPrivate" label="Private" />
-    </q-card-section>
-
-    <q-card-actions align="right" class="text-primary">
-      <q-btn flat label="Cancel" v-close-popup />
-      <q-btn flat label="Add channel" v-close-popup @click="onAddChannel" />
-    </q-card-actions>
-  </q-card>
-</q-dialog>
 </template>
 
 <script lang="ts">
@@ -59,21 +32,13 @@ import { mapGetters } from 'vuex';
 import { useRoute } from 'vue-router';
 
 import AccountMenu from 'src/components/AccountMenu.vue';
+import CreateChannel from 'src/components/CreateChannel.vue';
 
 export default defineComponent({
-  components: { AccountMenu },
+  components: { AccountMenu, CreateChannel },
   setup() {
     return {
       route: useRoute()
-    };
-  },
-  data() {
-    return {
-      createChannelOpen: false,
-      newChannel: {
-        isPrivate: false,
-        name: ''
-      }
     };
   },
   computed: {
@@ -91,16 +56,8 @@ export default defineComponent({
     }
   },
   methods: {
-    onAddChannel() {
-      console.log('not implemented');
-    },
     selectChannel(id: string) {
       this.$store.commit('setActiveChannel', id);
-    },
-    toggleCreateChannel() {
-      this.newChannel.isPrivate = false;
-      this.newChannel.name = '';
-      this.createChannelOpen = !this.createChannelOpen;
     }
   }
 });

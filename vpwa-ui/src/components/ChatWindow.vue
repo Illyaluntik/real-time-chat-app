@@ -1,6 +1,5 @@
 <template>
-<div class="q-pa-md">
-<q-infinite-scroll @load="onLoad" reverse>
+<q-infinite-scroll @load="onLoad" reverse class="q-pa-md">
   <template v-if="chat?.total > chat?.messages.length" v-slot:loading>
     <div class="row justify-center q-my-md">
       <q-spinner color="primary" name="dots" size="40px"></q-spinner>
@@ -9,17 +8,24 @@
 
   <h5 v-if="chat?.total === 0" class="text-center">Send First Message!</h5>
 
-  <q-chat-message
-    v-for="m in messages"
-    :key="m.id"
-    :name="m.name"
-    avatar="https://cdn.quasar.dev/img/avatar1.jpg"
-    :text="[m.text]"
-    :stamp="dateFormatter(m.timestamp)"
-    :sent="m.sent"
-  />
+  <template v-for="m in messages" :key="m.id">
+    <div v-if="Date.now() - m.timestamp > 86400000" class="flex no-wrap justify-between items-center text-center">
+      <div style="height: 1px;" class="bg-grey-4 col-grow" />
+      <span class="q-mx-md">{{new Date(m.timestamp).toLocaleString()}}</span>
+      <div style="height: 1px;" class="bg-grey-4 col-grow" />
+    </div>
+    <q-chat-message
+      :name="m.name"
+      avatar="https://cdn.quasar.dev/img/avatar1.jpg"
+      :text="[m.text]"
+      :stamp="dateFormatter(m.timestamp)"
+      :sent="m.sent"
+    />
+  </template>
 </q-infinite-scroll>
-</div>
+<q-page-scroller reverse position="bottom" :scroll-offset="200" :offset="[0, 80]">
+  <q-btn round color="grey-7" icon="keyboard_arrow_down" />
+</q-page-scroller>
 </template>
 
 <script lang="ts">
@@ -59,6 +65,7 @@ export default defineComponent({
     }
   },
   mounted() {
+    // new Date().getUTCDate
     // this.body = document.body;
     // window.scrollTo(0, document.body.scrollHeight);
   }
