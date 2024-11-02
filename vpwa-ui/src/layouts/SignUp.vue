@@ -163,9 +163,8 @@ export default defineComponent({
             type: 'positive',
             message: 'Successfully created account'
           });
-          this.$store.commit('resetRegisterForm');
           this.$store.dispatch('getAccount')
-            .then(() => this.$router.push({ name: 'home' }))
+            .then(() => this.$router.push({ name: 'home' }).then(() => this.$store.commit('resetRegisterForm')))
             .catch((err) => console.log(err));
         })
         .catch((err) => {

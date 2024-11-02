@@ -117,9 +117,8 @@ export default defineComponent({
             type: 'positive',
             message: 'Successfully logged in'
           });
-          this.$store.commit('resetLoginForm');
           this.$store.dispatch('getAccount')
-            .then(() => this.$router.push({ name: 'home' }))
+            .then(() => this.$router.push({ name: 'home' }).then(() => this.$store.commit('resetLoginForm')))
             .catch((err) => console.log(err));
         })
         .catch((err) => {

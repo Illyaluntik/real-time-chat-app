@@ -13,7 +13,15 @@
     </q-card-section>
 
     <q-card-section class="q-pt-none">
-      <q-input dense v-model="newChannel.name" autofocus @keyup.enter="createChannelOpen = false" />
+      <q-input
+        dense
+        v-model="newChannel.name"
+        autofocus
+        @keyup.enter="onAddChannel"
+        @blur="v$.newChannel.name.$touch"
+        :error="v$.newChannel.name.$dirty && v$.newChannel.name.$invalid"
+        :error-message="v$.newChannel.name.$errors[0]?.$message"
+      />
     </q-card-section>
 
     <q-card-section>
@@ -21,8 +29,8 @@
     </q-card-section>
 
     <q-card-actions align="right" class="text-primary">
-      <q-btn flat label="Cancel" v-close-popup />
-      <q-btn flat label="Add channel" v-close-popup @click="onAddChannel" />
+      <q-btn flat label="Cancel" @click="toggleCreateChannel" />
+      <q-btn flat label="Add channel" @click="onAddChannel" />
     </q-card-actions>
   </q-card>
 </q-dialog>
@@ -30,8 +38,17 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import useVuelidate from '@vuelidate/core';
+import {
+  required as VRequired, alphaNum as VAlphaNum, minLength as VMinLength, maxLength as VMaxLength
+} from '@vuelidate/validators';
 
 export default defineComponent({
+  setup() {
+    return {
+      v$: useVuelidate()
+    };
+  },
   data() {
     return {
       createChannelOpen: false,
@@ -41,14 +58,40 @@ export default defineComponent({
       }
     };
   },
+  validations() {
+    return {
+      newChannel: {
+        name: {
+          VRequired,
+          VAlphaNum,
+          minLengthValue: VMinLength(3),
+          maxLengthValue: VMaxLength(15)
+        }
+      }
+    };
+  },
   methods: {
-    onAddChannel() {
-      console.log('not implemented');
+    async onAddChannel() {
+      const result = await this.v$.$validate();
+
+      if (!result)
+        return this.v$.$errors.map((e) => this.$q.notify({
+          type: 'warning',
+          message: e.$message as string
+        }));
+
+      this.$q.notify({
+        type: 'positive',
+        message: 'Successfully created channel'
+      });
+
+      return this.toggleCreateChannel();
     },
     toggleCreateChannel() {
+      this.createChannelOpen = !this.createChannelOpen;
       this.newChannel.isPrivate = false;
       this.newChannel.name = '';
-      this.createChannelOpen = !this.createChannelOpen;
+      this.v$.$reset();
     }
   }
 });
