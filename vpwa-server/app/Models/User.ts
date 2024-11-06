@@ -1,5 +1,6 @@
 import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import { v4 as uuidv4 } from 'uuid'
 import Ban from './Ban'
 import Channel from './Channel'
 import Kick from './Kick'
@@ -10,10 +11,13 @@ export default class User extends BaseModel {
   public id: string
 
   @column()
-  public nickName: string
+  public username: string
 
   @column({ serializeAs: null })
   public password: string
+
+  @column()
+  public rememberMeToken?: string
 
   @column()
   public email: string
@@ -57,5 +61,10 @@ export default class User extends BaseModel {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
     }
+  }
+
+  @beforeSave()
+  public static async addUUID (user: User) {
+    user.id = uuidv4()
   }
 }
