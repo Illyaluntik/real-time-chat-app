@@ -6,11 +6,6 @@ import Ban from './Ban'
 import Kick from './Kick'
 import Member from './Member'
 
-enum ChannelType {
-  Private = 'private',
-  Public = 'public'
-}
-
 export default class Channel extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -19,7 +14,7 @@ export default class Channel extends BaseModel {
   public channelName:string
 
   @column()
-  public channelType: ChannelType
+  public isPrivate: boolean
 
   @column()
   public admin: string

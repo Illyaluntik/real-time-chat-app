@@ -7,7 +7,7 @@ export default class Channels extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('channel_name').notNullable().unique()
-      table.enum('channel_type', ['public', 'private']).notNullable()
+      table.boolean('is_private')
       table.string('admin').references('id').inTable('users').onDelete('CASCADE')
       table.timestamp('last_active', { useTz: true }).notNullable()
     })

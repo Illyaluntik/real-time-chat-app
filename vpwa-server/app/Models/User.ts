@@ -23,10 +23,7 @@ export default class User extends BaseModel {
   public email: string
 
   @column()
-  public firstName: string
-
-  @column()
-  public lastName: string
+  public fullname:string
 
   @column()
   public avatarPath: string
