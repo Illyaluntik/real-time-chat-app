@@ -27,3 +27,14 @@ Route.group(() => {
   Route.get('account', 'AuthController.account').middleware('auth')
 }).prefix('api/account')
 
+Route.group(() => {
+  Route.post('add', 'ChannelsController.create')
+}).prefix('channel')
+
+Route.group(() => {
+  Route.post('invite', 'MembersController.invite')
+  Route.post('get', 'MembersController.load')
+  Route.post('members', 'MembersController.members')
+  Route.post('leave', 'MembersController.leave')
+}).prefix('member')
+
