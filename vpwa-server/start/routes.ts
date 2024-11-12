@@ -38,3 +38,7 @@ Route.group(() => {
   Route.post('leave', 'MembersController.leave')
 }).prefix('member')
 
+Route.group(() => {
+  Route.post('', 'KicksController.kick')
+}).prefix('kick')
+

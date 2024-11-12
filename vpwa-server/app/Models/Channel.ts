@@ -14,7 +14,7 @@ export default class Channel extends BaseModel {
   public channelName:string
 
   @column()
-  public isPrivate: boolean
+  public private: boolean
 
   @column()
   public admin: string
