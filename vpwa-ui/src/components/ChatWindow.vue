@@ -49,7 +49,7 @@ export default defineComponent({
   },
   watch: {
     chat() {
-      this.messages = this.chat.messages;
+      // this.messages = this.chat.messages;
     }
   },
   methods: {

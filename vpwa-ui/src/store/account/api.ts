@@ -13,21 +13,7 @@ import {
 export default {
   // [200, 400]
   login(data: AccountLoginData) {
-    // return of<AxiosResponse<void> | AxiosError<void>>(axios.post('/api/account/login', data));
-
-    if (Math.random() < 0.5)
-      return of(new Promise<AxiosResponse<void>>((res) => setTimeout(() => res({
-        data: undefined,
-        status: 200,
-        statusText: 'OK',
-        headers: '',
-        config: {}
-      }), 1000)));
-
-    return of(new Promise<AxiosError<void>>((res, rej) => setTimeout(() => rej({
-      message: 'Incorrent email or password',
-      code: '400'
-    }), 1000)));
+    return of<AxiosResponse<void> | AxiosError<void>>(axios.post('http://localhost:3000/api/account/login', data));
   },
   // [200, 401]
   logout() {
@@ -42,22 +28,8 @@ export default {
     }), 1000)));
   },
   // [201, 400, 403]
-  register(data: AccountRegisterData) {
-    // return of<AxiosResponse<void> | AxiosError<void>>(axios.post('/api/account/register', data));
-
-    if (Math.random() < 0.5)
-      return of(new Promise<AxiosResponse<void>>((res) => setTimeout(() => res({
-        data: undefined,
-        status: 201,
-        statusText: 'Created',
-        headers: '',
-        config: {}
-      }), 1000)));
-
-    return of(new Promise<AxiosError<void>>((res, rej) => setTimeout(() => rej({
-      message: 'User with this email already exists.',
-      code: '403'
-    }), 1000)));
+  register(data: any) {
+    return of<AxiosResponse<void> | AxiosError<void>>(axios.post('http://localhost:3000/api/account/register', data));
   },
   // [200, 401]
   getAccount() {
@@ -67,7 +39,7 @@ export default {
 
     return of(new Promise<AxiosResponse<AccountDtoInterface>>((res) => setTimeout(() => res({
       data: {
-        id: 'a0e0f130-8c21-11df-92d9-95795a3bcd40',
+        id: '75d7a00e-57cc-4852-bc36-6ebc58c87ee8',
         username: 'usernameEx1',
         email: 'example@example.com',
         firstName: 'FirstName',

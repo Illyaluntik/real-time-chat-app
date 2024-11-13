@@ -42,7 +42,20 @@ export default defineComponent({
       console.log('not implemented');
     },
     onLeaveChannel() {
-      console.log('not implemented');
+      return this.$store.dispatch('leaveChannel', this.user.id)
+        .then(() => {
+          this.$q.notify({
+            type: 'positive',
+            message: 'Successfully leaved channel'
+          });
+          void this.$store.dispatch('getChannels');
+        })
+        .catch((err) => {
+          this.$q.notify({
+            type: 'negative',
+            message: err.message
+          });
+        });
     }
   }
 });

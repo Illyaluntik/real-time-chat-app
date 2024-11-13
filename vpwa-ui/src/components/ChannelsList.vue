@@ -14,10 +14,10 @@
         v-ripple
       >
         <div>
-          <span class="text-subtitle2">{{c.name}}</span>
-          <q-icon v-if="c.isPrivate" name="lock" class="q-ml-sm" />
+          <span class="text-subtitle2">{{c.channel_name}}</span>
+          <q-icon v-if="c.is_private" name="lock" class="q-ml-sm" />
         </div>
-        <q-badge rounded color="primary" label="2" />
+        <!-- <q-badge rounded color="primary" label="2" /> -->
       </q-item>
     </q-list>
   </q-scroll-area>
@@ -47,7 +47,7 @@ export default defineComponent({
     })
   },
   watch: {
-    activeChannel({ id }) {
+    activeChannel(id) {
       void this.$router.push({ name: 'channels', params: { id } });
     },
     channels() {
@@ -57,7 +57,9 @@ export default defineComponent({
   },
   methods: {
     selectChannel(id: string) {
+      console.log('set channel');
       this.$store.commit('setActiveChannel', id);
+      console.log(this.activeChannel);
     }
   }
 });

@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { AccountLoginData, AccountRegisterData, AccountStateInterface } from './state';
+import { AccountLoginData, AccountStateInterface } from './state';
 import API from './api';
 
 const actions: ActionTree<AccountStateInterface, StateInterface> = {
@@ -33,7 +33,16 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
   },
   async register(state) {
     state.commit('busy', true);
-    const data: AccountRegisterData = state.state.registerData;
+    const {
+      username, password, email, fullName
+    } = state.state.registerData;
+
+    const data = {
+      username,
+      password,
+      email,
+      full_name: fullName
+    };
 
     const [, err] = await API.register(data);
 

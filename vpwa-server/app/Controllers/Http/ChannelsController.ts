@@ -5,20 +5,20 @@ import Channel from 'App/Models/Channel'
 import Member from 'App/Models/Member'
 
 export default class ChannelsController {
-    // create new channel
-    async create({ request, response }: HttpContextContract) {
-        const data = await request.body()
-        console.log(data)
-        const channel = await Channel.create({
-            channelName: data.channelName,
-            private: data.private,
-            admin: data.admin,
-        })
+  // create new channel
+  async create ({ request, response }: HttpContextContract) {
+    const data = await request.body()
+    console.log(data)
+    const channel = await Channel.create({
+      channel_name: data.channel_name,
+      is_private: data.is_private,
+      admin: data.admin,
+    })
 
-        const member = await Member.create({
-            userId: data.admin,
-            channelId: channel.id,
-        })
-        return response.status(200).send(channel)
-    }
+    const member = await Member.create({
+      userId: data.admin,
+      channelId: channel.id,
+    })
+    return response.status(200).send(channel)
+  }
 }

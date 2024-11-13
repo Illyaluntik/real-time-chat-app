@@ -28,15 +28,15 @@ Route.group(() => {
 }).prefix('api/account')
 
 Route.group(() => {
-  Route.post('add', 'ChannelsController.create')
-}).prefix('channel')
+  Route.post('create', 'ChannelsController.create')
+}).prefix('api/channel')
 
 Route.group(() => {
   Route.post('invite', 'MembersController.invite')
-  Route.post('get', 'MembersController.load')
+  Route.post('load', 'MembersController.load')
   Route.post('members', 'MembersController.members')
   Route.post('leave', 'MembersController.leave')
-}).prefix('member')
+}).prefix('api/channel')
 
 Route.group(() => {
   Route.post('', 'KicksController.kick')

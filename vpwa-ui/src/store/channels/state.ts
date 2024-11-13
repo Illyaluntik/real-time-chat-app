@@ -22,10 +22,16 @@ export interface ChatsInterfase {
   }
 }
 
+export interface NewCahnnelData {
+  isPrivate: boolean,
+}
+
 export interface ChannelsStateInterface {
   dto: Array<ChannelInterface> | null;
-  activeChannel: ChannelInterface | null,
-  chats: ChatsInterfase | null
+  // activeChannel: ChannelInterface | null,
+  activeChannel: string | null,
+  chats: ChatsInterfase | null,
+  newChannelData: NewCahnnelData
 }
 
 function state(): ChannelsStateInterface {
@@ -201,6 +207,9 @@ function state(): ChannelsStateInterface {
         total: 0,
         messages: []
       }
+    },
+    newChannelData: {
+      isPrivate: false
     }
   };
 }

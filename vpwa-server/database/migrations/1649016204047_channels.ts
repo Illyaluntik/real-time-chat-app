@@ -9,7 +9,7 @@ export default class Channels extends BaseSchema {
       table.string('channel_name').notNullable().unique()
       table.boolean('is_private')
       table.string('admin').references('id').inTable('users').onDelete('CASCADE')
-      table.timestamp('last_active', { useTz: true }).notNullable()
+      table.timestamp('last_active', { useTz: true }).nullable()
     })
   }
 

@@ -31,7 +31,7 @@ export default class RegisterUserValidator {
       rules.unique({table: 'users', column: 'username'}),
     ]),
     password: schema.string(),
-    fullname: schema.string(),
+    full_name: schema.string(),
   })
 
   /**
