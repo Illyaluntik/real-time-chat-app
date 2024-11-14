@@ -35,7 +35,7 @@ import MembersList from './MembersList.vue';
 export default defineComponent({
   components: { MembersList },
   computed: {
-    ...mapGetters({ activeChannel: 'activeChannel', user: 'user' })
+    ...mapGetters({ activeChannel: 'channels/activeChannel', user: 'account/user' })
   },
   methods: {
     onAddMember() {

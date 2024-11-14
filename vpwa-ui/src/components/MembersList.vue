@@ -31,112 +31,15 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import userStatusEnum from 'src/constants/userStatus.enum';
-import { v4 as uuidv4 } from 'uuid';
 
 export default defineComponent({
   data() {
     return {
-      members: [
-        {
-          id: 'a0e0f130-8c21-11df-92d9-95795a3bcd40',
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: 'afaff130-8g21-1dbf-92d9-937sss3bcd40',
-          name: 'username',
-          status: 'offline'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'offline'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'offline'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'dnd'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'offline'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'offline'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'offline'
-        },
-        {
-          id: uuidv4(),
-          name: 'username',
-          status: 'online'
-        },
-        {
-          id: 4,
-          name: 'username',
-          status: 'dnd'
-        }
-      ]
+      members: null
     };
   },
   computed: {
-    ...mapGetters({ activeChannel: 'activeChannel', user: 'user', userStatus: 'userStatus' }),
+    ...mapGetters({ activeChannel: 'channel/activeChannel', user: 'account/user', userStatus: 'userStatus' }),
     userStatusEnum() {
       return userStatusEnum;
     }

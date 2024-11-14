@@ -8,7 +8,7 @@
       <div class="flex items-center" style="text-transform: none">
         <q-avatar size="50px" class="relative-position q-mr-sm">
           <img src="https://cdn.quasar.dev/img/avatar1.jpg">
-          <q-badge :color="userStatusEnum[userStatus].color" rounded class="absolute-bottom-right" />
+          <!-- <q-badge :color="userStatusEnum[userStatus].color" rounded class="absolute-bottom-right" /> -->
         </q-avatar>
         <span>{{user?.username}}</span>
       </div>
@@ -59,7 +59,7 @@ import userStatusEnum from 'src/constants/userStatus.enum';
 export default defineComponent({
   computed: {
     ...mapGetters({
-      user: 'user', userStatus: 'userStatus', busy: 'busy'
+      user: 'account/user', userStatus: 'userStatus', busy: 'account/busy'
     }),
     userStatusEnum() {
       return userStatusEnum;

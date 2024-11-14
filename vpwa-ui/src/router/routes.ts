@@ -3,11 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', name: 'home', component: () => import('pages/Index.vue') },
-      { path: '/c/:id?', name: 'channels', component: () => import('src/components/ChatWindow.vue') }
-    ]
+    redirect: () => ({ name: 'channels' })
   },
   {
     path: '/login',
@@ -18,6 +14,14 @@ const routes: RouteRecordRaw[] = [
     path: '/register',
     name: 'register',
     component: () => import('layouts/SignUp.vue')
+  },
+  {
+    path: '/channels',
+    meta: { requiresAuth: true },
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/c/:id?', name: 'channels', component: () => import('src/components/ChatWindow.vue') }
+    ]
   },
 
   // Always leave this as last one,

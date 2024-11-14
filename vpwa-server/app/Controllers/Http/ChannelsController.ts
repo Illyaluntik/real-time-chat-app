@@ -10,8 +10,8 @@ export default class ChannelsController {
     const data = await request.body()
     console.log(data)
     const channel = await Channel.create({
-      channel_name: data.channel_name,
-      is_private: data.is_private,
+      channelName: data.channelName,
+      isPrivate: data.isPrivate,
       admin: data.admin,
     })
 

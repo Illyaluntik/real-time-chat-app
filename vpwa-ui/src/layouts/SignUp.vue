@@ -95,7 +95,7 @@ export default defineComponent({
         return this.$store.state.account.registerData.fullName;
       },
       set(v) {
-        this.$store.commit('updateRegisterData', { field: 'fullName', value: v });
+        this.$store.commit('account/updateRegisterData', { field: 'fullName', value: v });
       }
     },
     email: {
@@ -103,7 +103,7 @@ export default defineComponent({
         return this.$store.state.account.registerData.email;
       },
       set(v) {
-        this.$store.commit('updateRegisterData', { field: 'email', value: v });
+        this.$store.commit('account/updateRegisterData', { field: 'email', value: v });
       }
     },
     username: {
@@ -111,7 +111,7 @@ export default defineComponent({
         return this.$store.state.account.registerData.username;
       },
       set(v) {
-        this.$store.commit('updateRegisterData', { field: 'username', value: v });
+        this.$store.commit('account/updateRegisterData', { field: 'username', value: v });
       }
     },
     password: {
@@ -119,7 +119,7 @@ export default defineComponent({
         return this.$store.state.account.registerData.password;
       },
       set(v) {
-        this.$store.commit('updateRegisterData', { field: 'password', value: v });
+        this.$store.commit('account/updateRegisterData', { field: 'password', value: v });
       }
     },
     ...mapGetters(['busy'])
@@ -157,15 +157,15 @@ export default defineComponent({
           message: e.$message as string
         }));
 
-      return this.$store.dispatch('register')
+      return this.$store.dispatch('account/register')
         .then(() => {
           this.$q.notify({
             type: 'positive',
             message: 'Successfully created account'
           });
-          this.$store.dispatch('getAccount')
-            .then(() => this.$router.push({ name: 'home' }).then(() => this.$store.commit('resetRegisterForm')))
-            .catch((err) => console.log(err));
+          // this.$store.dispatch('getAccount')
+          //   .then(() => this.$router.push({ name: 'home' }).then(() => this.$store.commit('resetRegisterForm')))
+          //   .catch((err) => console.log(err));
         })
         .catch((err) => {
           this.$q.notify({

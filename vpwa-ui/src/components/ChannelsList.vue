@@ -7,7 +7,7 @@
       <q-item
         v-for="c in channels"
         :key="c.id"
-        @click="() => selectChannel(c.id)"
+        @click="() => selectChannel(c.channel_name)"
         class="justify-between items-center"
         :class="{'bg-grey-4': activeChannel?.id === c.id, 'bg-amber-3': c.id === 'new-channel'}"
         clickable
@@ -42,9 +42,10 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapGetters({
-      channels: 'channels', activeChannel: 'activeChannel', user: 'user', userStatus: 'userStatus', busy: 'busy'
-    })
+    // ...mapGetters({
+    //   channels: 'channels/channels', activeChannel: 'activeChannel', user: 'user', userStatus: 'userStatus', busy: 'busy'
+    // })
+    ...mapGetters({ channels: 'account/channels', activeChannel: 'channels/activeChannel' })
   },
   watch: {
     activeChannel(id) {
@@ -56,10 +57,9 @@ export default defineComponent({
     }
   },
   methods: {
-    selectChannel(id: string) {
-      console.log('set channel');
-      this.$store.commit('setActiveChannel', id);
-      console.log(this.activeChannel);
+    selectChannel(channel: string) {
+      void this.$store.dispatch('channels/join', channel);
+      this.$store.commit('channels/setActiveChannel', channel);
     }
   }
 });

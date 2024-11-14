@@ -30,7 +30,7 @@
       @click="onSignIn"
       :loading="busy"
     />
-    <span>Don’t have an account?</span>
+    <span>Don't have an account?</span>
     <q-btn
       color="grey-7"
       text-color="white"
@@ -75,7 +75,7 @@ export default defineComponent({
         return this.$store.state.account.loginData.username;
       },
       set(v) {
-        this.$store.commit('updateLoginData', { field: 'username', value: v });
+        this.$store.commit('account/updateLoginData', { field: 'username', value: v });
       }
     },
     password: {
@@ -83,7 +83,7 @@ export default defineComponent({
         return this.$store.state.account.loginData.password;
       },
       set(v) {
-        this.$store.commit('updateLoginData', { field: 'password', value: v });
+        this.$store.commit('account/updateLoginData', { field: 'password', value: v });
       }
     },
     ...mapGetters(['busy'])
@@ -111,15 +111,16 @@ export default defineComponent({
           message: e.$message as string
         }));
 
-      return this.$store.dispatch('login')
+      return this.$store.dispatch('account/login')
         .then(() => {
           this.$q.notify({
             type: 'positive',
             message: 'Successfully logged in'
           });
-          this.$store.dispatch('getAccount')
-            .then(() => this.$router.push({ name: 'home' }).then(() => this.$store.commit('resetLoginForm')))
-            .catch((err) => console.log(err));
+          this.$router.push({ name: 'channels' }).catch((err) => console.log(err));
+          // this.$store.dispatch('getAccount')
+          //   .then(() => this.$router.push({ name: 'home' }).then(() => this.$store.commit('resetLoginForm')))
+          //   .catch((err) => console.log(err));
         })
         .catch((err) => {
           this.$q.notify({

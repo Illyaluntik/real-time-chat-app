@@ -30,7 +30,7 @@
 
     <q-card-actions align="right" class="text-primary">
       <q-btn flat label="Cancel" @click="toggleCreateChannel" />
-      <q-btn flat label="Add channel" @click="onAddChannel" />
+      <q-btn flat label="Add channel" @click="addChannel" />
     </q-card-actions>
   </q-card>
 </q-dialog>
@@ -77,6 +77,9 @@ export default defineComponent({
     };
   },
   methods: {
+    async addChannel() {
+      return this.$store.dispatch('channels/createChannel');
+    },
     async onAddChannel() {
       const result = await this.v$.$validate();
 

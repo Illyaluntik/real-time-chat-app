@@ -6,7 +6,7 @@ import getters from './getters';
 import mutations from './mutations';
 
 const ChannelsModule: Module<ChannelsStateInterface, StateInterface> = {
-  // namespaced: true,
+  namespaced: true,
   actions,
   getters,
   mutations,

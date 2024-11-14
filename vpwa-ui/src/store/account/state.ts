@@ -1,9 +1,15 @@
-export interface AccountDtoInterface {
+import { ChannelInterface } from '../channels/state';
+
+export interface ApiToken {
+  type: 'bearer'
+  token: string
+}
+
+export interface Account {
   id: string,
   username: string,
   email: string,
-  firstName: string,
-  lastName: string
+  fullName: string
 }
 
 export interface AccountInviteInterface {
@@ -33,8 +39,8 @@ export interface StoreStateInterfase {
 }
 
 export interface AccountStateInterface {
-  dto: AccountDtoInterface | null,
-  invites: AccountInvitesInterface | null,
+  account: Account | null,
+  channels: Array<ChannelInterface> | null,
   status: 'online' | 'offline' | 'dnd',
   loginData: AccountLoginData,
   registerData: AccountRegisterData,
@@ -43,8 +49,8 @@ export interface AccountStateInterface {
 
 function state(): AccountStateInterface {
   return {
-    dto: null,
-    invites: null,
+    account: null,
+    channels: null,
     status: 'online',
     loginData: {
       username: '',

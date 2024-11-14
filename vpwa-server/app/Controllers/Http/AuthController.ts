@@ -4,7 +4,7 @@ import User from 'App/Models/User'
 import RegisterUserValidator from 'App/Validators/RegisterUserValidator'
 
 export default class AuthController {
-  async register ({ auth, request}: HttpContextContract) {
+  async register ({ auth, request }: HttpContextContract) {
     const data = await request.validate(RegisterUserValidator)
     const user = User.create(data);
     (await user).save()
@@ -24,6 +24,11 @@ export default class AuthController {
   }
 
   async account ({ auth }: HttpContextContract) {
+    return auth.user
+  }
+
+  async me ({ auth }: HttpContextContract) {
+    // await auth.user!.load('channels')
     return auth.user
   }
 }

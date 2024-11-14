@@ -18,7 +18,7 @@ export default class MembersController {
 
   // get all channels (cez user_id)
   async load ({ request, response }) {
-    const id = request.input('user_id')
+    const id = request.input('userId')
     const channels = await Database
       .from('channels')
       .join('members', 'channels.id', '=', 'members.channel_id')

@@ -1,6 +1,7 @@
 import { MutationTree } from 'vuex';
+import { ChannelInterface } from '../channels/state';
 import {
-  AccountStateInterface, AccountDtoInterface, AccountLoginData, AccountRegisterData, AccountInvitesInterface
+  AccountStateInterface, Account, AccountLoginData, AccountRegisterData
 } from './state';
 
 interface LoginDataPayload {
@@ -22,9 +23,11 @@ const mutation: MutationTree<AccountStateInterface> = {
   resetRegisterForm: (state, registerData?: AccountRegisterData) => state.registerData = {
     fullName: registerData?.fullName ?? '', email: registerData?.email ?? '', username: registerData?.username ?? '', password: registerData?.password ?? ''
   },
-  setUser: (state, dto: AccountDtoInterface) => state.dto = dto,
+  setUser: (state, dto: Account) => state.account = dto,
   setUserStatus: (state, status: 'online' | 'offline' | 'dnd') => state.status = status,
-  setInvites: (state, dto: AccountInvitesInterface) => state.invites = dto,
+  setChannels(state, channels: Array<ChannelInterface>) {
+    state.channels = channels;
+  },
   busy: (state, value: boolean) => state.state.busy = value
 };
 

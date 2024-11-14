@@ -3,7 +3,6 @@
     <q-header elevated class="bg-grey-9">
       <q-toolbar class="flex justify-between">
         <q-btn
-          v-if="user"
           flat
           dense
           round
@@ -27,7 +26,6 @@
     </q-header>
 
     <q-drawer
-      v-if="user"
       v-model="channelsListOpen"
       show-if-above
       side="left"
@@ -36,7 +34,6 @@
       <channels-list />
     </q-drawer>
     <q-drawer
-      v-if="user && activeChannel"
       v-model="channelInfoOpen"
       show-if-above
       side="right"
@@ -86,9 +83,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { mapGetters } from 'vuex';
 import ChannelsList from 'src/components/ChannelsList.vue';
 import ChannelInfo from 'src/components/ChannelInfo.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default defineComponent({
   components: { ChannelsList, ChannelInfo },
@@ -100,10 +97,11 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapGetters({ activeChannel: 'activeChannel', user: 'user' })
+    ...mapGetters({ user: 'account/user', channels: 'account/channels' })
   },
   methods: {
-    onSend() {
+    async onSend() {
+      await this.addMessage({ channel: 'general', message: this.mainInput });
       this.mainInput = '';
     },
     toggleChannelsList() {
@@ -111,15 +109,18 @@ export default defineComponent({
     },
     toggleChannelInfo() {
       this.channelInfoOpen = !this.channelInfoOpen;
-    }
+    },
+    ...mapActions('channels', ['addMessage'])
   },
   beforeMount() {
-    if (!this.user)
-      this.$store.dispatch('getAccount')
-        .then(() => this.$store.dispatch('getChannels'))
-        .catch(() => this.$router.push({ name: 'login' }));
-    else
-      void this.$store.dispatch('getChannels');
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.$store.dispatch('account/getUserChannels', this.user.id);
+    // if (!this.user)
+    //   this.$store.dispatch('getAccount')
+    //     .then(() => this.$store.dispatch('getChannels'))
+    //     .catch(() => this.$router.push({ name: 'login' }));
+    // else
+    //   void this.$store.dispatch('getChannels');
   }
 });
 </script>

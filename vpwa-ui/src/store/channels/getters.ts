@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { GetterTree } from 'vuex';
 import { StateInterface } from '../index';
 import { ChannelsStateInterface } from './state';
 
 const getters: GetterTree<ChannelsStateInterface, StateInterface> = {
-  channels: (state) => state.dto,
+  channels: (state) => state.channel,
   activeChannel: (state) => state.activeChannel,
-  // chat: (state) => (state.activeChannel ? state.chats?.[state.activeChannel.id] : null)
-  chat: (state) => (state.activeChannel ? state.chats?.[state.activeChannel] : null)
+  chat(state) {
+    return state.activeChannel ? state.messages[state.activeChannel] : null;
+  }
 };
 
 export default getters;

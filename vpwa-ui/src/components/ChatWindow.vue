@@ -8,18 +8,17 @@
 
   <h5 v-if="chat?.total === 0" class="text-center">Send First Message!</h5>
 
-  <template v-for="m in messages" :key="m.id">
+  <template v-for="m in msg" :key="m.id">
     <div v-if="Date.now() - m.timestamp > 86400000" class="flex no-wrap justify-between items-center text-center">
       <div style="height: 1px;" class="bg-grey-4 col-grow" />
       <span class="q-mx-md">{{new Date(m.timestamp).toLocaleString()}}</span>
       <div style="height: 1px;" class="bg-grey-4 col-grow" />
     </div>
     <q-chat-message
-      :name="m.name"
+      :name="m.author"
       avatar="https://cdn.quasar.dev/img/avatar1.jpg"
-      :text="[m.text]"
-      :stamp="dateFormatter(m.timestamp)"
-      :sent="m.sent"
+      :text="[m.body]"
+      :stamp="dateFormatter(m.sent_at)"
     />
   </template>
 </q-infinite-scroll>
@@ -30,31 +29,38 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { mapGetters } from 'vuex';
 import dateFormatter from 'src/misc/dateFormatter';
-import { MessageInterfase } from 'src/store/channels/state';
+import { Message } from 'src/store/channels/state';
 
 export default defineComponent({
   data() {
     return {
       loading: false,
-      messages: <Array<MessageInterfase>> []
+      messages: <Array<Message>> []
     };
   },
   computed: {
-    ...mapGetters({ activeChannel: 'activeChannel', chat: 'chat' }),
+    // ...mapGetters({ activeChannel: 'activeChannel', chat: 'chat' }),
+    msg() : Message[] {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return this.$store.getters['channels/chat'];
+    },
     dateFormatter() {
       return dateFormatter;
     }
   },
   watch: {
-    chat() {
-      // this.messages = this.chat.messages;
+    chat: {
+      handler() {
+        // void this.$nextTick(() => this.scrollMessages());
+      }
     }
   },
   methods: {
     onLoad() {
-      console.log('not implemented');
+      // this.messages = this.$store.getters['channels/chat'];
+      // console.log(this.messages);
+      // console.log('not implemented');
       // setTimeout(() => {
       //   if (!this.messages || this.messages.length === 0)
       //     this.messages = this.chat?.messages;

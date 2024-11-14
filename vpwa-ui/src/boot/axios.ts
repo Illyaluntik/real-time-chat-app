@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
+import { authManager } from 'src/services';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $axios: AxiosInstance;
+    $api: AxiosInstance;
   }
 }
 
@@ -13,7 +17,42 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'https://api.example.com' });
+const api = axios.create({
+  baseURL: 'http://localhost:3000',
+  withCredentials: true,
+  headers: {}
+});
+
+// add interceptor to add authorization header for api calls
+api.interceptors.request.use(
+  (config) => {
+    const token = authManager.getToken();
+
+    if (token !== null) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    console.error(error);
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error(error);
+
+    // server api request returned unathorized response so we trrigger logout
+    if (error.response.status === 401 && !error.response.config.dontTriggerLogout) {
+      authManager.logout();
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api

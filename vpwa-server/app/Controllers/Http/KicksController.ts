@@ -5,7 +5,7 @@ import Kick from 'App/Models/Kick'
 import Member from 'App/Models/Member'
 
 export default class KicksController {
-    async kick({ request }: HttpContextContract) {
+    async kick ({ request }: HttpContextContract) {
         const { kickedUser, kickedBy, kickedIn } = request.all()
         const kicks = await Kick.create({
             kickedUser: kickedUser,
