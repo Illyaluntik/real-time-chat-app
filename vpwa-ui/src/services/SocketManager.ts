@@ -1,15 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-unused-vars */
-/* eslint-disable max-len */
 import type { BootCallback } from '@quasar/app-webpack';
 import type { StateInterface } from 'src/store';
 import { Manager, Socket } from 'socket.io-client';
 import { authManager } from '.';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type BootParams<T extends BootCallback<StateInterface> = BootCallback<StateInterface>> = T extends (params: infer P) => any ? P : never
+export type BootParams<T extends BootCallback<StateInterface> =
+  BootCallback<StateInterface>> = T extends (params: infer P) => any ? P : never
 
 export interface SocketManagerContract {
   namespace: string
@@ -37,7 +39,7 @@ export abstract class SocketManager implements SocketManagerContract {
 
   private static params: BootParams | null = null
 
-  public static getManager() {
+  public static getManager(): Manager {
     if (!this.manager) {
       throw new Error('Socket.io Manager not created. Please call "SocketManager.createManager(uri)" in quasar boot file.');
     }
@@ -77,7 +79,8 @@ export abstract class SocketManager implements SocketManagerContract {
 
   private static bootInstance(instance: SocketManagerContract): void {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    instance.subscribe(this.params!);
+    if (this.params)
+      instance.subscribe(this.params);
     // connect socket - if it was not used in subscribe it will be created
     instance.socket.connect();
   }
