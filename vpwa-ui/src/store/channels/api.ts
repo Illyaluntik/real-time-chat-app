@@ -9,9 +9,6 @@ import { api } from 'src/boot/axios';
 import { ChannelInterface, NewChannelData } from './state';
 
 export default {
-  createChannel(data: NewChannelData) {
-    return of(axios.post('http://localhost:3000/api/channel/create', data));
-  },
   leaveChannel(data: any) {
     return of(axios.post('http://localhost:3000/api/channel/leave', data));
   }

@@ -30,7 +30,7 @@
 
     <q-card-actions align="right" class="text-primary">
       <q-btn flat label="Cancel" @click="toggleCreateChannel" />
-      <q-btn flat label="Add channel" @click="addChannel" />
+      <q-btn flat label="Add channel" @click="onAddChannel" />
     </q-card-actions>
   </q-card>
 </q-dialog>
@@ -52,7 +52,7 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      user: 'user'
+      user: 'account/user'
     })
   },
   data() {
@@ -77,9 +77,6 @@ export default defineComponent({
     };
   },
   methods: {
-    async addChannel() {
-      return this.$store.dispatch('channels/createChannel');
-    },
     async onAddChannel() {
       const result = await this.v$.$validate();
 
@@ -89,22 +86,18 @@ export default defineComponent({
           message: e.$message as string
         }));
 
-      // this.$q.notify({
-      //   type: 'positive',
-      //   message: 'Successfully created channel'
-      // });
+      this.$q.notify({
+        type: 'positive',
+        message: 'Successfully created channel'
+      });
 
-      // return this.toggleCreateChannel();
-
-      console.log(this.user);
-
-      return this.$store.dispatch('createChannel', { ...this.newChannel, admin: this.user?.id })
+      return this.$store.dispatch('account/createChannel', { channelName: this.newChannel.channel_name, isPrivate: this.newChannel.is_private, adminId: this.user?.id })
         .then(() => {
           this.$q.notify({
             type: 'positive',
             message: 'Successfully created channel'
           });
-          void this.$store.dispatch('getChannels');
+          // void this.$store.dispatch('getChannels');
           this.toggleCreateChannel();
           // this.$store.dispatch('getAccount')
           //   .then(() => this.$router.push({ name: 'home' }).then(() => this.$store.commit('resetLoginForm')))

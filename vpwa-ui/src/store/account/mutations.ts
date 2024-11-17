@@ -28,7 +28,10 @@ const mutation: MutationTree<AccountStateInterface> = {
   setChannels(state, channels: Array<ChannelInterface>) {
     state.channels = channels;
   },
-  busy: (state, value: boolean) => state.state.busy = value
+  busy: (state, value: boolean) => state.state.busy = value,
+  newChannel(state, channel: ChannelInterface) {
+    state.channels?.unshift(channel);
+  }
 };
 
 export default mutation;

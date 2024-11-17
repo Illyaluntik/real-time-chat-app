@@ -8,6 +8,12 @@ export interface ChannelInterface {
   isPrivate: boolean
 }
 
+export interface NewChannelInterface {
+  channelName: string,
+  isPrivate: boolean,
+  adminId: string
+}
+
 export interface Message {
   id: number,
   author: string,

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
-import { Message } from 'src/store/channels/state';
+import { ChannelInterface, Message, NewChannelInterface } from 'src/store/channels/state';
 import { BootParams, SocketManager } from './SocketManager';
 
 // creating instance of this class automatically connects to given socket.io namespace
@@ -22,6 +22,10 @@ class ChannelSocketManager extends SocketManager {
 
   public loadMessages(): Promise<Message[]> {
     return this.emitAsync('loadMessages');
+  }
+
+  public addNewChannel(newChannel: NewChannelInterface): Promise<ChannelInterface> {
+    return this.emitAsync('createChannel', newChannel);
   }
 }
 

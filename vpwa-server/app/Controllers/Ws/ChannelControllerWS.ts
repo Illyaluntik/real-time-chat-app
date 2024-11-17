@@ -6,18 +6,18 @@ import Member from 'App/Models/Member'
 
 export default class ChannelsController {
   // create new channel
-  async createChannel ({ params }: WsContextContract) {
-    console.log(params)
-    // const channel = await Channel.create({
-    //   channelName: params.channelName,
-    //   isPrivate: params.isPrivate,
-    //   admin: params.admin,
-    // })
+  async createChannel ({ params }: WsContextContract, channelInfo) {
+    console.log(channelInfo)
+    const channel = await Channel.create({
+      channelName: channelInfo.channelName,
+      isPrivate: channelInfo.isPrivate,
+      admin: channelInfo.adminId,
+    })
 
-    // const member = await Member.create({
-    //   userId: params.admin,
-    //   channelId: channel.id,
-    // })
-    // return channel
+    const member = await Member.create({
+      userId: channelInfo.adminId,
+      channelId: channel.id,
+    })
+    return channel
   }
 }

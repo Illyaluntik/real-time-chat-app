@@ -21,7 +21,7 @@ export default class MessageController {
 
   public async addMessage ({ params, socket, auth }: WsContextContract, content: string) {
     const channelId = await (await Channel.findByOrFail('channel_name', params.name)).id
-    console.log(channelId)
+    // console.log(channelId)
     const msg = await Message.create({
       author: auth.user!.id,
       sentIn: channelId,

@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { ActionTree } from 'vuex';
-import { authManager } from 'src/services';
+import { authManager, channelService } from 'src/services';
 import { StateInterface } from '../index';
 import { AccountLoginData, AccountRegisterData, AccountStateInterface } from './state';
 import API from './api';
+import { NewChannelInterface } from '../channels/state';
 
 const actions: ActionTree<AccountStateInterface, StateInterface> = {
   async register(state) {
@@ -55,6 +57,11 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
       state.commit('busy', false);
       throw error;
     }
+  },
+
+  async createChannel(state, data: NewChannelInterface) {
+    const newChannel = await channelService.join(data.channelName).addNewChannel(data);
+    state.commit('newChannel', newChannel);
   }
   // async logout(state) {
   //   state.commit('busy', true);

@@ -48,6 +48,12 @@ export default {
   async getChannels(id: string): Promise<ChannelInterface[]> {
     const response = await api.post('api/channel/load', { userId: id });
     return response.data;
+  },
+
+  // eslint-disable-next-line max-len
+  async createChannel({ channelName, isPrivate, admin } : {channelName: string, isPrivate: boolean, admin: string}): Promise<ChannelInterface> {
+    const response = await api.post<ChannelInterface>('api/channel/create', { name: channelName, isPrivate, admin });
+    return response.data;
   }
   // // [200, 400]
   // login(data: AccountLoginData) {

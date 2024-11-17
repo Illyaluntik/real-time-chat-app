@@ -8,6 +8,7 @@ import channelService from 'src/services/ChannelService';
 import { StateInterface } from '../index';
 import { ChannelsStateInterface } from './state';
 import API from './api';
+import { Account } from '../account/state';
 
 const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   async join(state, channel: string) {
