@@ -11,7 +11,7 @@ import { authManager } from '.';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BootParams<T extends BootCallback<StateInterface> =
-  BootCallback<StateInterface>> = T extends (params: infer P) => any ? P : never
+  BootCallback<StateInterface>> = T extends (params: infer P) => unknown ? P : never
 
 export interface SocketManagerContract {
   namespace: string

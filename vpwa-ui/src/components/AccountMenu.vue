@@ -67,12 +67,12 @@ export default defineComponent({
   },
   methods: {
     onLogout() {
-      this.$store.dispatch('logout')
+      this.$store.dispatch('account/logout')
         .then(() => this.$router.push({ name: 'login' }))
         .catch((err) => console.error(err));
     },
     setUserStatus(status: string) {
-      this.$store.commit('setUserStatus', status);
+      this.$store.commit('account/setUserStatus', status);
     }
   }
 });
