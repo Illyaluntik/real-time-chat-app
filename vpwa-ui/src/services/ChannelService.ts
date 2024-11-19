@@ -27,6 +27,10 @@ class ChannelSocketManager extends SocketManager {
   public addNewChannel(newChannel: NewChannelInterface): Promise<ChannelInterface> {
     return this.emitAsync('createChannel', newChannel);
   }
+
+  public leaveChannel(name: string): Promise<ChannelInterface> {
+    return this.emitAsync('leaveChannel', name);
+  }
 }
 
 class ChannelService {
@@ -57,10 +61,6 @@ class ChannelService {
 
   public in(name: string): ChannelSocketManager | undefined {
     return this.channels.get(name);
-  }
-
-  public add() : void {
-    console.log('ok');
   }
 }
 
