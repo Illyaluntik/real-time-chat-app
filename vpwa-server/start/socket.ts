@@ -30,3 +30,7 @@ Ws.namespace('channels/:name')
   .on('createChannel', 'ChannelControllerWS.createChannel')
 
   .on('leaveChannel', 'MemberControllerWS.leaveChannel')
+  .on('loadMembers', 'MemberControllerWS.loadMembers')
+  .on('addMember', 'MemberControllerWS.addMember')
+
+  .on('handleKick', 'KickControllerWS.kick')

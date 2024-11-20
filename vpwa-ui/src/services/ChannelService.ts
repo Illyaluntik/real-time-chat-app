@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
+import { Account } from 'src/store/account/state';
 import { ChannelInterface, Message, NewChannelInterface } from 'src/store/channels/state';
 import { BootParams, SocketManager } from './SocketManager';
 
@@ -30,6 +31,18 @@ class ChannelSocketManager extends SocketManager {
 
   public leaveChannel(name: string): Promise<ChannelInterface> {
     return this.emitAsync('leaveChannel', name);
+  }
+
+  public loadMembers(): Promise<Account[]> {
+    return this.emitAsync('loadMembers');
+  }
+
+  public addMember(username: string): Promise<Account> {
+    return this.emitAsync('addMember', username);
+  }
+
+  public handleKick(username: string): Promise<Account> {
+    return this.emitAsync('handleKick', username);
   }
 }
 

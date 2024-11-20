@@ -1,4 +1,5 @@
 import { MutationTree } from 'vuex';
+import { Account } from '../account/state';
 import { ChannelsStateInterface, Message } from './state';
 
 const mutation: MutationTree<ChannelsStateInterface> = {
@@ -15,6 +16,18 @@ const mutation: MutationTree<ChannelsStateInterface> = {
 
   loadMessages(state, { channel, messages } : {channel : string, messages : Message[]}) {
     state.messages[channel] = messages;
+  },
+
+  loadMembers(state, members:Account[]) {
+    state.members = members;
+  },
+
+  addMember(state, newMember: Account) {
+    state.members?.push(newMember);
+  },
+
+  removeMember(state, member: Account) {
+    console.log('tbd', member);
   }
 };
 

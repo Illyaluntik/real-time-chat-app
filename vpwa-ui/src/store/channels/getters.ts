@@ -8,7 +8,11 @@ const getters: GetterTree<ChannelsStateInterface, StateInterface> = {
   activeChannel: (state) => state.activeChannel,
   chat(state) {
     return state.activeChannel ? state.messages[state.activeChannel] : null;
+  },
+  members(state) {
+    return state.members;
   }
+
 };
 
 export default getters;

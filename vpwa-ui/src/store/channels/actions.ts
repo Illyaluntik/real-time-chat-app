@@ -14,7 +14,9 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   async join(state, channel: string) {
     try {
       const messages = await channelService.join(channel).loadMessages();
+      const members = await channelService.in(channel)?.loadMembers();
       state.commit('loadMessages', { channel, messages });
+      state.commit('loadMembers', members);
     } catch (err) {
       throw err;
     }
@@ -30,6 +32,17 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   async addMessage(state, { channel, message }: { channel: string, message: string }) {
     const newMessage = channelService.in(channel)?.addMessage(message);
     state.commit('newMessage', { channel, message: newMessage });
+  },
+  async addMember(state, { channel, username }: {channel: string, username: string}) {
+    const newMember = channelService.in(channel)?.addMember(username);
+    // pridat do memberov
+    state.commit('addMember', newMember);
+    // pridat do newUser channels
+    state.commit('account/newChannel', channel);
+  },
+  async handleRemoval(state, { channel, kickUser }: {channel: string, kickUser: string}) {
+    const remUser = await channelService.in(channel)?.handleKick(kickUser);
+    console.log(remUser);
   }
   // async createChannel(state) {
   //   const newChannel = ChannelService.add();
