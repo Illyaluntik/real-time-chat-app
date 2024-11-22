@@ -122,7 +122,7 @@ export default defineComponent({
         this.$store.commit('account/updateRegisterData', { field: 'password', value: v });
       }
     },
-    ...mapGetters(['busy'])
+    ...mapGetters({ busy: 'account/busy' })
   },
   validations() {
     return {
