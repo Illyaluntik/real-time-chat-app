@@ -1,6 +1,6 @@
 <template>
 <q-infinite-scroll @load="onLoad" reverse class="q-pa-md">
-  <template v-if="chat?.total > chat?.messages.length" v-slot:loading>
+  <template v-if="chat?.total > chat?.messages?.length" v-slot:loading>
     <div class="row justify-center q-my-md">
       <q-spinner color="primary" name="dots" size="40px"></q-spinner>
     </div>
@@ -31,6 +31,7 @@
 import { defineComponent } from 'vue';
 import dateFormatter from 'src/misc/dateFormatter';
 import { Message } from 'src/store/channels/state';
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   data() {
@@ -40,7 +41,7 @@ export default defineComponent({
     };
   },
   computed: {
-    // ...mapGetters({ activeChannel: 'activeChannel', chat: 'chat' }),
+    ...mapGetters({ activeChannel: 'channels/activeChannel', chat: 'channels/chat' }),
     msg() : Message[] {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return this.$store.getters['channels/chat'];

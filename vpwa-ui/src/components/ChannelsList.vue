@@ -9,7 +9,7 @@
         :key="c.id"
         @click="() => selectChannel(c.channel_name)"
         class="justify-between items-center"
-        :class="{'bg-grey-4': activeChannel?.id === c.id, 'bg-amber-3': c.id === 'new-channel'}"
+        :class="{'bg-grey-4': activeChannel === c.channel_name, 'bg-amber-3': c.id === 'new-channel'}"
         clickable
         v-ripple
       >

@@ -11,7 +11,7 @@
           @click="toggleChannelsList"
         />
         <div v-if="activeChannel">
-          {{activeChannel.name}}
+          {{activeChannel}}
         </div>
         <q-btn
           v-show="activeChannel"
@@ -97,7 +97,7 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapGetters({ user: 'account/user', channels: 'account/channels' })
+    ...mapGetters({ user: 'account/user', channels: 'account/channels', activeChannel: 'channels/activeChannel' })
   },
   methods: {
     async onSend() {
@@ -110,7 +110,8 @@ export default defineComponent({
     toggleChannelInfo() {
       this.channelInfoOpen = !this.channelInfoOpen;
     },
-    ...mapActions('channels', ['addMessage'])
+    // ...mapActions('channels', ['addMessage'])
+    ...mapActions({ addMessage: 'channels/addMessage' })
   },
   beforeMount() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises

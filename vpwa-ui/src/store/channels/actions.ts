@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ActionTree, mapGetters } from 'vuex';
+import { ActionTree } from 'vuex';
 import channelService from 'src/services/ChannelService';
 import { StateInterface } from '../index';
 import { ChannelsStateInterface } from './state';
