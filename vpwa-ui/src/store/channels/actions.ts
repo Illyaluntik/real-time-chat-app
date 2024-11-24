@@ -13,6 +13,8 @@ import { Account } from '../account/state';
 const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   async join(state, channel: string) {
     try {
+      if (state.state.activeChannel)
+        channelService.leave(state.state.activeChannel);
       const messages = await channelService.join(channel).loadMessages();
       const members = await channelService.in(channel)?.loadMembers();
       state.commit('loadMessages', { channel, messages });
