@@ -101,7 +101,7 @@ export default defineComponent({
   },
   methods: {
     async onSend() {
-      await this.addMessage({ channel: 'general', message: this.mainInput });
+      await this.addMessage({ channel: this.activeChannel, message: this.mainInput });
       this.mainInput = '';
     },
     toggleChannelsList() {

@@ -12,6 +12,9 @@ import { Account } from '../account/state';
 
 const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   async join(state, channel: string) {
+    if (channel === state.state.activeChannel)
+      return;
+
     try {
       if (state.state.activeChannel)
         channelService.leave(state.state.activeChannel);
@@ -23,6 +26,12 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
       throw err;
     }
   },
+  disconnectFromActive(state) {
+    if (state.state.activeChannel) {
+      channelService.leave(state.state.activeChannel);
+      state.commit('setActiveChannel', null);
+    }
+  },
   // async leave({ getters, commit }, channel: string | null) {
   //   const leaving: string[] = channel !== null ? [channel] : getters.joinedChannels;
 
@@ -32,7 +41,8 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   //   });
   // },
   async addMessage(state, { channel, message }: { channel: string, message: string }) {
-    const newMessage = channelService.in(channel)?.addMessage(message);
+    const newMessage = await channelService.in(channel)?.addMessage(message);
+    console.log('newMessage', { channel, message: newMessage });
     state.commit('newMessage', { channel, message: newMessage });
   },
   async addMember(state, { channel, username }: {channel: string, username: string}) {

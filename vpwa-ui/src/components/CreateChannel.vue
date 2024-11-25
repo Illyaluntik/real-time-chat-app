@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import useVuelidate from '@vuelidate/core';
 import {
   required as VRequired, alphaNum as VAlphaNum, minLength as VMinLength, maxLength as VMaxLength
@@ -77,6 +77,7 @@ export default defineComponent({
     };
   },
   methods: {
+    ...mapActions({ disconnect: 'channels/disconnectFromActive' }),
     async onAddChannel() {
       const result = await this.v$.$validate();
 
@@ -97,11 +98,9 @@ export default defineComponent({
             type: 'positive',
             message: 'Successfully created channel'
           });
-          // void this.$store.dispatch('getChannels');
+          void this.disconnect();
+          this.$store.commit('channels/setActiveChannel', this.newChannel.channel_name);
           this.toggleCreateChannel();
-          // this.$store.dispatch('getAccount')
-          //   .then(() => this.$router.push({ name: 'home' }).then(() => this.$store.commit('resetLoginForm')))
-          //   .catch((err) => console.log(err));
         })
         .catch((err) => {
           this.$q.notify({
