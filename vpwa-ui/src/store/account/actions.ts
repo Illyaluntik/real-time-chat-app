@@ -68,6 +68,11 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
   async leaveChannel(state, channel: string) {
     const leftChannel = await channelService.in(channel)?.leaveChannel(channel);
     state.commit('removeChannel', leftChannel);
+  },
+
+  async joinChannel(state, channel:string) {
+    const joinedChannel = await channelService.join(channel).joinChannel(channel);
+    console.log(joinedChannel);
   }
   // async logout(state) {
   //   state.commit('busy', true);

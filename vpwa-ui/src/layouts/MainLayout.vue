@@ -97,11 +97,34 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapGetters({ user: 'account/user', channels: 'account/channels' })
+    ...mapGetters({ user: 'account/user', channels: 'account/channels', activeChannel: 'channels/activeChannel' })
   },
   methods: {
+    // eslint-disable-next-line @typescript-eslint/require-await
     async onSend() {
-      await this.addMessage({ channel: 'general', message: this.mainInput });
+      if (this.mainInput.startsWith('/')) {
+        if (this.mainInput.startsWith('/join')) {
+          return this.$store.dispatch('account/join');
+        } if (this.mainInput.startsWith('/invite')) {
+          return this.$store.dispatch('channels/addMember');
+        } if (this.mainInput.startsWith('/revoke')) {
+          return this.$store.dispatch('channels/revoke');
+        } if (this.mainInput.startsWith('/kick')) {
+          return this.$store.dispatch('channels/handleRemoval');
+        } if (this.mainInput.startsWith('/quit')) {
+          return this.$store.dispatch('channels/leaveChannel');
+        } if (this.mainInput.startsWith('/cancel')) {
+          return this.$store.dispatch('channels/leaveChannel');
+        } if (this.mainInput.startsWith('/list')) {
+          console.log('list');
+        } else {
+          console.log('unknown command');
+        }
+      } else if (this.activeChannel) {
+        await this.addMessage({ channel: 'general', message: this.mainInput });
+      } else {
+        console.log('error');
+      }
       this.mainInput = '';
     },
     toggleChannelsList() {
