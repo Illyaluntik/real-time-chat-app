@@ -41,9 +41,7 @@ export default defineComponent({
     active: String
   },
   computed: {
-    ...mapGetters({
-      user: 'account/user', userStatus: 'userStatus'
-    }),
+    ...mapGetters({ user: 'account/user', userStatus: 'userStatus', activeChannel: 'channels/activeChannel' }),
     userStatusEnum() {
       return userStatusEnum;
     }

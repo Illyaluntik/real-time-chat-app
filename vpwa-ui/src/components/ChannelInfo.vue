@@ -1,8 +1,8 @@
 <template>
 <div class="flex column no-wrap justify-between full-height">
   <div class="flex justify-center items-center shadow-2 q-py-md">
-    <span class="text-h6">{{activeChannel?.channel_name}}</span>
-    <q-icon v-if="activeChannel?.isPrivate" name="lock" class="q-ml-sm" />
+    <span class="text-h6">{{activeChannel}}</span>
+    <!-- <q-icon v-if="activeChannel?.isPrivate" name="lock" class="q-ml-sm" /> -->
   </div>
 
   <members-list :members="members" :active="activeChannel" />

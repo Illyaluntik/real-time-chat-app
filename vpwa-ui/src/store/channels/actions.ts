@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ActionTree, mapGetters } from 'vuex';
+import { ActionTree } from 'vuex';
 import channelService from 'src/services/ChannelService';
 import { StateInterface } from '../index';
 import { ChannelsStateInterface } from './state';
@@ -12,13 +12,24 @@ import { Account } from '../account/state';
 
 const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   async join(state, channel: string) {
+    if (channel === state.state.activeChannel)
+      return;
+
     try {
+      if (state.state.activeChannel)
+        channelService.leave(state.state.activeChannel);
       const messages = await channelService.join(channel).loadMessages();
       const members = await channelService.in(channel)?.loadMembers();
       state.commit('loadMessages', { channel, messages });
       state.commit('loadMembers', members);
     } catch (err) {
       throw err;
+    }
+  },
+  disconnectFromActive(state) {
+    if (state.state.activeChannel) {
+      channelService.leave(state.state.activeChannel);
+      state.commit('setActiveChannel', null);
     }
   },
   // async leave({ getters, commit }, channel: string | null) {
@@ -30,7 +41,8 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   //   });
   // },
   async addMessage(state, { channel, message }: { channel: string, message: string }) {
-    const newMessage = channelService.in(channel)?.addMessage(message);
+    const newMessage = await channelService.in(channel)?.addMessage(message);
+    console.log('newMessage', { channel, message: newMessage });
     state.commit('newMessage', { channel, message: newMessage });
   },
   async addMember(state, { channel, username }: {channel: string, username: string}) {

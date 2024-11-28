@@ -9,7 +9,7 @@
         :key="c.id"
         @click="() => selectChannel(c.channel_name)"
         class="justify-between items-center"
-        :class="{'bg-grey-4': activeChannel?.id === c.id, 'bg-amber-3': c.id === 'new-channel'}"
+        :class="{'bg-grey-4': activeChannel === c.channel_name}"
         clickable
         v-ripple
       >
@@ -42,9 +42,6 @@ export default defineComponent({
     };
   },
   computed: {
-    // ...mapGetters({
-    //   channels: 'channels/channels', activeChannel: 'activeChannel', user: 'user', userStatus: 'userStatus', busy: 'busy'
-    // })
     ...mapGetters({ channels: 'account/channels', activeChannel: 'channels/activeChannel' })
   },
   watch: {

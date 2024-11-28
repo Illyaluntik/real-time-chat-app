@@ -11,7 +11,7 @@
           @click="toggleChannelsList"
         />
         <div v-if="activeChannel">
-          {{activeChannel.name}}
+          {{activeChannel}}
         </div>
         <q-btn
           v-show="activeChannel"
@@ -101,6 +101,7 @@ export default defineComponent({
   },
   methods: {
     // eslint-disable-next-line @typescript-eslint/require-await
+    // eslint-disable-next-line consistent-return
     async onSend() {
       if (this.mainInput.startsWith('/')) {
         if (this.mainInput.startsWith('/join')) {
@@ -112,9 +113,9 @@ export default defineComponent({
         } if (this.mainInput.startsWith('/kick')) {
           return this.$store.dispatch('channels/handleRemoval');
         } if (this.mainInput.startsWith('/quit')) {
-          return this.$store.dispatch('channels/leaveChannel');
+          return this.$store.dispatch('account/leaveChannel');
         } if (this.mainInput.startsWith('/cancel')) {
-          return this.$store.dispatch('channels/leaveChannel');
+          return this.$store.dispatch('account/leaveChannel');
         } if (this.mainInput.startsWith('/list')) {
           console.log('list');
         } else {
@@ -133,7 +134,8 @@ export default defineComponent({
     toggleChannelInfo() {
       this.channelInfoOpen = !this.channelInfoOpen;
     },
-    ...mapActions('channels', ['addMessage'])
+    // ...mapActions('channels', ['addMessage'])
+    ...mapActions({ addMessage: 'channels/addMessage' })
   },
   beforeMount() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
