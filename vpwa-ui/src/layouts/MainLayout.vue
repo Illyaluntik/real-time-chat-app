@@ -105,18 +105,33 @@ export default defineComponent({
     async onSend() {
       if (this.mainInput.startsWith('/')) {
         if (this.mainInput.startsWith('/join')) {
-          return this.$store.dispatch('account/join');
-        } if (this.mainInput.startsWith('/invite')) {
+          let isPrivate = false;
+          const cmd = this.mainInput.split(' ');
+          if (cmd.length > 3) {
+            console.log('vela znakov');
+          }
+
+          if (cmd.length === 3 && cmd[2] === 'private') {
+            isPrivate = true;
+          }
+          await this.$store.dispatch('account/joinChannel', { channelName: cmd[1], isPrivate });
+        }
+        if (this.mainInput.startsWith('/invite')) {
           return this.$store.dispatch('channels/addMember');
-        } if (this.mainInput.startsWith('/revoke')) {
+        }
+        if (this.mainInput.startsWith('/revoke')) {
           return this.$store.dispatch('channels/revoke');
-        } if (this.mainInput.startsWith('/kick')) {
+        }
+        if (this.mainInput.startsWith('/kick')) {
           return this.$store.dispatch('channels/handleRemoval');
-        } if (this.mainInput.startsWith('/quit')) {
+        }
+        if (this.mainInput.startsWith('/quit')) {
           return this.$store.dispatch('account/leaveChannel');
-        } if (this.mainInput.startsWith('/cancel')) {
+        }
+        if (this.mainInput.startsWith('/cancel')) {
           return this.$store.dispatch('account/leaveChannel');
-        } if (this.mainInput.startsWith('/list')) {
+        }
+        if (this.mainInput.startsWith('/list')) {
           console.log('list');
         } else {
           console.log('unknown command');

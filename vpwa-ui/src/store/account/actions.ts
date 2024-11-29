@@ -64,15 +64,14 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
     state.commit('newChannel', newChannel);
   },
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   async leaveChannel(state, channel: string) {
     const leftChannel = await channelService.in(channel)?.leaveChannel(channel);
     state.commit('removeChannel', leftChannel);
   },
 
-  async joinChannel(state, channel:string) {
-    const joinedChannel = await channelService.join(channel).joinChannel(channel);
-    console.log(joinedChannel);
+  async joinChannel(state, { channelName, isPrivate }: {channelName:string, isPrivate:boolean}) {
+    const joinedChannel = await channelService.join(channelName).joinChannel(isPrivate);
+    state.commit('newChannel', joinedChannel);
   }
   // async logout(state) {
   //   state.commit('busy', true);

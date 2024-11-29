@@ -20,4 +20,23 @@ export default class ChannelsController {
     })
     return channel
   }
+
+  async joinChannel({params, auth}: WsContextContract, isPrivate: boolean) {
+    let channel = await Channel.findBy('channel_name', params.name)
+    if (channel === null) {
+      // does not exist
+      channel = await Channel.create({
+        channelName: params.name,
+        isPrivate: isPrivate,
+        admin: auth.user?.id,
+      })
+    }
+
+    const member = await Member.create({
+      userId: auth.user?.id,
+      channelId: channel?.id,
+    })
+
+    return channel
+  }
 }

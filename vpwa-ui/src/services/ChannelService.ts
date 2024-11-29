@@ -44,6 +44,10 @@ class ChannelSocketManager extends SocketManager {
   public handleKick(username: string): Promise<Account> {
     return this.emitAsync('handleKick', username);
   }
+
+  public joinChannel(isPrivate: boolean): Promise<ChannelInterface> {
+    return this.emitAsync('joinChannel', isPrivate);
+  }
 }
 
 class ChannelService {
