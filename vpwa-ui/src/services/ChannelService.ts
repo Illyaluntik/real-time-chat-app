@@ -45,6 +45,10 @@ class ChannelSocketManager extends SocketManager {
     return this.emitAsync('handleKick', username);
   }
 
+  public revokeMember(username: string): Promise<Account> {
+    return this.emitAsync('revokeMember', username);
+  }
+
   public joinChannel(isPrivate: boolean): Promise<ChannelInterface> {
     return this.emitAsync('joinChannel', isPrivate);
   }

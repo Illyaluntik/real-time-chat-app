@@ -31,3 +31,4 @@ Ws.namespace('channels/:name')
   .on('addMember', 'MemberControllerWS.addMember')
 
   .on('handleKick', 'KickControllerWS.kick')
+  .on('revokeMember', 'KickControllerWS.revoke')

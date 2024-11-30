@@ -5,13 +5,14 @@ import Ban from 'App/Models/Ban'
 import Channel from 'App/Models/Channel'
 import Kick from 'App/Models/Kick'
 import Member from 'App/Models/Member'
+import User from 'App/Models/User'
 
 export default class KicksController{
-    async removeUser(channelId: number, user: string) {
+    private async removeUser(channelId: number, user: string) {
         await Member.query().where('user_id', user).where('channel_id', channelId).first()
     }
 
-    async banUser(channelId: number, user: string) {
+    private async banUser(channelId: number, user: string) {
         await Ban.create({
             bannedUser: user,
             bannedIn:channelId,
@@ -23,9 +24,8 @@ export default class KicksController{
         const channelAdmin = channel.admin
 
         if (channelAdmin === auth.user?.id) {
-            // ban user
-            this.removeUser(channel.id, channelAdmin)
-            this.banUser(channel.id, channelAdmin)
+            this.removeUser(channel.id, kickedUser)
+            this.banUser(channel.id, kickedUser)
         } else {
             const kicks = await Kick.create({
                 kickedUser: kickedUser,
@@ -36,12 +36,16 @@ export default class KicksController{
             if (kCount === 1) {
                 this.removeUser(channel.id, kickedUser)
             } else if (kCount === 3) {
-                this.banUser(channel.id, channelAdmin)
+                this.banUser(channel.id, kickedUser)
             }
         }
+
+        return await User.find(kickedUser)
     }
 
-    async revoke({ auth }: WsContextContract, revokedUser : string) {
-        console.log('tbd')
+    async revoke({ params }: WsContextContract, revokedUser : string) {
+        const channel = await Channel.findByOrFail('channel_name', params.name)
+        this.removeUser(channel.id, revokedUser)
+        return await User.find(revokedUser)
     }
 }

@@ -55,6 +55,10 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   async handleRemoval(state, { channel, kickUser }: {channel: string, kickUser: string}) {
     const remUser = await channelService.in(channel)?.handleKick(kickUser);
     console.log(remUser);
+  },
+  async revoke(state, { channel, kickUser }: {channel: string, kickUser: string}) {
+    const remUser = channelService.in(channel)?.revokeMember(kickUser);
+    console.log(remUser);
   }
   // async createChannel(state) {
   //   const newChannel = ChannelService.add();

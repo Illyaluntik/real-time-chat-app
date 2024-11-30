@@ -104,9 +104,9 @@ export default defineComponent({
     // eslint-disable-next-line consistent-return
     async onSend() {
       if (this.mainInput.startsWith('/')) {
+        const cmd = this.mainInput.split(' ');
         if (this.mainInput.startsWith('/join')) {
           let isPrivate = false;
-          const cmd = this.mainInput.split(' ');
           if (cmd.length > 3) {
             console.log('vela znakov');
           }
@@ -117,22 +117,36 @@ export default defineComponent({
           await this.$store.dispatch('account/joinChannel', { channelName: cmd[1], isPrivate });
         }
         if (this.mainInput.startsWith('/invite')) {
-          return this.$store.dispatch('channels/addMember');
+          if (this.activeChannel === null) {
+            console.log('not selected channel');
+          } else {
+            await this.$store.dispatch('channels/addMember', { channel: this.activeChannel, username: cmd[1] });
+          }
         }
         if (this.mainInput.startsWith('/revoke')) {
-          return this.$store.dispatch('channels/revoke');
+          if (this.activeChannel !== null) {
+            await this.$store.dispatch('channels/revoke', { channel: this.activeChannel, kickUser: cmd[1] });
+          }
         }
         if (this.mainInput.startsWith('/kick')) {
-          return this.$store.dispatch('channels/handleRemoval');
+          if (this.activeChannel !== null) {
+            await this.$store.dispatch('channels/handleRemoval', { channel: this.activeChannel, kickUser: cmd[1] });
+          }
         }
         if (this.mainInput.startsWith('/quit')) {
-          return this.$store.dispatch('account/leaveChannel');
+          if (this.activeChannel !== null) {
+            await this.$store.dispatch('account/leaveChanne', this.activeChannel);
+          }
         }
         if (this.mainInput.startsWith('/cancel')) {
-          return this.$store.dispatch('account/leaveChannel');
+          if (this.activeChannel !== null) {
+            await this.$store.dispatch('account/leaveChanne', this.activeChannel);
+          }
         }
         if (this.mainInput.startsWith('/list')) {
-          console.log('list');
+          if (this.activeChannel !== null) {
+            this.channelInfoOpen = true;
+          }
         } else {
           console.log('unknown command');
         }
