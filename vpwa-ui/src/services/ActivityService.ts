@@ -1,9 +1,10 @@
 import { Account } from 'src/store/account/state';
+import { ChannelInterface } from 'src/store/channels/state';
 import { authManager } from '.';
-import { SocketManager } from './SocketManager';
+import { BootParams, SocketManager } from './SocketManager';
 
 class ActivitySocketManager extends SocketManager {
-  public subscribe(): void {
+  public subscribe({ store }: BootParams): void {
     this.socket.on('user:list', (onlineUsers: Account[]) => {
       console.log('Online users list', onlineUsers);
     });
@@ -14,6 +15,10 @@ class ActivitySocketManager extends SocketManager {
 
     this.socket.on('user:offline', (user: Account) => {
       console.log('User is offline', user);
+    });
+
+    this.socket.on('channels', (channels: ChannelInterface[]) => {
+      store.commit('account/setChannels', channels);
     });
 
     authManager.onChange((token) => {

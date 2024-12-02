@@ -1,3 +1,4 @@
+import Database from '@ioc:Adonis/Lucid/Database'
 import type { WsContextContract } from '@ioc:Ruby184/Socket.IO/WsContext'
 import User from 'App/Models/User'
 
@@ -30,6 +31,13 @@ export default class ActivityController {
     }
 
     const onlineUsers = await User.findMany([...onlineIds])
+    const usersChannels = await Database
+      .from('channels')
+      .join('members', 'channels.id', '=', 'members.channel_id')
+      .select('channels.*')
+      .where('members.user_id', auth.user!.id)
+
+    socket.emit('channels', usersChannels)
 
     socket.emit('user:list', onlineUsers)
 

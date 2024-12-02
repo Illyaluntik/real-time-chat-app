@@ -46,18 +46,20 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
     }
   },
 
-  async getUserChannels(state, id:string) {
-    try {
-      state.commit('busy', true);
-      const channels = await API.getChannels(id);
-      state.commit('setChannels', channels);
-      state.commit('busy', false);
-      return channels;
-    } catch (error) {
-      state.commit('busy', false);
-      throw error;
-    }
-  },
+  // eslint-disable-next-line @typescript-eslint/require-await
+  // async getUserChannels(state, id:string) {
+  //   try {
+  //     state.commit('busy', true);
+  //     // const channels = await API.getChannels(id);
+  //     // state.commit('setChannels', channels);
+  //     state.commit('busy', false);
+  //     console.log(id);
+  //     return null;
+  //   } catch (error) {
+  //     state.commit('busy', false);
+  //     throw error;
+  //   }
+  // },
 
   async createChannel(state, data: NewChannelInterface) {
     const newChannel = await channelService.join(data.channelName).addNewChannel(data);

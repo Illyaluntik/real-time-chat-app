@@ -168,7 +168,7 @@ export default defineComponent({
   },
   beforeMount() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.$store.dispatch('account/getUserChannels', this.user.id);
+    // this.$store.dispatch('account/getUserChannels', this.user.id);
     // if (!this.user)
     //   this.$store.dispatch('getAccount')
     //     .then(() => this.$store.dispatch('getChannels'))
