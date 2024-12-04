@@ -44,7 +44,7 @@ export interface ChannelsStateInterface {
   channel: ChannelInterface | null;
   activeChannel: string | null;
   messages: {[channel: string]: Message[]};
-  members: Array<Account> | null;
+  members: {[channel: string]: Account[]};
   loading: boolean;
 }
 
@@ -53,7 +53,7 @@ function state(): ChannelsStateInterface {
     channel: null,
     activeChannel: null,
     messages: {},
-    members: null,
+    members: {},
     loading: false
   };
 }

@@ -21,7 +21,7 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
       const messages = await channelService.join(channel).loadMessages();
       const members = await channelService.in(channel)?.loadMembers();
       state.commit('loadMessages', { channel, messages });
-      state.commit('loadMembers', members);
+      state.commit('loadMembers', { channel, members });
     } catch (err) {
       throw err;
     }

@@ -18,16 +18,20 @@ const mutation: MutationTree<ChannelsStateInterface> = {
     state.messages[channel] = messages;
   },
 
-  loadMembers(state, members:Account[]) {
-    state.members = members;
+  loadMembers(state, { channel, members } : {channel: string, members:Account[]}) {
+    state.members[channel] = members;
   },
 
-  addMember(state, newMember: Account) {
-    state.members?.push(newMember);
+  addMember(state, { channel, newMember } : {channel: string, newMember: Account}) {
+    state.members[channel].push(newMember);
   },
 
-  removeMember(state, member: Account) {
-    console.log('tbd', member);
+  removeMember(state, { channel, member } : {channel: string, member: Account}) {
+    const mIndex = state.members[channel].indexOf(member, 0);
+    if (mIndex !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      state.members[channel].splice(mIndex, 1);
+    }
   }
 };
 

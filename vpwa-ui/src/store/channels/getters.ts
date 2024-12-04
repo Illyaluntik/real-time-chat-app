@@ -10,7 +10,7 @@ const getters: GetterTree<ChannelsStateInterface, StateInterface> = {
     return state.activeChannel ? state.messages[state.activeChannel] : null;
   },
   members(state) {
-    return state.members;
+    return state.activeChannel ? state.members[state.activeChannel] : null;
   }
 
 };
