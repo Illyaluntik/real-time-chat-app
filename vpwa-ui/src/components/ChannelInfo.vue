@@ -2,13 +2,13 @@
 <div class="flex column no-wrap justify-between full-height">
   <div class="flex justify-center items-center shadow-2 q-py-md">
     <span class="text-h6">{{activeChannel}}</span>
-    <!-- <q-icon v-if="activeChannel?.isPrivate" name="lock" class="q-ml-sm" /> -->
+    <q-icon v-if="channel?.isPrivate" name="lock" class="q-ml-sm" />
   </div>
 
-  <members-list :members="members" :active="activeChannel" />
+  <members-list :members="members"/>
 
   <div>
-    <add-member-component/>
+    <add-member-component v-if="channel.isPrivate && user.id === channel.admin"/>
     <q-btn
       color="grey-7"
       text-color="white"
@@ -30,7 +30,7 @@ import AddMemberComponent from './AddMemberComponent.vue';
 export default defineComponent({
   components: { MembersList, AddMemberComponent },
   computed: {
-    ...mapGetters({ activeChannel: 'channels/activeChannel', user: 'account/user' }),
+    ...mapGetters({ activeChannel: 'channels/activeChannel', user: 'account/user', channel: 'channels/channel' }),
     members(): Account[] {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return this.$store.getters['channels/members'];
@@ -41,20 +41,21 @@ export default defineComponent({
       return this.$store.dispatch('channels/addMember');
     },
     onLeaveChannel() {
-      return this.$store.dispatch('account/leaveChannel', this.activeChannel)
-        .then(() => {
-          this.$q.notify({
-            type: 'positive',
-            message: 'Successfully leaved channel'
-          });
-          // void this.$store.dispatch('getChannels');
-        })
-        .catch((err) => {
-          this.$q.notify({
-            type: 'negative',
-            message: err.message
-          });
-        });
+      console.log(this.channel);
+      // return this.$store.dispatch('account/leaveChannel', this.activeChannel)
+      //   .then(() => {
+      //     this.$q.notify({
+      //       type: 'positive',
+      //       message: 'Successfully leaved channel'
+      //     });
+      //     // void this.$store.dispatch('getChannels');
+      //   })
+      //   .catch((err) => {
+      //     this.$q.notify({
+      //       type: 'negative',
+      //       message: err.message
+      //     });
+      //   });
     }
   }
 });

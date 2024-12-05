@@ -39,4 +39,8 @@ export default class ChannelsController {
 
     return channel
   }
+
+  async getChannel({params}: WsContextContract) {
+    return await Channel.findBy('channel_name', params.name)
+  }
 }

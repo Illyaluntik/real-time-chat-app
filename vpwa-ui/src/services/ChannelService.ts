@@ -52,6 +52,10 @@ class ChannelSocketManager extends SocketManager {
   public joinChannel(isPrivate: boolean): Promise<ChannelInterface> {
     return this.emitAsync('joinChannel', isPrivate);
   }
+
+  public getChannel(): Promise<ChannelInterface> {
+    return this.emitAsync('getChannel');
+  }
 }
 
 class ChannelService {

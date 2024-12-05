@@ -8,7 +8,7 @@
           <!-- <b :class="`text-${[userStatusEnum[m.status].color]}`">{{userStatusEnum[m.status].name}}</b> -->
         </q-tooltip>
         <!-- <q-badge :color="userStatusEnum[user?.id === m.id ? userStatus : m.status].color" rounded class="q-mr-sm" /> -->
-        {{user?.id === m.id ? 'You' : m.username}} &nbsp; <b>{{activeChannel?.adminId === m.id ? '(Admin)' : ''}}</b>
+        {{user?.id === m.id ? 'You' : m.username}} &nbsp; <b>{{channel?.adminId === m.id ? '(Admin)' : ''}}</b>
       </div>
       <q-space />
       <q-btn
@@ -18,7 +18,7 @@
         @click="() => onKickMember(m.username)"
       >
         <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
-          {{user?.id === activeChannel?.adminId ? 'Kick user' : 'Vote for kick'}}
+          {{user?.id === channel?.admin ? 'Kick user' : 'Vote for kick'}}
         </q-tooltip>
       </q-btn>
     </q-item>
@@ -41,7 +41,9 @@ export default defineComponent({
     active: String
   },
   computed: {
-    ...mapGetters({ user: 'account/user', userStatus: 'userStatus', activeChannel: 'channels/activeChannel' }),
+    ...mapGetters({
+      user: 'account/user', userStatus: 'userStatus', activeChannel: 'channels/activeChannel', channel: 'channels/channel'
+    }),
     userStatusEnum() {
       return userStatusEnum;
     }
@@ -49,16 +51,16 @@ export default defineComponent({
   methods: {
     onKickMember(username:string) {
       return this.$store.dispatch('channels/handleRemoval', { channel: this.active, kickUser: username });
+    },
+    isKickable(id: string) {
+      if (this.user.id === id || this.channel.admin === id)
+        return false;
+
+      if (this.channel.isPrivate && this.channel.admin !== this.user.id)
+        return false;
+
+      return true;
     }
-    // isKickable(id: string) {
-    //   if (this.user.id === id || this.activeChannel.adminId === id)
-    //     return false;
-
-    //   if (this.activeChannel.isPrivate && this.activeChannel.adminId !== this.user.id)
-    //     return false;
-
-    //   return true;
-    // }
   }
 });
 </script>

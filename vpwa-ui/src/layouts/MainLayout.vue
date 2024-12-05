@@ -97,7 +97,9 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapGetters({ user: 'account/user', channels: 'account/channels', activeChannel: 'channels/activeChannel' })
+    ...mapGetters({
+      user: 'account/user', channels: 'account/channels', activeChannel: 'channels/activeChannel', channel: 'channels/channel'
+    })
   },
   methods: {
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -117,15 +119,21 @@ export default defineComponent({
           await this.$store.dispatch('account/joinChannel', { channelName: cmd[1], isPrivate });
         }
         if (this.mainInput.startsWith('/invite')) {
-          if (this.activeChannel === null) {
+          if (this.activeChannel === null && this.channel === null) {
             console.log('not selected channel');
-          } else {
+          } else if (this.channel.isPrivate && this.user.id === this.channel.admin) {
             await this.$store.dispatch('channels/addMember', { channel: this.activeChannel, username: cmd[1] });
+          } else {
+            console.log('unathorized');
           }
         }
         if (this.mainInput.startsWith('/revoke')) {
-          if (this.activeChannel !== null) {
-            await this.$store.dispatch('channels/revoke', { channel: this.activeChannel, kickUser: cmd[1] });
+          if (this.activeChannel !== null && this.channel !== null) {
+            if (this.channel.admin === this.user.id) {
+              await this.$store.dispatch('channels/revoke', { channel: this.activeChannel, kickUser: cmd[1] });
+            } else {
+              console.log('unauthorized');
+            }
           }
         }
         if (this.mainInput.startsWith('/kick')) {

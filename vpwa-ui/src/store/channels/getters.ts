@@ -4,7 +4,7 @@ import { StateInterface } from '../index';
 import { ChannelsStateInterface } from './state';
 
 const getters: GetterTree<ChannelsStateInterface, StateInterface> = {
-  channels: (state) => state.channel,
+  channel: (state) => state.channel,
   activeChannel: (state) => state.activeChannel,
   chat(state) {
     return state.activeChannel ? state.messages[state.activeChannel] : null;

@@ -43,9 +43,13 @@ export default class KicksController{
         return await User.find(kickedUser)
     }
 
-    async revoke({ params }: WsContextContract, revokedUser : string) {
+    async revoke({ params, auth }: WsContextContract, revokedUser : string) {
         const channel = await Channel.findByOrFail('channel_name', params.name)
-        this.removeUser(channel.id, revokedUser)
-        return await User.find(revokedUser)
+        if (channel.admin === auth.user?.id) {
+            this.removeUser(channel.id, revokedUser)
+            return await User.find(revokedUser)
+        }
+
+        return null
     }
 }

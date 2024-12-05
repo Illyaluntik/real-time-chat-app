@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/require-await */
@@ -20,8 +21,10 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
         channelService.leave(state.state.activeChannel);
       const messages = await channelService.join(channel).loadMessages();
       const members = await channelService.in(channel)?.loadMembers();
+      const channelDetail = await channelService.in(channel)?.getChannel();
       state.commit('loadMessages', { channel, messages });
       state.commit('loadMembers', { channel, members });
+      state.commit('setChannel', channelDetail);
     } catch (err) {
       throw err;
     }

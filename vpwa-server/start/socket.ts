@@ -25,6 +25,7 @@ Ws.namespace('channels/:name')
 
   .on('createChannel', 'ChannelControllerWS.createChannel')
   .on('joinChannel', 'ChannelControllerWS.joinChannel')
+  .on('getChannel', 'ChannelControllerWS.getChannel')
 
   .on('leaveChannel', 'MemberControllerWS.leaveChannel')
   .on('loadMembers', 'MemberControllerWS.loadMembers')

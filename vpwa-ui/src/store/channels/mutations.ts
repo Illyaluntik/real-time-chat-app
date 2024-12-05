@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 import { Account } from '../account/state';
-import { ChannelsStateInterface, Message } from './state';
+import { ChannelInterface, ChannelsStateInterface, Message } from './state';
 
 const mutation: MutationTree<ChannelsStateInterface> = {
   // setChannels: (state, dto: Array<ChannelInterface>) => state.channel = dto,
@@ -8,6 +8,11 @@ const mutation: MutationTree<ChannelsStateInterface> = {
   // setActiveChannel: (state, id: string) => state.activeChannel = state.dto?.find((v) => v.id === id) || null
   setActiveChannel(state, channel: string | null) {
     state.activeChannel = channel;
+  },
+
+  setChannel(state, channel: ChannelInterface) {
+    console.log(channel);
+    state.channel = channel;
   },
 
   newMessage(state, { channel, message } : { channel : string, message: Message }) {
