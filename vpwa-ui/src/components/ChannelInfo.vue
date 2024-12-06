@@ -8,7 +8,7 @@
   <members-list :members="members"/>
 
   <div>
-    <add-member-component v-if="channel.isPrivate && user.id === channel.admin"/>
+    <add-member-component v-if="channel !== null && channel.isPrivate && user.id === channel.admin"/>
     <q-btn
       color="grey-7"
       text-color="white"
