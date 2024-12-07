@@ -74,6 +74,17 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
   async joinChannel(state, { channelName, isPrivate }: {channelName:string, isPrivate:boolean}) {
     const joinedChannel = await channelService.join(channelName).joinChannel(isPrivate);
     state.commit('newChannel', joinedChannel);
+  },
+
+  async logout(state) {
+    try {
+      await API.logout();
+      authManager.removeToken();
+      state.commit('setUser', null);
+      // state.commit('setUserStatus', 'online');
+    } catch (error) {
+      console.log(error);
+    }
   }
   // async logout(state) {
   //   state.commit('busy', true);
