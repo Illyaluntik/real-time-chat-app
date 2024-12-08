@@ -34,7 +34,6 @@ const mutation: MutationTree<ChannelsStateInterface> = {
   removeMember(state, { channel, member } : {channel: string, member: Account}) {
     const mIndex = state.members[channel].indexOf(member, 0);
     if (mIndex !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       state.members[channel].splice(mIndex, 1);
     }
   }
