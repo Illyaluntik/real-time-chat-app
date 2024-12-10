@@ -8,7 +8,7 @@
   <members-list :members="members"/>
 
   <div>
-    <add-member-component v-if="channel !== null && channel.isPrivate && user.id === channel.admin"/>
+    <add-member-component v-if="channel !== null && ((channel.isPrivate && user.id === channel.admin) || !(channel.isPrivate))"/>
     <q-btn
       color="grey-7"
       text-color="white"
@@ -42,20 +42,20 @@ export default defineComponent({
     },
     onLeaveChannel() {
       console.log(this.channel);
-      // return this.$store.dispatch('account/leaveChannel', this.activeChannel)
-      //   .then(() => {
-      //     this.$q.notify({
-      //       type: 'positive',
-      //       message: 'Successfully leaved channel'
-      //     });
-      //     // void this.$store.dispatch('getChannels');
-      //   })
-      //   .catch((err) => {
-      //     this.$q.notify({
-      //       type: 'negative',
-      //       message: err.message
-      //     });
-      //   });
+      return this.$store.dispatch('account/leaveChannel', this.activeChannel)
+        .then(() => {
+          this.$q.notify({
+            type: 'positive',
+            message: 'Successfully leaved channel'
+          });
+          // void this.$store.dispatch('getChannels');
+        })
+        .catch((err) => {
+          this.$q.notify({
+            type: 'negative',
+            message: err.message
+          });
+        });
     }
   }
 });

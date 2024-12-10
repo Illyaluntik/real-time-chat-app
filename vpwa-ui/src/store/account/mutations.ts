@@ -30,6 +30,7 @@ const mutation: MutationTree<AccountStateInterface> = {
   },
   busy: (state, value: boolean) => state.state.busy = value,
   newChannel(state, channel: ChannelInterface) {
+    console.log(channel);
     state.channels?.unshift(channel);
   },
   removeChannel(state, channel: ChannelInterface) {

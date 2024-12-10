@@ -7,15 +7,15 @@
       <q-item
         v-for="c in channels"
         :key="c.id"
-        @click="() => selectChannel(c.channel_name)"
+        @click="() => selectChannel(c.channelName)"
         class="justify-between items-center"
-        :class="{'bg-grey-4': activeChannel === c.channel_name}"
+        :class="{'bg-grey-4': activeChannel === c.channelName}"
         clickable
         v-ripple
       >
         <div>
-          <span class="text-subtitle2">{{c.channel_name}}</span>
-          <q-icon v-if="c.is_private" name="lock" class="q-ml-sm" />
+          <span class="text-subtitle2">{{c.channelName}}</span>
+          <q-icon v-if="c.isPrivate" name="lock" class="q-ml-sm" />
         </div>
         <!-- <q-badge rounded color="primary" label="2" /> -->
       </q-item>
