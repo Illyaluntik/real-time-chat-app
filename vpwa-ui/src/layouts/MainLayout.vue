@@ -159,7 +159,7 @@ export default defineComponent({
           console.log('unknown command');
         }
       } else if (this.activeChannel) {
-        await this.addMessage({ channel: 'general', message: this.mainInput });
+        await this.addMessage({ channel: this.activeChannel, message: this.mainInput });
       } else {
         console.log('error');
       }

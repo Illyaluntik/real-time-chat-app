@@ -15,13 +15,13 @@ export default class MessageController {
   //constructor (private messageRepository: MessageRepositoryContract) {}
 
   public async loadMessages ({ params }: WsContextContract) {
-    const channelMessages = await Database.query().from('messages').select('*').where('sent_in', 4)
+    const channelId = await (await Channel.findByOrFail('channel_name', params.name)).id
+    const channelMessages = await Database.query().from('messages').select('*').where('sent_in', channelId)
     return channelMessages
   }
 
   public async addMessage ({ params, socket, auth }: WsContextContract, content: string) {
     const channelId = await (await Channel.findByOrFail('channel_name', params.name)).id
-    // console.log(channelId)
     const msg = await Message.create({
       author: auth.user!.id,
       sentIn: channelId,
