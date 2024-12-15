@@ -43,6 +43,7 @@ import useVuelidate from '@vuelidate/core';
 import {
   required as VRequired, alphaNum as VAlphaNum, minLength as VMinLength, maxLength as VMaxLength
 } from '@vuelidate/validators';
+import { channelService } from 'src/services';
 
 export default defineComponent({
   setup() {
@@ -98,7 +99,9 @@ export default defineComponent({
             type: 'positive',
             message: 'Successfully created channel'
           });
-          void this.disconnect();
+          // void this.disconnect();
+          channelService.leave(this.newChannel.channel_name);
+          void this.$store.dispatch('channels/join', this.newChannel.channel_name);
           this.$store.commit('channels/setActiveChannel', this.newChannel.channel_name);
           this.toggleCreateChannel();
         })

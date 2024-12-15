@@ -32,10 +32,11 @@ export default class MembersController {
         return members
     }
 
-    async addMember({ params, auth }: WsContextContract, newUser: string) {
+    async addMember({ params, socket, auth }: WsContextContract, newUser: string) {
+        console.log(socket)
         const user = await User.findByOrFail('username', newUser)
         const channel = await (await Channel.findByOrFail('channel_name', params.name))
-        if (channel.isPrivate && channel.admin === auth.user?.id) {
+        if (!channel.isPrivate || channel.isPrivate && channel.admin === auth.user?.id) {
             const member = await Member.create({
                 userId: user.id,
                 channelId: channel.id,
