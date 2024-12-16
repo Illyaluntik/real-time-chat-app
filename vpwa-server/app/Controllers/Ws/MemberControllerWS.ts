@@ -7,7 +7,7 @@ import Member from 'App/Models/Member'
 import User from 'App/Models/User'
 
 export default class MembersController {
-    async leaveChannel({ auth }: WsContextContract, name: string) {
+    async leaveChannel ({ auth }: WsContextContract, name: string) {
         const userId = auth.user?.id
         const channelId = await (await Channel.findByOrFail('channel_name', name)).id
 
@@ -22,7 +22,7 @@ export default class MembersController {
         return channel
     }
 
-    async loadMembers({ params }: WsContextContract) {
+    async loadMembers ({ params }: WsContextContract) {
         const id = await (await Channel.findByOrFail('channel_name', params.name)).id
         const members = await Database
             .from('users')
@@ -32,7 +32,7 @@ export default class MembersController {
         return members
     }
 
-    async addMember({ params, auth }: WsContextContract, newUser: string) {
+    async addMember ({ params, auth }: WsContextContract, newUser: string) {
         const user = await User.findByOrFail('username', newUser)
         const channel = await (await Channel.findByOrFail('channel_name', params.name))
         if (channel.isPrivate && channel.admin === auth.user?.id) {

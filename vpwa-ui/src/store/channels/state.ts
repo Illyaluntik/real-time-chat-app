@@ -33,18 +33,12 @@ export interface NewChannelData {
   isPrivate: boolean,
 }
 
-// export interface ChannelsStateInterface {
-//   channel: Array<ChannelInterface> | null;
-//   activeChannel: string | null,
-//   chats: ChatsInterface | null,
-//   newChannelData: NewChannelData
-// }
-
 export interface ChannelsStateInterface {
   channel: ChannelInterface | null;
   activeChannel: string | null;
   messages: {[channel: string]: Message[]};
   members: {[channel: string]: Account[]};
+  membersEnum: {[channel: string]: Record<string, string>};
   loading: boolean;
 }
 
@@ -54,6 +48,7 @@ function state(): ChannelsStateInterface {
     activeChannel: null,
     messages: {},
     members: {},
+    membersEnum: {},
     loading: false
   };
 }

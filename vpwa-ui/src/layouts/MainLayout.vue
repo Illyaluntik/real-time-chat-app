@@ -51,7 +51,6 @@
         square
         bg-color="white"
         placeholder="Enter message or command"
-        autogrow
         color="white"
         class="fixed-bottom full-width shadow-3"
         :class="{'channels-list-open': channelsListOpen, 'channel-info-open': channelInfoOpen}"
@@ -86,6 +85,7 @@ import { defineComponent } from 'vue';
 import ChannelsList from 'src/components/ChannelsList.vue';
 import ChannelInfo from 'src/components/ChannelInfo.vue';
 import { mapActions, mapGetters } from 'vuex';
+import scrollToBottom from 'src/misc/scrollToBottom';
 
 export default defineComponent({
   components: { ChannelsList, ChannelInfo },
@@ -102,12 +102,12 @@ export default defineComponent({
     })
   },
   methods: {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    // eslint-disable-next-line consistent-return
     async onSend() {
-      if (this.mainInput.startsWith('/')) {
-        const cmd = this.mainInput.split(' ');
-        if (this.mainInput.startsWith('/join')) {
+      const message = this.mainInput;
+      this.mainInput = '';
+      if (message.startsWith('/')) {
+        const cmd = message.split(' ');
+        if (message.startsWith('/join')) {
           let isPrivate = false;
           if (cmd.length > 3) {
             console.log('vela znakov');
@@ -118,7 +118,7 @@ export default defineComponent({
           }
           await this.$store.dispatch('account/joinChannel', { channelName: cmd[1], isPrivate });
         }
-        if (this.mainInput.startsWith('/invite')) {
+        if (message.startsWith('/invite')) {
           if (this.activeChannel === null && this.channel === null) {
             console.log('not selected channel');
           } else if (this.channel.isPrivate && this.user.id === this.channel.admin) {
@@ -127,7 +127,7 @@ export default defineComponent({
             console.log('unathorized');
           }
         }
-        if (this.mainInput.startsWith('/revoke')) {
+        if (message.startsWith('/revoke')) {
           if (this.activeChannel !== null && this.channel !== null) {
             if (this.channel.admin === this.user.id) {
               await this.$store.dispatch('channels/revoke', { channel: this.activeChannel, kickUser: cmd[1] });
@@ -136,34 +136,34 @@ export default defineComponent({
             }
           }
         }
-        if (this.mainInput.startsWith('/kick')) {
+        if (message.startsWith('/kick')) {
           if (this.activeChannel !== null) {
             await this.$store.dispatch('channels/handleRemoval', { channel: this.activeChannel, kickUser: cmd[1] });
           }
         }
-        if (this.mainInput.startsWith('/quit')) {
+        if (message.startsWith('/quit')) {
           if (this.activeChannel !== null) {
             await this.$store.dispatch('account/leaveChanne', this.activeChannel);
           }
         }
-        if (this.mainInput.startsWith('/cancel')) {
+        if (message.startsWith('/cancel')) {
           if (this.activeChannel !== null) {
             await this.$store.dispatch('account/leaveChanne', this.activeChannel);
           }
         }
-        if (this.mainInput.startsWith('/list')) {
+        if (message.startsWith('/list')) {
           if (this.activeChannel !== null) {
             this.channelInfoOpen = true;
           }
         } else {
           console.log('unknown command');
         }
-      } else if (this.activeChannel && this.mainInput.length > 0) {
-        await this.addMessage({ channel: this.activeChannel, message: this.mainInput });
+      } else if (this.activeChannel && message.length > 0 && !message.startsWith('\n')) {
+        await this.addMessage({ channel: this.activeChannel, message });
+        scrollToBottom();
       } else {
         console.error('Error while sending message');
       }
-      this.mainInput = '';
     },
     toggleChannelsList() {
       this.channelsListOpen = !this.channelsListOpen;
