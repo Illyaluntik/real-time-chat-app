@@ -6,9 +6,12 @@
   >
     <template v-slot:label>
       <div class="flex items-center" style="text-transform: none">
-        <q-avatar size="50px" class="relative-position q-mr-sm">
-          <img src="https://cdn.quasar.dev/img/avatar1.jpg">
-          <!-- <q-badge :color="userStatusEnum[userStatus].color" rounded class="absolute-bottom-right" /> -->
+        <q-avatar
+          size="40px"
+          class="q-mx-sm"
+          :style="{backgroundColor: getUserColor()}"
+        >
+          {{user?.username?.charAt(0).toUpperCase()}}
         </q-avatar>
         <span>{{user?.username}}</span>
       </div>
@@ -55,6 +58,7 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import userStatusEnum from 'src/constants/userStatus.enum';
+import generateUserColor from 'src/misc/generateUserColor';
 
 export default defineComponent({
   computed: {
@@ -66,6 +70,10 @@ export default defineComponent({
     }
   },
   methods: {
+    getUserColor() {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      return generateUserColor(this.user.id || 'username-id-color');
+    },
     onLogout() {
       this.$store.dispatch('account/logout')
         .then(() => this.$router.push({ name: 'login' }))

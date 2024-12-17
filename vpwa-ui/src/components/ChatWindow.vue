@@ -25,9 +25,9 @@
           size="40px"
           class="q-mx-sm"
           :style="{backgroundColor: generateUserColor(m.author)}"
-      >
-        {{members[m.author].charAt(0).toUpperCase()}}
-      </q-avatar>
+        >
+          {{members[m.author].charAt(0).toUpperCase()}}
+        </q-avatar>
       </template>
     </q-chat-message>
   </template>
