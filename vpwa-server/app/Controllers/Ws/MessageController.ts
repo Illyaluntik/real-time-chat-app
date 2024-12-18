@@ -24,7 +24,7 @@ export default class MessageController {
     const channelId = await (await Channel.findByOrFail('channel_name', params.name)).id
     const msg = await Message.create({
       author: auth.user!.id,
-      sentIn: channelId,
+      sent_in: channelId,
       body: content,
     })
 

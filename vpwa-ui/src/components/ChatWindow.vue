@@ -14,22 +14,12 @@
       <span class="q-mx-md">{{new Date(m.timestamp).toLocaleString()}}</span>
       <div style="height: 1px;" class="bg-grey-4 col-grow" />
     </div>
-    <q-chat-message
-      :name="members[m.author]"
-      :text="[m.body]"
-      :stamp="dateFormatter(m.sent_at)"
-      :sent="m.author === user.id"
-    >
-      <template v-slot:avatar>
-        <q-avatar
-          size="40px"
-          class="q-mx-sm"
-          :style="{backgroundColor: generateUserColor(m.author)}"
-        >
-          {{members[m.author].charAt(0).toUpperCase()}}
-        </q-avatar>
-      </template>
-    </q-chat-message>
+      <Message
+        :sentBy="members[m.author]"
+        :text="m.body"
+        :stamp="m.sent_at || m.sentAt"
+        :sent="m.author === user.id"
+      />
   </template>
 </q-infinite-scroll>
 <q-page-scroller reverse position="bottom" :scroll-offset="200" :offset="[0, 80]">
@@ -39,12 +29,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import dateFormatter from 'src/misc/dateFormatter';
+import Message from 'src/components/Message.vue';
 import { mapGetters } from 'vuex';
 import scrollToBottom from 'src/misc/scrollToBottom';
 import generateUserColor from 'src/misc/generateUserColor';
 
 export default defineComponent({
+  components: {
+    Message
+  },
   data() {
     return {
       loading: false
@@ -53,10 +46,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       user: 'account/user', messages: 'channels/chat', activeChannel: 'channels/activeChannel', members: 'channels/membersEnum'
-    }),
-    dateFormatter() {
-      return dateFormatter;
-    }
+    })
   },
   watch: {
     messages() {

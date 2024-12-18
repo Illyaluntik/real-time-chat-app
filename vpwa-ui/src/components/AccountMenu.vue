@@ -72,7 +72,7 @@ export default defineComponent({
   methods: {
     getUserColor() {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      return generateUserColor(this.user.id || 'username-id-color');
+      return generateUserColor(this.user.username || 'username-id-color');
     },
     onLogout() {
       this.$store.dispatch('account/logout')

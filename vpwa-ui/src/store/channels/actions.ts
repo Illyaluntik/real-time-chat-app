@@ -46,7 +46,6 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   // },
   async addMessage(state, { channel, message }: { channel: string, message: string }) {
     const newMessage = await channelService.in(channel)?.addMessage(message);
-    console.log('newMessage', { channel, message: newMessage });
     state.commit('newMessage', { channel, message: newMessage });
   },
   async addMember(state, { channel, username }: {channel: string, username: string}) {

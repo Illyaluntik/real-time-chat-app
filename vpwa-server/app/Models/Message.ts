@@ -11,13 +11,13 @@ export default class Message extends BaseModel {
   public author: string
 
   @column()
-  public sentIn: number
+  public sent_in: number
 
   @column()
   public body: string
 
   @column.dateTime({ autoCreate: true })
-  public sentAt: DateTime
+  public sent_at: DateTime
 
   @belongsTo(() => User, {
     foreignKey: 'author',
@@ -25,7 +25,7 @@ export default class Message extends BaseModel {
   public user: BelongsTo<typeof User>
 
   @belongsTo(() => Channel, {
-    foreignKey: 'sentIn',
+    foreignKey: 'sent_in',
   })
   public channel: BelongsTo<typeof Channel>
 }

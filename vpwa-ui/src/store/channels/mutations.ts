@@ -12,7 +12,10 @@ const mutation: MutationTree<ChannelsStateInterface> = {
   },
 
   newMessage(state, { channel, message } : { channel : string, message: Message }) {
-    state.messages[channel].push(message);
+    console.log(message);
+    const messages = state.messages[channel].slice();
+    messages.push(message);
+    state.messages[channel] = messages;
   },
 
   setMessages(state, { channel, messages } : { channel : string, messages: Message[] }) {
@@ -28,7 +31,6 @@ const mutation: MutationTree<ChannelsStateInterface> = {
     if (!state.membersEnum[channel])
       state.membersEnum[channel] = {};
     members.forEach((m) => {
-      console.log(m);
       state.membersEnum[channel][m.id] = m.username;
     });
   },
