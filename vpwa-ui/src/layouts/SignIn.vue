@@ -15,7 +15,7 @@
       outlined
       v-model="password"
       label="Password"
-      :type="showPassword ? 'password' : 'text'"
+      :type="showPassword ? 'text' : 'password'"
       bg-color="white"
       class="q-mb-xl"
       @blur="v$.password.$touch"
@@ -24,7 +24,7 @@
     >
       <template v-slot:append>
         <q-icon
-          :name="showPassword ? 'visibility_off' : 'visibility'"
+          :name="showPassword ? 'visibility' : 'visibility_off'"
           class="cursor-pointer"
           @click="showPassword = !showPassword"
         />
