@@ -8,6 +8,7 @@
           <!-- <b :class="`text-${[userStatusEnum[m.status].color]}`">{{userStatusEnum[m.status].name}}</b> -->
         </q-tooltip>
         <!-- <q-badge :color="userStatusEnum[user?.id === m.id ? userStatus : m.status].color" rounded class="q-mr-sm" /> -->
+        <q-badge :color="userStatusEnum[user?.id === m.id ? userStatus : statuses[m.username]].color" rounded class="q-mr-sm" />
         {{user?.id === m.id ? 'You' : m.username}} &nbsp; <b>{{channel?.admin === m.id ? '(Admin)' : ''}}</b>
       </div>
       <q-space />
@@ -43,7 +44,7 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      user: 'account/user', userStatus: 'userStatus', activeChannel: 'channels/activeChannel', channel: 'channels/channel'
+      user: 'account/user', userStatus: 'account/userStatus', activeChannel: 'channels/activeChannel', channel: 'channels/channel', statuses: 'channels/membersStatus'
     }),
     userStatusEnum() {
       return userStatusEnum;

@@ -38,6 +38,7 @@ export interface ChannelsStateInterface {
   activeChannel: string | null;
   messages: {[channel: string]: Message[]};
   members: {[channel: string]: Account[]};
+  membersStatus: Record<string, 'online' | 'offline' | 'dnd'>;
   membersEnum: {[channel: string]: Record<string, string>};
   loading: boolean;
 }
@@ -49,6 +50,7 @@ function state(): ChannelsStateInterface {
     messages: {},
     members: {},
     membersEnum: {},
+    membersStatus: {},
     loading: false
   };
 }

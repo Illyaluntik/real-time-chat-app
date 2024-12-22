@@ -16,6 +16,7 @@ Ws.namespace('/')
     console.log('websocket greeted: ', socket.id, msg)
     return 'hi'
   })
+  .on('changeStatus', 'ActivityController.onChangeStatus')
 
 // this is dynamic namespace, in controller methods we can use params.name
 Ws.namespace('channels/:name')

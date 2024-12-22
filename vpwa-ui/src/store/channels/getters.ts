@@ -14,8 +14,10 @@ const getters: GetterTree<ChannelsStateInterface, StateInterface> = {
   },
   membersEnum(state) {
     return state.activeChannel ? state.membersEnum[state.activeChannel] : null;
+  },
+  membersStatus(state) {
+    return state.membersStatus;
   }
-
 };
 
 export default getters;

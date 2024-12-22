@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex';
-import { Account } from '../account/state';
+import { Account, AccountStatus } from '../account/state';
 import { ChannelInterface, ChannelsStateInterface, Message } from './state';
 
 const mutation: MutationTree<ChannelsStateInterface> = {
@@ -33,6 +33,14 @@ const mutation: MutationTree<ChannelsStateInterface> = {
     members.forEach((m) => {
       state.membersEnum[channel][m.id] = m.username;
     });
+  },
+
+  setMemberStatus(state, { username, status } : { username: string, status: AccountStatus }) {
+    state.membersStatus[username] = status;
+  },
+
+  clearMemberStatuses(state) {
+    state.membersStatus = {};
   },
 
   addMember(state, { channel, newMember } : { channel: string, newMember: Account }) {
