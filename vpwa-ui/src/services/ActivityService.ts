@@ -15,18 +15,6 @@ class ActivitySocketManager extends SocketManager {
       store.commit('channels/setMemberStatus', { username: user.username, status });
     });
 
-    // this.socket.on('user:online', (user: Account) => {
-    //   store.commit('channels/setMemberStatus', { username: user.username, status: 'online' });
-    // });
-
-    // this.socket.on('user:offline', (user: Account) => {
-    //   store.commit('channels/setMemberStatus', { username: user.username, status: 'offline' });
-    // });
-
-    // this.socket.on('user:dnd', (user: Account) => {
-    //   store.commit('channels/setMemberStatus', { username: user.username, status: 'dnd' });
-    // });
-
     this.socket.on('channels', (channels: ChannelInterface[]) => {
       console.log(channels);
       store.commit('account/setChannels', channels);
