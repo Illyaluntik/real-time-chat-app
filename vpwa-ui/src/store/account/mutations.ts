@@ -33,7 +33,9 @@ const mutation: MutationTree<AccountStateInterface> = {
     state.channels?.unshift(channel);
   },
   removeChannel(state, channel: ChannelInterface) {
-    const cIndex = state.channels?.indexOf(channel, 0);
+    const cIndex = state.channels?.findIndex((element) => element.id === channel.id);
+    console.log(cIndex);
+    // const cIndex = state.channels?.indexOf(channel, 0);
     if (cIndex !== undefined) {
       state.channels?.splice(cIndex, 1);
     }
