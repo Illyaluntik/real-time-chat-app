@@ -28,7 +28,7 @@ export default class Channel extends BaseModel {
   public user: BelongsTo<typeof User>
 
   @hasMany(() => Message, {
-    foreignKey: 'sentIn',
+    foreignKey: 'sent_in',
   })
   public messages: HasMany<typeof Message>
 

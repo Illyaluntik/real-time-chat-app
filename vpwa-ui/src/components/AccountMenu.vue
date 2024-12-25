@@ -6,9 +6,13 @@
   >
     <template v-slot:label>
       <div class="flex items-center" style="text-transform: none">
-        <q-avatar size="50px" class="relative-position q-mr-sm">
-          <img src="https://cdn.quasar.dev/img/avatar1.jpg">
-          <!-- <q-badge :color="userStatusEnum[userStatus].color" rounded class="absolute-bottom-right" /> -->
+        <q-avatar
+          size="40px"
+          class="relative-position q-mx-sm"
+          :style="{backgroundColor: getUserColor()}"
+        >
+          {{user?.username?.charAt(0).toUpperCase()}}
+          <q-badge :color="userStatusEnum[userStatus].color" rounded class="absolute-bottom-right" />
         </q-avatar>
         <span>{{user?.username}}</span>
       </div>
@@ -55,24 +59,30 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import userStatusEnum from 'src/constants/userStatus.enum';
+import generateUserColor from 'src/misc/generateUserColor';
+import { AccountStatus } from 'src/store/account/state';
 
 export default defineComponent({
   computed: {
     ...mapGetters({
-      user: 'account/user', userStatus: 'userStatus', busy: 'account/busy'
+      user: 'account/user', userStatus: 'account/userStatus', busy: 'account/busy'
     }),
     userStatusEnum() {
       return userStatusEnum;
     }
   },
   methods: {
+    getUserColor() {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      return generateUserColor(this.user.username || 'username-id-color');
+    },
     onLogout() {
       this.$store.dispatch('account/logout')
         .then(() => this.$router.push({ name: 'login' }))
         .catch((err) => console.error(err));
     },
-    setUserStatus(status: string) {
-      this.$store.commit('account/setUserStatus', status);
+    setUserStatus(status: AccountStatus) {
+      void this.$store.dispatch('account/changeStatus', status);
     }
   }
 });

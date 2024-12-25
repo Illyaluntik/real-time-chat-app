@@ -22,8 +22,9 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
       const messages = await channelService.join(channel).loadMessages();
       const members = await channelService.in(channel)?.loadMembers();
       const channelDetail = await channelService.in(channel)?.getChannel();
-      state.commit('loadMessages', { channel, messages });
-      state.commit('loadMembers', { channel, members });
+      state.commit('setMemberEnum', { channel, members });
+      state.commit('setMembers', { channel, members });
+      state.commit('setMessages', { channel, messages });
       state.commit('setChannel', channelDetail);
     } catch (err) {
       throw err;
@@ -45,7 +46,6 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   // },
   async addMessage(state, { channel, message }: { channel: string, message: string }) {
     const newMessage = await channelService.in(channel)?.addMessage(message);
-    console.log('newMessage', { channel, message: newMessage });
     state.commit('newMessage', { channel, message: newMessage });
   },
   async addMember(state, { channel, username }: {channel: string, username: string}) {

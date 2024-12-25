@@ -88,11 +88,6 @@ export default defineComponent({
           message: e.$message as string
         }));
 
-      this.$q.notify({
-        type: 'positive',
-        message: 'Successfully created channel'
-      });
-
       return this.$store.dispatch('account/createChannel', { channelName: this.newChannel.channel_name, isPrivate: this.newChannel.is_private, adminId: this.user?.id })
         .then(() => {
           this.$q.notify({

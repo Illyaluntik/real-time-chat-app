@@ -2,8 +2,9 @@ function isPlural(interval: number, format: string): string {
   return Math.floor(interval) > 1 ? format + 's' : format;
 }
 
-function dateFormatter(date: number) {
-  const ms: number = Date.now() - date;
+function dateFormatter(date: string, now: number) {
+  const msgDate = new Date(date).valueOf();
+  const ms: number = now - msgDate;
 
   let interval = ms / 31536000000;
 

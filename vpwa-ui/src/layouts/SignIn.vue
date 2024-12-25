@@ -15,13 +15,21 @@
       outlined
       v-model="password"
       label="Password"
-      type="password"
+      :type="showPassword ? 'text' : 'password'"
       bg-color="white"
       class="q-mb-xl"
       @blur="v$.password.$touch"
       :error="v$.password.$dirty && v$.password.$invalid"
       :error-message="v$.password.$errors[0]?.$message"
-    />
+    >
+      <template v-slot:append>
+        <q-icon
+          :name="showPassword ? 'visibility' : 'visibility_off'"
+          class="cursor-pointer"
+          @click="showPassword = !showPassword"
+        />
+      </template>
+    </q-input>
     <q-btn
       color="white"
       text-color="black"
@@ -67,6 +75,11 @@ export default defineComponent({
   setup() {
     return {
       v$: useVuelidate()
+    };
+  },
+  data() {
+    return {
+      showPassword: false
     };
   },
   computed: {

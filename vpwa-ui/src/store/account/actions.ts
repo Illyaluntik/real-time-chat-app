@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { ActionTree } from 'vuex';
-import { authManager, channelService } from 'src/services';
+import { authManager, channelService, activityService } from 'src/services';
 import { StateInterface } from '../index';
-import { AccountLoginData, AccountRegisterData, AccountStateInterface } from './state';
+import {
+  AccountLoginData, AccountRegisterData, AccountStateInterface, AccountStatus
+} from './state';
 import API from './api';
 import { NewChannelInterface } from '../channels/state';
 
@@ -44,6 +46,10 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
       state.commit('busy', false);
       throw error;
     }
+  },
+  changeStatus(state, status: AccountStatus) {
+    state.commit('setUserStatus', status);
+    activityService.changeStatus(status);
   },
 
   // eslint-disable-next-line @typescript-eslint/require-await

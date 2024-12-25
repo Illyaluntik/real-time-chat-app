@@ -21,7 +21,7 @@ export default class ChannelsController {
     return channel
   }
 
-  async joinChannel({params, auth}: WsContextContract, isPrivate: boolean) {
+  async joinChannel ({params, auth}: WsContextContract, isPrivate: boolean) {
     let channel = await Channel.findBy('channel_name', params.name)
     if (channel === null) {
       // does not exist
@@ -40,7 +40,7 @@ export default class ChannelsController {
     return channel
   }
 
-  async getChannel({params}: WsContextContract) {
+  async getChannel ({params}: WsContextContract) {
     return await Channel.findBy('channel_name', params.name)
   }
 }

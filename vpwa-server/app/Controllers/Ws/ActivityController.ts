@@ -3,18 +3,18 @@ import Channel from 'App/Models/Channel'
 import User from 'App/Models/User'
 
 export default class ActivityController {
-  private getUserRoom(user: User): string {
+  private getUserRoom (user: User): string {
     return `user:${user.id}`
   }
 
-  public async onConnected({ socket, auth, logger }: WsContextContract) {
+  public async onConnected ({ socket, auth, logger }: WsContextContract) {
     // all connections for the same authenticated user will be in the room
     const room = this.getUserRoom(auth.user!)
     const userSockets = await socket.in(room).allSockets()
 
     // this is first connection for given user
     if (userSockets.size === 0) {
-      socket.broadcast.emit('user:online', auth.user)
+      socket.broadcast.emit('user:status', auth.user, 'online')
     }
 
     // add this socket to user room
@@ -42,16 +42,20 @@ export default class ActivityController {
   }
 
   // see https://socket.io/get-started/private-messaging-part-2/#disconnection-handler
-  public async onDisconnected({ socket, auth, logger }: WsContextContract, reason: string) {
+  public async onDisconnected ({ socket, auth, logger }: WsContextContract, reason: string) {
     const room = this.getUserRoom(auth.user!)
     const userSockets = await socket.in(room).allSockets()
 
     // user is disconnected
     if (userSockets.size === 0) {
       // notify other users
-      socket.broadcast.emit('user:offline', auth.user)
+      socket.broadcast.emit('user:status', auth.user, 'offline')
     }
 
     logger.info('websocket disconnected', reason)
+  }
+
+  public async onChangeStatus ({ socket, auth }: WsContextContract, status: string) {
+    socket.broadcast.emit('user:status', auth.user, status)
   }
 }

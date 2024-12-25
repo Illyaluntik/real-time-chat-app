@@ -38,10 +38,12 @@ export interface StoreStateInterfase {
   busy: boolean
 }
 
+export type AccountStatus = 'online' | 'offline' | 'dnd'
+
 export interface AccountStateInterface {
   account: Account | null,
   channels: Array<ChannelInterface> | null,
-  status: 'online' | 'offline' | 'dnd',
+  status: AccountStatus,
   loginData: AccountLoginData,
   registerData: AccountRegisterData,
   state: StoreStateInterfase
