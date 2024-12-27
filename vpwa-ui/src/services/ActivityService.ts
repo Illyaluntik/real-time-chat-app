@@ -20,6 +20,8 @@ class ActivitySocketManager extends SocketManager {
       store.commit('account/setChannels', channels);
     });
 
+    // add event for new message in other channel
+
     authManager.onChange((token) => {
       if (token) {
         this.socket.connect();

@@ -3,8 +3,9 @@ import { Account } from '../account/state';
 
 export interface ChannelInterface {
   id: number,
-  adminId: string,
-  name: string,
+  admin: string,
+  total: number,
+  channelName: string,
   isPrivate: boolean
 }
 

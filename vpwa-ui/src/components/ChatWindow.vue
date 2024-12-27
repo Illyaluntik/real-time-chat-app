@@ -7,6 +7,7 @@
   </template> -->
 
   <!-- <h5 v-if="?.total === 0" class="text-center">Send First Message!</h5> -->
+  <!-- <h5 class="text-center">{{channel?.total + ''}}</h5> -->
 
   <template v-for="m in messages" :key="m.id">
     <div v-if="Date.now() - m.timestamp > 86400000" class="flex no-wrap justify-between items-center text-center">
@@ -45,7 +46,7 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      user: 'account/user', messages: 'channels/chat', activeChannel: 'channels/activeChannel', members: 'channels/membersEnum'
+      user: 'account/user', messages: 'channels/chat', activeChannel: 'channels/activeChannel', members: 'channels/membersEnum', channel: 'channels/channel'
     })
   },
   watch: {

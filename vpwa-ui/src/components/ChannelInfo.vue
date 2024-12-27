@@ -1,7 +1,7 @@
 <template>
 <div class="flex column no-wrap justify-between full-height">
   <div class="flex justify-center items-center shadow-2 q-py-md">
-    <span class="text-h6">{{activeChannel}}</span>
+    <span class="text-h6">{{channel?.channelName}}</span>
     <q-icon v-if="channel?.isPrivate" name="lock" class="q-ml-sm" />
   </div>
 

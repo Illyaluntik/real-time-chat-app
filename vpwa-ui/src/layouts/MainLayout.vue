@@ -10,11 +10,11 @@
           aria-label="Menu"
           @click="toggleChannelsList"
         />
-        <div v-if="activeChannel">
-          {{activeChannel}}
+        <div v-if="channel">
+          {{channel.channelName}}
         </div>
         <q-btn
-          v-show="activeChannel"
+          v-show="channel"
           flat
           dense
           round

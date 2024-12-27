@@ -21,12 +21,17 @@ export default class MessageController {
   }
 
   public async addMessage ({ params, socket, auth }: WsContextContract, content: string) {
-    const channelId = await (await Channel.findByOrFail('channel_name', params.name)).id
+    const channel = await (await Channel.findByOrFail('channel_name', params.name))
     const msg = await Message.create({
       author: auth.user!.id,
-      sent_in: channelId,
+      sent_in: channel.id,
       body: content,
     })
+
+    await Channel
+      .query()
+      .where('channel_name', params.name)
+      .update({ total: channel.total + 1 })
 
     // broadcast message to other users in channel
     socket.broadcast.emit('message', msg)

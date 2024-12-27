@@ -11,13 +11,16 @@ export default class Channel extends BaseModel {
   public id: number
 
   @column()
-  public channelName:string
+  public channelName: string
 
   @column()
   public isPrivate: boolean
 
   @column()
   public admin: string
+
+  @column()
+  public total: number
 
   @column.dateTime()
   public lastActive: DateTime
