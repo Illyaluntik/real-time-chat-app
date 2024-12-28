@@ -16,7 +16,6 @@ class ActivitySocketManager extends SocketManager {
     });
 
     this.socket.on('channels', (channels: ChannelInterface[]) => {
-      console.log(channels);
       store.commit('account/setChannels', channels);
     });
 

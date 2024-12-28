@@ -1,9 +1,6 @@
-import Database from '@ioc:Adonis/Lucid/Database'
 import type { WsContextContract } from '@ioc:Ruby184/Socket.IO/WsContext'
 import Channel from 'App/Models/Channel'
-import Member from 'App/Models/Member'
 import User from 'App/Models/User'
-import Members from 'Database/migrations/1649078424179_members'
 
 export default class ActivityController {
   private getUserRoom (user: User): string {
