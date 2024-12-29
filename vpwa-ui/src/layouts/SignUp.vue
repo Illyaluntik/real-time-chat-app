@@ -172,13 +172,22 @@ export default defineComponent({
 
       return this.$store.dispatch('account/register')
         .then(() => {
-          this.$q.notify({
-            type: 'positive',
-            message: 'Successfully created account'
-          });
-          // this.$store.dispatch('getAccount')
-          //   .then(() => this.$router.push({ name: 'home' }).then(() => this.$store.commit('resetRegisterForm')))
-          //   .catch((err) => console.log(err));
+          this.$store.commit('account/updateLoginData', { field: 'username', value: this.username });
+          this.$store.commit('account/updateLoginData', { field: 'password', value: this.password });
+          this.$store.dispatch('account/login')
+            .then(() => {
+              this.$q.notify({
+                type: 'positive',
+                message: 'Successfully created account 2'
+              });
+              this.$router.push({ name: 'channels' }).catch((err) => console.log(err));
+            })
+            .catch((err) => {
+              this.$q.notify({
+                type: 'negative',
+                message: err.message
+              });
+            });
         })
         .catch((err) => {
           this.$q.notify({
