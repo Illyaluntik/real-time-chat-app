@@ -6,8 +6,7 @@
     </div>
   </template> -->
 
-  <!-- <h5 v-if="?.total === 0" class="text-center">Send First Message!</h5> -->
-  <!-- <h5 class="text-center">{{channel?.total + ''}}</h5> -->
+  <h5 v-if="channel?.total === 0 && messages?.length === 0" class="text-center">Send First Message!</h5>
 
   <template v-for="m in messages" :key="m.id">
     <div v-if="Date.now() - m.timestamp > 86400000" class="flex no-wrap justify-between items-center text-center">
