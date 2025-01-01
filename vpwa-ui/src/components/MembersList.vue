@@ -4,10 +4,13 @@
     <q-item v-for="m in members" :key="m.id">
       <div class="flex items-center">
         <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-          This user has currently status
-          <!-- <b :class="`text-${[userStatusEnum[m.status].color]}`">{{userStatusEnum[m.status].name}}</b> -->
+          {{user?.id === m.id ? 'Your status is' : 'This user has currently status'}}
+          <b
+            :class="`text-${userStatusEnum[user?.id === m.id ? userStatus : statuses[m.username]].color}`"
+          >
+            {{userStatusEnum[user?.id === m.id ? userStatus : statuses[m.username]].name}}
+          </b>
         </q-tooltip>
-        <!-- <q-badge :color="userStatusEnum[user?.id === m.id ? userStatus : m.status].color" rounded class="q-mr-sm" /> -->
         <q-badge :color="userStatusEnum[user?.id === m.id ? userStatus : statuses[m.username]].color" rounded class="q-mr-sm" />
         {{user?.id === m.id ? 'You' : m.username}} &nbsp; <b>{{channel?.admin === m.id ? '(Admin)' : ''}}</b>
       </div>
