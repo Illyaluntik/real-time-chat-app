@@ -49,8 +49,7 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
     state.commit('newMessage', { channel, message: newMessage });
   },
   async addMember(state, { channel, username }: {channel: string, username: string}) {
-    const newMember = channelService.in(channel)?.addMember(username);
-    // pridat do memberov
+    const newMember = await channelService.in(channel)?.addMember(username);
     state.commit('addMember', { channel, newMember });
     // pridat do newUser channels
     // state.commit('account/newChannel', channel);

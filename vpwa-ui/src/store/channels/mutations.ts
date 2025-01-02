@@ -45,7 +45,6 @@ const mutation: MutationTree<ChannelsStateInterface> = {
 
   addMember(state, { channel, newMember } : { channel: string, newMember: Account }) {
     state.members[channel].push(newMember);
-    console.log(state.members[channel]);
   },
 
   removeMember(state, { channel, member } : { channel: string, member: Account }) {

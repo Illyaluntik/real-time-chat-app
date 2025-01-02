@@ -44,10 +44,8 @@ export default defineComponent({
     ...mapGetters({ activeChannel: 'channels/activeChannel' })
   },
   methods: {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async addMember() {
+    addMember() {
       this.addMemberOpen = !this.addMemberOpen;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       return this.$store.dispatch('channels/addMember', { channel: this.activeChannel, username: this.newUser });
     },
     toggleAddMember() {
