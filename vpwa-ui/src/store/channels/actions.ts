@@ -36,6 +36,13 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
       state.commit('setActiveChannel', null);
     }
   },
+
+  leave(state) {
+    const channel = state.state.activeChannel;
+    state.commit('removeChannel', channel);
+    state.commit('removeMembers', channel);
+    state.commit('removeMembersEnum', channel);
+  },
   // async leave({ getters, commit }, channel: string | null) {
   //   const leaving: string[] = channel !== null ? [channel] : getters.joinedChannels;
 
@@ -50,9 +57,9 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
   },
   async addMember(state, { channel, username }: {channel: string, username: string}) {
     const newMember = await channelService.in(channel)?.addMember(username);
-    state.commit('addMember', { channel, newMember });
-    // pridat do newUser channels
-    // state.commit('account/newChannel', channel);
+    console.log(newMember);
+    if (newMember)
+      state.commit('addMember', { channel, newMember });
   },
   async handleRemoval(state, { channel, kickUser }: {channel: string, kickUser: string}) {
     const remUser = await channelService.in(channel)?.handleKick(kickUser);

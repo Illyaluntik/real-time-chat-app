@@ -46,9 +46,10 @@ export default defineComponent({
         .then(() => {
           this.$q.notify({
             type: 'positive',
-            message: 'Successfully leaved channel'
+            message: 'Successfully leaved from channel'
           });
-          // void this.$store.dispatch('getChannels');
+          void this.$store.dispatch('channels/leave');
+          void this.$router.push({ name: 'channels' });
         })
         .catch((err) => {
           this.$q.notify({

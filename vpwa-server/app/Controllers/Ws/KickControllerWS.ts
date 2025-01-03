@@ -8,18 +8,18 @@ import Member from 'App/Models/Member'
 import User from 'App/Models/User'
 
 export default class KicksController{
-    private async removeUser(channelId: number, user: string) {
+    private async removeUser (channelId: number, user: string) {
         await Member.query().where('user_id', user).where('channel_id', channelId).first()
     }
 
-    private async banUser(channelId: number, user: string) {
+    private async banUser (channelId: number, user: string) {
         await Ban.create({
             bannedUser: user,
             bannedIn:channelId,
         })
     }
 
-    async kick({params, auth}: WsContextContract, kickedUser : string) {
+    async kick ({params, auth}: WsContextContract, kickedUser : string) {
         const channel = await Channel.findByOrFail('channel_name', params.name)
         const channelAdmin = channel.admin
 
@@ -43,7 +43,7 @@ export default class KicksController{
         return await User.find(kickedUser)
     }
 
-    async revoke({ params, auth }: WsContextContract, revokedUser : string) {
+    async revoke ({ params, auth }: WsContextContract, revokedUser : string) {
         const channel = await Channel.findByOrFail('channel_name', params.name)
         if (channel.admin === auth.user?.id) {
             this.removeUser(channel.id, revokedUser)

@@ -17,13 +17,13 @@
         dense
         v-model="newUser"
         autofocus
-        @keyup.enter="onAddChannel"
+        @keyup.enter="onAddMember"
       />
     </q-card-section>
 
     <q-card-actions align="right" class="text-primary">
       <q-btn flat label="Cancel" @click="toggleAddMember" />
-      <q-btn flat label="Add" @click="addMember" />
+      <q-btn flat label="Add" @click="onAddMember" />
     </q-card-actions>
   </q-card>
 </q-dialog>
@@ -44,7 +44,7 @@ export default defineComponent({
     ...mapGetters({ activeChannel: 'channels/activeChannel' })
   },
   methods: {
-    addMember() {
+    onAddMember() {
       this.addMemberOpen = !this.addMemberOpen;
       return this.$store.dispatch('channels/addMember', { channel: this.activeChannel, username: this.newUser });
     },
