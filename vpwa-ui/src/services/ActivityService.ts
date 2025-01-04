@@ -19,6 +19,10 @@ class ActivitySocketManager extends SocketManager {
       store.commit('account/setChannels', channels);
     });
 
+    this.socket.on('invited', (newChannel: ChannelInterface) => {
+      store.commit('account/newChannel', newChannel);
+    });
+
     // add event for new message in other channel
 
     authManager.onChange((token) => {
@@ -32,6 +36,10 @@ class ActivitySocketManager extends SocketManager {
 
   changeStatus(status: AccountStatus) {
     this.socket.emit('changeStatus', status);
+  }
+
+  public invite(channel: string, user: string) {
+    this.socket.emit('invite', channel, user);
   }
 }
 

@@ -6,6 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ActionTree } from 'vuex';
 import channelService from 'src/services/ChannelService';
+import { activityService } from 'src/services';
 import { StateInterface } from '../index';
 import { ChannelsStateInterface } from './state';
 import API from './api';
@@ -60,6 +61,7 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
     console.log(newMember);
     if (newMember)
       state.commit('addMember', { channel, newMember });
+    activityService.invite(channel, username);
   },
   async handleRemoval(state, { channel, kickUser }: {channel: string, kickUser: string}) {
     const remUser = await channelService.in(channel)?.handleKick(kickUser);
