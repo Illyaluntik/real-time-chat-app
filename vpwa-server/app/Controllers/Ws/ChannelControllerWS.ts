@@ -17,6 +17,7 @@ export default class ChannelsController {
     const member = await Member.create({
       userId: channelInfo.adminId,
       channelId: channel.id,
+      accepted: true,
     })
     return channel
   }
@@ -35,6 +36,7 @@ export default class ChannelsController {
     const member = await Member.create({
       userId: auth.user?.id,
       channelId: channel?.id,
+      accepted: true,
     })
 
     return channel

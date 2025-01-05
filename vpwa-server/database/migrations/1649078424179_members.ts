@@ -8,10 +8,8 @@ export default class Members extends BaseSchema {
       table.increments('id').primary()
       table.string('user_id').references('id').inTable('users').onDelete('CASCADE')
       table.integer('channel_id').references('id').inTable('channels').onDelete('CASCADE')
-      table.boolean('revoked').defaultTo('False')
       table.integer('unread_messages').defaultTo(0)
-      table.timestamp('invited_at', { useTz: true })
-      table.timestamp('joined_at', { useTz: true })
+      table.boolean('accepted').defaultTo(false)
     })
   }
 

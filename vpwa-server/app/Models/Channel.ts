@@ -22,9 +22,6 @@ export default class Channel extends BaseModel {
   @column()
   public total: number
 
-  @column.dateTime()
-  public lastActive: DateTime
-
   @belongsTo(() => User, {
     foreignKey: 'admin',
   })

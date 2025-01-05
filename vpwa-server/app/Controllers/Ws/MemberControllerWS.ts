@@ -47,6 +47,7 @@ export default class MembersController {
             await Member.create({
                 userId: user?.id,
                 channelId: channel?.id,
+                accepted: false,
             })
         }
         return user
