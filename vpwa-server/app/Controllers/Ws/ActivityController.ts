@@ -65,4 +65,11 @@ export default class ActivityController {
     const userRoom = this.getUserRoom(user!)
     socket.to(userRoom).emit('invited', channel)
   }
+
+  public async addMember({auth, socket}: WsContextContract, channelName: string) {
+    const user = await User.find(auth.user?.id)
+    console.log(user)
+    socket.broadcast.emit('newMember', channelName, user)
+    return user
+  }
 }

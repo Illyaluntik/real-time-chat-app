@@ -32,7 +32,7 @@ export default class MembersController {
         return members
     }
 
-    async addMember ({ params, auth }: WsContextContract, newUser: string) {
+    async addMember ({ params, auth, socket }: WsContextContract, newUser: string) {
         const user = await User.findByOrFail('username', newUser)
         const channel = await (await Channel.findByOrFail('channel_name', params.name))
         const member = await Member.query().where('user_id', user.id).where('channel_id', channel.id).first()
@@ -50,6 +50,8 @@ export default class MembersController {
                 accepted: false,
             })
         }
+
+        socket.broadcast.emit('newMember', user)
         return user
     }
 }
