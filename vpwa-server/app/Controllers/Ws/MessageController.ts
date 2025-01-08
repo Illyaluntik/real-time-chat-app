@@ -14,9 +14,10 @@ import Channel from 'App/Models/Channel'
 export default class MessageController {
   //constructor (private messageRepository: MessageRepositoryContract) {}
 
-  public async loadMessages ({ params }: WsContextContract) {
+  public async loadMessages ({ params }: WsContextContract, page: number) {
     const channelId = await (await Channel.findByOrFail('channel_name', params.name)).id
-    const channelMessages = await Database.query().from('messages').select('*').where('sent_in', channelId)
+    const channelMessages = (await Database.query().from('messages').select('*')
+      .where('sent_in', channelId).orderBy('sent_at', 'desc').forPage(page, 10)).reverse()
     return channelMessages
   }
 

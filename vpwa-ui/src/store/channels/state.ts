@@ -42,6 +42,7 @@ export interface ChannelsStateInterface {
   membersStatus: Record<string, 'online' | 'offline' | 'dnd'>;
   membersEnum: {[channel: string]: Record<string, string>};
   loading: boolean;
+  allowLoadMessages: boolean;
 }
 
 function state(): ChannelsStateInterface {
@@ -52,7 +53,8 @@ function state(): ChannelsStateInterface {
     members: {},
     membersEnum: {},
     membersStatus: {},
-    loading: false
+    loading: false,
+    allowLoadMessages: true
   };
 }
 

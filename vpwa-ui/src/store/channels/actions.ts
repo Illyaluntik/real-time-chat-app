@@ -7,7 +7,7 @@
 import { ActionTree } from 'vuex';
 import channelService from 'src/services/ChannelService';
 import { StateInterface } from '../index';
-import { ChannelsStateInterface } from './state';
+import { ChannelsStateInterface, Message } from './state';
 import API from './api';
 import { Account } from '../account/state';
 
@@ -17,16 +17,19 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
       return;
 
     try {
+      state.commit('setLoading', true);
       if (state.state.activeChannel)
         channelService.leave(state.state.activeChannel);
-      const messages = await channelService.join(channel).loadMessages();
+      channelService.join(channel);
       const members = await channelService.in(channel)?.loadMembers();
       const channelDetail = await channelService.in(channel)?.getChannel();
       state.commit('setMemberEnum', { channel, members });
       state.commit('setMembers', { channel, members });
-      state.commit('setMessages', { channel, messages });
       state.commit('setChannel', channelDetail);
+      await state.dispatch('loadMessages', 1);
+      state.commit('setLoading', false);
     } catch (err) {
+      state.commit('setLoading', false);
       throw err;
     }
   },
@@ -34,6 +37,7 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
     if (state.state.activeChannel) {
       channelService.leave(state.state.activeChannel);
       state.commit('setActiveChannel', null);
+      state.commit('setMessages', { channel: state.state.activeChannel, messages: [] });
     }
   },
 
@@ -43,14 +47,20 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
     state.commit('removeMembers', channel);
     state.commit('removeMembersEnum', channel);
   },
-  // async leave({ getters, commit }, channel: string | null) {
-  //   const leaving: string[] = channel !== null ? [channel] : getters.joinedChannels;
 
-  //   leaving.forEach((c) => {
-  //     channelService.leave(c);
-  //     commit('CLEAR_CHANNEL', c);
-  //   });
-  // },
+  async loadMessages(state, page): Promise<Message[]> {
+    if (!state.state.activeChannel)
+      return [];
+
+    const messages = await channelService.in(state.state.activeChannel)?.loadMessages(page);
+    if (messages) {
+      state.commit('setMessages', { channel: state.state.activeChannel, messages, rewrite: page === 1 });
+      return messages;
+    }
+
+    return [];
+  },
+
   async addMessage(state, { channel, message }: { channel: string, message: string }) {
     const newMessage = await channelService.in(channel)?.addMessage(message);
     state.commit('newMessage', { channel, message: newMessage });
@@ -69,30 +79,6 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
     const remUser = channelService.in(channel)?.revokeMember(kickUser);
     console.log(remUser);
   }
-  // async createChannel(state) {
-  //   const newChannel = ChannelService.add();
-  //   // console.log(data);
-  //   // const [res, err] = await API.createChannel(data);
-
-  //   // if (err)
-  //   //   throw err;
-
-  //   // return res;
-  // },
-  // async leaveChannel(state, userId) {
-  //   const data = {
-  //     channel_id: state.getters.activeChannel,
-  //     user_id: userId
-  //   };
-
-  //   const [res, err] = await API.leaveChannel(data);
-
-  //   if (err)
-  //     throw err;
-
-  //   state.commit('setActiveChannel', null);
-  //   return res;
-  // }
 };
 
 export default actions;

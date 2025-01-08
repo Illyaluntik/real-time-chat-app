@@ -135,23 +135,23 @@ export abstract class SocketManager implements SocketManagerContract {
       }
     });
 
-    if (DEBUG) {
-      socket.on('connect', () => {
-        console.info(`${this.namespace} [connect]`);
-      });
+    // if (DEBUG) {
+    //   socket.on('connect', () => {
+    //     console.info(`${this.namespace} [connect]`);
+    //   });
 
-      socket.on('disconnect', (reason) => {
-        console.info(`${this.namespace} [disconnect]`, reason);
-      });
+    //   socket.on('disconnect', (reason) => {
+    //     console.info(`${this.namespace} [disconnect]`, reason);
+    //   });
 
-      socket.on('error', (err: Error) => {
-        console.error(`${this.namespace} [error]`, err.message);
-      });
+    //   socket.on('error', (err: Error) => {
+    //     console.error(`${this.namespace} [error]`, err.message);
+    //   });
 
-      socket.onAny((event, ...args) => {
-        console.info(`${this.namespace} [${event}]`, args);
-      });
-    }
+    //   socket.onAny((event, ...args) => {
+    //     console.info(`${this.namespace} [${event}]`, args);
+    //   });
+    // }
 
     return socket;
   }
