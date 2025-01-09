@@ -86,6 +86,7 @@ import ChannelsList from 'src/components/ChannelsList.vue';
 import ChannelInfo from 'src/components/ChannelInfo.vue';
 import { mapActions, mapGetters } from 'vuex';
 import scrollToBottom from 'src/misc/scrollToBottom';
+import { channelService } from 'src/services';
 
 export default defineComponent({
   components: { ChannelsList, ChannelInfo },
@@ -117,6 +118,7 @@ export default defineComponent({
             isPrivate = true;
           }
           await this.$store.dispatch('account/joinChannel', { channelName: cmd[1], isPrivate });
+          channelService.leave(cmd[1]);
         }
         if (message.startsWith('/invite')) {
           if (this.activeChannel === null && this.channel === null) {
@@ -143,12 +145,12 @@ export default defineComponent({
         }
         if (message.startsWith('/quit')) {
           if (this.activeChannel !== null) {
-            await this.$store.dispatch('account/leaveChanne', this.activeChannel);
+            await this.$store.dispatch('account/leaveChannel', this.activeChannel);
           }
         }
         if (message.startsWith('/cancel')) {
           if (this.activeChannel !== null) {
-            await this.$store.dispatch('account/leaveChanne', this.activeChannel);
+            await this.$store.dispatch('account/leaveChannel', this.activeChannel);
           }
         }
         if (message.startsWith('/list')) {

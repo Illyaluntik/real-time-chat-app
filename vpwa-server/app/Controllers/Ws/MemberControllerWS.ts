@@ -15,11 +15,12 @@ export default class MembersController {
         if (channel?.admin === userId) {
             await Member.query().where('channel_id', channelId).delete()
             await channel?.delete()
+            return null
         } else {
             const membership = await Member.findBy('channel_id', channelId)
             await membership?.delete()
+            return channel
         }
-        return channel
     }
 
     async loadMembers ({ params }: WsContextContract) {

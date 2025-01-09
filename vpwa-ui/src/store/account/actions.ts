@@ -75,6 +75,9 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
   async leaveChannel(state, channel: string) {
     const leftChannel = await channelService.in(channel)?.leaveChannel(channel);
     state.commit('removeChannel', leftChannel);
+    if (leftChannel === null) {
+      activityService.removeChannel(channel);
+    }
   },
 
   async joinChannel(state, { channelName, isPrivate }: {channelName:string, isPrivate:boolean}) {
