@@ -30,7 +30,6 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import { useRoute } from 'vue-router';
-
 import AccountMenu from 'src/components/AccountMenu.vue';
 import CreateChannel from 'src/components/CreateChannel.vue';
 

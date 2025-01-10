@@ -17,6 +17,12 @@ const getters: GetterTree<ChannelsStateInterface, StateInterface> = {
   },
   membersStatus(state) {
     return state.membersStatus;
+  },
+  allowLoadMessages(state) {
+    return state.allowLoadMessages;
+  },
+  loading(state) {
+    return state.loading;
   }
 };
 

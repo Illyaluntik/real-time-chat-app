@@ -20,10 +20,18 @@ const mutation: MutationTree<ChannelsStateInterface> = {
     const messages = state.messages[channel].slice();
     messages.push(message);
     state.messages[channel] = messages;
+    if (state.channel)
+    // eslint-disable-next-line no-plusplus
+      state.channel.total++;
   },
 
-  setMessages(state, { channel, messages } : { channel : string, messages: Message[] }) {
-    state.messages[channel] = messages;
+  setMessages(state, { channel, messages, rewrite } : { channel : string, messages: Message[], rewrite: boolean }) {
+    if (rewrite)
+      state.messages[channel] = messages;
+    else if (state.messages[channel])
+      state.messages[channel].unshift(...messages);
+    else
+      state.messages[channel] = messages;
   },
 
   setMembers(state, { channel, members } : { channel: string, members: Account[] }) {
@@ -35,7 +43,6 @@ const mutation: MutationTree<ChannelsStateInterface> = {
   },
 
   setMemberEnum(state, { channel, members } : { channel: string, members: Account[] }) {
-    console.log(channel);
     if (!state.membersEnum[channel])
       state.membersEnum[channel] = {};
     members.forEach((m) => {
@@ -64,6 +71,10 @@ const mutation: MutationTree<ChannelsStateInterface> = {
     if (mIndex !== undefined) {
       state.members[channel].splice(mIndex, 1);
     }
+  },
+
+  setLoading(state, value: boolean) {
+    state.loading = value;
   }
 };
 

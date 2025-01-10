@@ -169,9 +169,11 @@ export default defineComponent({
     },
     toggleChannelsList() {
       this.channelsListOpen = !this.channelsListOpen;
+      // this.$store.commit('channels/allowLoadMessages', !this.channelsListOpen);
     },
     toggleChannelInfo() {
       this.channelInfoOpen = !this.channelInfoOpen;
+      // this.$store.commit('channels/allowLoadMessages', !this.channelInfoOpen);
     },
     // ...mapActions('channels', ['addMessage'])
     ...mapActions({ addMessage: 'channels/addMessage' })
