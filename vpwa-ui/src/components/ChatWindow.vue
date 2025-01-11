@@ -23,7 +23,8 @@
       <div style="height: 1px;" class="bg-grey-4 col-grow" />
     </div>
       <Message
-        :sentBy="members[m.author]"
+        :username="members[m.author]"
+        :userId="m.author"
         :text="m.body"
         :stamp="m.sent_at || m.sentAt"
         :sent="m.author === user.id"

@@ -10,6 +10,7 @@
           size="40px"
           class="relative-position q-mx-sm"
           :style="{backgroundColor: getUserColor()}"
+          :text-color="brightness() < 128 ? 'grey-2' : 'grey-9'"
         >
           {{user?.username?.charAt(0).toUpperCase()}}
           <q-badge :color="userStatusEnum[userStatus].color" rounded class="absolute-bottom-right" />
@@ -61,6 +62,7 @@ import { mapGetters } from 'vuex';
 import userStatusEnum from 'src/constants/userStatus.enum';
 import generateUserColor from 'src/misc/generateUserColor';
 import { AccountStatus } from 'src/store/account/state';
+import { colors } from 'quasar';
 
 export default defineComponent({
   computed: {
@@ -74,7 +76,10 @@ export default defineComponent({
   methods: {
     getUserColor() {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      return generateUserColor(this.user.username || 'username-id-color');
+      return generateUserColor(this.user.id || 'username-id-color');
+    },
+    brightness() {
+      return colors.brightness(this.getUserColor());
     },
     onLogout() {
       this.$store.dispatch('account/logout')

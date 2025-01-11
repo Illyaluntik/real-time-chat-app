@@ -1,6 +1,6 @@
 <template>
   <q-chat-message
-    :name="sentBy"
+    :name="username"
     :text="[text]"
     :stamp="timestamp"
     :sent="sent"
@@ -10,8 +10,10 @@
         size="40px"
         class="q-mx-sm"
         :style="{backgroundColor: userColor}"
+        :text-color="brightness < 128 ? 'grey-2' : 'grey-9'"
       >
-        {{sentBy.charAt(0).toUpperCase()}}
+        {{username.charAt(0).toUpperCase()}}
+        <!-- {{brightness}} -->
       </q-avatar>
     </template>
   </q-chat-message>
@@ -21,10 +23,12 @@
 import { defineComponent } from 'vue';
 import dateFormatter from 'src/misc/dateFormatter';
 import generateUserColor from 'src/misc/generateUserColor';
+import { colors } from 'quasar';
 
 export default defineComponent({
   props: {
-    sentBy: { type: String, required: true },
+    username: { type: String, required: true },
+    userId: { type: String, required: true },
     text: { type: String, required: true },
     stamp: { type: String, required: true },
     sent: { type: Boolean, required: true }
@@ -48,11 +52,14 @@ export default defineComponent({
     }
   },
   computed: {
+    brightness() {
+      return colors.brightness(this.userColor);
+    },
     timestamp() {
       return dateFormatter(this.stamp, this.now);
     },
     userColor() {
-      return generateUserColor(this.sentBy);
+      return generateUserColor(this.userId);
     }
   }
 });
