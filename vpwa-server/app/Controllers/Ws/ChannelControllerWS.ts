@@ -3,6 +3,7 @@
 import type { WsContextContract } from '@ioc:Ruby184/Socket.IO/WsContext'
 import Channel from 'App/Models/Channel'
 import Member from 'App/Models/Member'
+import User from 'App/Models/User'
 
 export default class ChannelsController {
   // create new channel
@@ -17,12 +18,14 @@ export default class ChannelsController {
     const member = await Member.create({
       userId: channelInfo.adminId,
       channelId: channel.id,
+      accepted: true,
     })
     return channel
   }
 
-  async joinChannel ({params, auth}: WsContextContract, isPrivate: boolean) {
+  async joinChannel ({params, auth, socket}: WsContextContract, isPrivate: boolean) {
     let channel = await Channel.findBy('channel_name', params.name)
+    const user = await User.find(auth.user?.id)
     if (channel === null) {
       // does not exist
       channel = await Channel.create({
@@ -35,8 +38,10 @@ export default class ChannelsController {
     const member = await Member.create({
       userId: auth.user?.id,
       channelId: channel?.id,
+      accepted: true,
     })
 
+    socket.broadcast.emit('newMember', user)
     return channel
   }
 

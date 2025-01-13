@@ -13,14 +13,8 @@ export default class Member extends BaseModel {
   @column()
   public userId: string
 
-  @column.dateTime({ autoCreate: true })
-  public invitedAt: DateTime
-
-  @column.dateTime({ autoCreate: true })
-  public joinedAt: DateTime
-
   @column()
-  public revoked: boolean
+  public accepted: boolean
 
   @column()
   public unreadMessages: number

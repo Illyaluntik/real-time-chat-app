@@ -15,6 +15,10 @@ class ChannelSocketManager extends SocketManager {
     this.socket.on('message', (message: Message) => {
       store.commit('channels/newMessage', { channel, message });
     });
+
+    this.socket.on('newMember', (account: Account) => {
+      store.commit('channels/addMember', { channel, account });
+    });
   }
 
   public addMessage(message: string): Promise<Message> {

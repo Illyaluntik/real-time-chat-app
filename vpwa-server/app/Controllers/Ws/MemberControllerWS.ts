@@ -15,11 +15,12 @@ export default class MembersController {
         if (channel?.admin === userId) {
             await Member.query().where('channel_id', channelId).delete()
             await channel?.delete()
+            return null
         } else {
             const membership = await Member.findBy('channel_id', channelId)
             await membership?.delete()
+            return channel
         }
-        return channel
     }
 
     async loadMembers ({ params }: WsContextContract) {
@@ -32,10 +33,10 @@ export default class MembersController {
         return members
     }
 
-    async addMember ({ params, auth }: WsContextContract, newUser: string) {
+    async addMember ({ params, auth, socket }: WsContextContract, newUser: string) {
         const user = await User.findByOrFail('username', newUser)
         const channel = await (await Channel.findByOrFail('channel_name', params.name))
-        const member = await Member.findBy('userId', user.id)
+        const member = await Member.query().where('user_id', user.id).where('channel_id', channel.id).first()
         console.log(member)
 
         if (member !== null) {
@@ -47,9 +48,11 @@ export default class MembersController {
             await Member.create({
                 userId: user?.id,
                 channelId: channel?.id,
+                accepted: false,
             })
         }
+
+        socket.broadcast.emit('newMember', user)
         return user
-        // return member
     }
 }
