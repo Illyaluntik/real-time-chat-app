@@ -7,47 +7,67 @@ import Kick from 'App/Models/Kick'
 import Member from 'App/Models/Member'
 import User from 'App/Models/User'
 
-export default class KicksController{
-    private async removeUser (channelId: number, user: string) {
-        await Member.query().where('user_id', user).where('channel_id', channelId).first()
+export default class KicksController {
+    private async removeUser(channelId: number, user: string) {
+        await Member.query().where('user_id', user).where('channel_id', channelId).delete()
     }
 
-    private async banUser (channelId: number, user: string) {
-        await Ban.create({
+    private async banUser(channelId: number, user: string) {
+        const banned = await Ban.create({
             bannedUser: user,
-            bannedIn:channelId,
+            bannedIn: channelId,
         })
+        return banned
     }
 
-    async kick ({params, auth}: WsContextContract, kickedUser : string) {
+    async kick({ params, auth }: WsContextContract, kickedUser: string) {
         const channel = await Channel.findByOrFail('channel_name', params.name)
         const channelAdmin = channel.admin
+        const user = await User.findBy('username', kickedUser)
+
+        if (user?.id === auth.user?.id) {
+            return null
+        }
+
+        if (user?.id === channelAdmin) {
+            return null
+        }
 
         if (channelAdmin === auth.user?.id) {
-            this.removeUser(channel.id, kickedUser)
-            this.banUser(channel.id, kickedUser)
+            this.banUser(channel.id, user!.id)
+            this.removeUser(channel.id, user!.id)
+            await Kick.query().where('kicked_user', user!.id).where('kicked_in', channel.id).delete()
         } else {
+            // eslint-disable-next-line max-len
+            const kickCheck = await Kick.query().where('kicked_user', user!.id).where('kicked_by', auth.user!.id).where('kicked_in', channel.id).first()
+
+            if (kickCheck !== null) {
+                return null
+            }
+
             const kicks = await Kick.create({
-                kickedUser: kickedUser,
+                kickedUser: user?.id,
                 kickedBy: auth.user?.id,
                 kickedIn: channel.id,
             })
-            const kCount = (await Kick.query().where('kicked_user', kickedUser).where('kicked_in', channel.id)).length
+            const kCount = (await Kick.query().where('kicked_user', user!.id).where('kicked_in', channel.id)).length
             if (kCount === 1) {
-                this.removeUser(channel.id, kickedUser)
+                this.removeUser(channel.id, user!.id)
             } else if (kCount === 3) {
-                this.banUser(channel.id, kickedUser)
+                this.banUser(channel.id, user!.id)
+                await Kick.query().where('kicked_user', user!.id).where('kicked_in', channel.id).delete()
             }
         }
 
-        return await User.find(kickedUser)
+        return user
     }
 
-    async revoke ({ params, auth }: WsContextContract, revokedUser : string) {
-        const channel = await Channel.findByOrFail('channel_name', params.name)
-        if (channel.admin === auth.user?.id) {
-            this.removeUser(channel.id, revokedUser)
-            return await User.find(revokedUser)
+    async revoke({ params, auth }: WsContextContract, revokedUser: string) {
+        const channel = await Channel.findBy('channel_name', params.name)
+        const user = await User.findBy('username', revokedUser)
+        if (channel?.admin === auth.user?.id) {
+            this.removeUser(channel!.id, user!.id)
+            return user
         }
 
         return null

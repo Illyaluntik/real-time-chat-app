@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 /* eslint-disable @typescript-eslint/indent */
 import type { WsContextContract } from '@ioc:Ruby184/Socket.IO/WsContext'
+import Ban from 'App/Models/Ban'
 import Channel from 'App/Models/Channel'
 import Member from 'App/Models/Member'
 import User from 'App/Models/User'
@@ -33,6 +34,12 @@ export default class ChannelsController {
         isPrivate: isPrivate,
         admin: auth.user?.id,
       })
+    } else {
+      // check if banned
+      const banned = await Ban.query().where('banned_user', user!.id).where('banned_in', channel.id).first()
+      if (banned !== null) {
+        return null
+      }
     }
 
     const member = await Member.create({
