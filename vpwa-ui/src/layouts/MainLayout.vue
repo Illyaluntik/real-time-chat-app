@@ -123,7 +123,7 @@ export default defineComponent({
         if (message.startsWith('/invite')) {
           if (this.activeChannel === null && this.channel === null) {
             console.log('not selected channel');
-          } else if (this.channel.isPrivate && this.user.id === this.channel.admin) {
+          } else if (!(this.channel.isPrivate) || (this.channel.isPrivate && this.user.id === this.channel.admin)) {
             await this.$store.dispatch('channels/addMember', { channel: this.activeChannel, username: cmd[1] });
           } else {
             console.log('unathorized');
@@ -134,7 +134,7 @@ export default defineComponent({
             if (this.channel.admin === this.user.id) {
               await this.$store.dispatch('channels/revoke', { channel: this.activeChannel, kickUser: cmd[1] });
             } else {
-              console.log('unauthorized');
+              console.log('invalid');
             }
           }
         }
@@ -144,8 +144,12 @@ export default defineComponent({
           }
         }
         if (message.startsWith('/quit')) {
-          if (this.activeChannel !== null) {
-            await this.$store.dispatch('account/leaveChannel', this.activeChannel);
+          if (this.activeChannel !== null && this.channel !== null) {
+            if (this.channel.admin === this.user.id)
+              await this.$store.dispatch('account/leaveChannel', this.activeChannel);
+            else {
+              console.log('unauthorized');
+            }
           }
         }
         if (message.startsWith('/cancel')) {
@@ -177,16 +181,6 @@ export default defineComponent({
     },
     // ...mapActions('channels', ['addMessage'])
     ...mapActions({ addMessage: 'channels/addMessage' })
-  },
-  beforeMount() {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    // this.$store.dispatch('account/getUserChannels', this.user.id);
-    // if (!this.user)
-    //   this.$store.dispatch('getAccount')
-    //     .then(() => this.$store.dispatch('getChannels'))
-    //     .catch(() => this.$router.push({ name: 'login' }));
-    // else
-    //   void this.$store.dispatch('getChannels');
   }
 });
 </script>

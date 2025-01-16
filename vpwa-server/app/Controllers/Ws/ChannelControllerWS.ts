@@ -36,6 +36,10 @@ export default class ChannelsController {
       })
     } else {
       // check if banned
+      if (channel.isPrivate) {
+        return null
+      }
+
       const banned = await Ban.query().where('banned_user', user!.id).where('banned_in', channel.id).first()
       if (banned !== null) {
         return null
