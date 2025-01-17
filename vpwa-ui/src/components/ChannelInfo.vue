@@ -48,7 +48,7 @@ export default defineComponent({
             type: 'positive',
             message: 'Successfully leaved from channel'
           });
-          void this.$store.dispatch('channels/leave');
+          void this.$store.dispatch('channels/leave', this.activeChannel);
           void this.$router.push({ name: 'channels' });
         })
         .catch((err) => {

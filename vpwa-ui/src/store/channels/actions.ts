@@ -42,9 +42,9 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
     }
   },
 
-  leave(state) {
-    const channel = state.state.activeChannel;
-    state.commit('removeChannel', channel);
+  leave(state, channel: string) {
+    if (channel === state.state.activeChannel)
+      state.commit('removeChannel', channel);
     state.commit('removeMembers', channel);
     state.commit('removeMembersEnum', channel);
   },

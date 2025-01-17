@@ -41,9 +41,13 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapGetters({ channels: 'account/channels', activeChannel: 'channels/activeChannel' })
+    ...mapGetters({ channels: 'account/channels', activeChannel: 'channels/activeChannel', channel: 'channels/channel' })
   },
   watch: {
+    channel(channel) {
+      if (channel === null)
+        void this.$router.push({ name: 'channels' });
+    },
     activeChannel(id) {
       void this.$router.push({ name: 'channels', params: { id } });
     },
