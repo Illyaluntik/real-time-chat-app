@@ -43,10 +43,9 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
     state.commit('setLoading', false);
   },
 
-  leave(state) {
-    state.commit('setLoading', true);
-    const channel = state.state.activeChannel;
-    state.commit('removeChannel', channel);
+  leave(state, channel: string) {
+    if (channel === state.state.activeChannel)
+      state.commit('removeChannel', channel);
     state.commit('removeMembers', channel);
     state.commit('removeMembersEnum', channel);
     state.commit('setLoading', false);

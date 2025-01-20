@@ -78,8 +78,8 @@ export default class ActivityController {
   }
 
   public async deleteChannel({socket}: WsContextContract, channelName: string) {
-    const channel = await Channel.findBy('channel_name', channelName)
-    socket.broadcast.emit('deleteChannel', channel)
-    return channel
+    // const channel = await Channel.findBy('channel_name', channelName)
+    socket.broadcast.emit('deleteChannel', channelName)
+    return channelName
   }
 }

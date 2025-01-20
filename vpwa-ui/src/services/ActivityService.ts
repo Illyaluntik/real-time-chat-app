@@ -23,8 +23,9 @@ class ActivitySocketManager extends SocketManager {
       store.commit('account/newChannel', newChannel);
     });
 
-    this.socket.on('deleteChannel', (channel: ChannelInterface) => {
+    this.socket.on('deleteChannel', (channel: string) => {
       store.commit('account/removeChannel', channel);
+      void store.dispatch('channels/leave', channel);
     });
 
     // add event for new message in other channel

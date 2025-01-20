@@ -62,7 +62,7 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
   async leaveChannel(state, channel: string) {
     state.commit('busy', true);
     const leftChannel = await channelService.in(channel)?.leaveChannel(channel);
-    state.commit('removeChannel', leftChannel);
+    state.commit('removeChannel', channel);
     if (leftChannel === null) {
       activityService.removeChannel(channel);
     }

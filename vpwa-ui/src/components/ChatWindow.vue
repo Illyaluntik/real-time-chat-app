@@ -2,7 +2,7 @@
 <q-infinite-scroll
   v-if="!loadingChannel"
   @load="onLoad"
-  :disable="!allowLoad || channel?.total === messages?.length || channel?.total < 10"
+  :disable="!channel || !allowLoad || channel?.total === messages?.length || channel?.total < 10"
   reverse
   :initial-index="1"
   :offset="250"
