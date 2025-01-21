@@ -46,6 +46,7 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
     if (channel === state.state.activeChannel)
       state.commit('removeChannel', channel);
     state.commit('removeMembers', channel);
+    state.commit('setMessages', { channel, messages: [], rewrite: true });
     state.commit('removeMembersEnum', channel);
   },
 

@@ -16,7 +16,6 @@ const mutation: MutationTree<ChannelsStateInterface> = {
   },
 
   newMessage(state, { channel, message } : { channel : string, message: Message }) {
-    console.log(message);
     const messages = state.messages[channel].slice();
     messages.push(message);
     state.messages[channel] = messages;
