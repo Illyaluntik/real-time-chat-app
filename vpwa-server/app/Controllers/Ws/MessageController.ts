@@ -1,5 +1,4 @@
 import type { WsContextContract } from '@ioc:Ruby184/Socket.IO/WsContext'
-import { inject } from '@adonisjs/core/build/standalone'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Message from 'App/Models/Message'
 import Channel from 'App/Models/Channel'
@@ -10,7 +9,6 @@ import Channel from 'App/Models/Channel'
 // controler method just gets data (validates it) and calls repository
 // also we can then test standalone repository without controller
 // implementation is bind into container inside providers/AppProvider.ts
-@inject(['Repositories/MessageRepository'])
 export default class MessageController {
   //constructor (private messageRepository: MessageRepositoryContract) {}
 

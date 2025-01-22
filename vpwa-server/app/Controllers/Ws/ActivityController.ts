@@ -7,6 +7,10 @@ export default class ActivityController {
     return `user:${user.id}`
   }
 
+  private checkAlive(channels: Channel[]) {
+    
+  }
+
   public async onConnected({ socket, auth, logger }: WsContextContract) {
     // all connections for the same authenticated user will be in the room
     const room = this.getUserRoom(auth.user!)

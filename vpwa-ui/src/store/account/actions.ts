@@ -52,63 +52,42 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
     activityService.changeStatus(status);
   },
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  // async getUserChannels(state, id:string) {
-  //   try {
-  //     state.commit('busy', true);
-  //     // const channels = await API.getChannels(id);
-  //     // state.commit('setChannels', channels);
-  //     state.commit('busy', false);
-  //     console.log(id);
-  //     return null;
-  //   } catch (error) {
-  //     state.commit('busy', false);
-  //     throw error;
-  //   }
-  // },
-
   async createChannel(state, data: NewChannelInterface) {
+    state.commit('busy', true);
     const newChannel = await channelService.join(data.channelName).addNewChannel(data);
     state.commit('newChannel', newChannel);
+    state.commit('busy', false);
   },
 
   async leaveChannel(state, channel: string) {
+    state.commit('busy', true);
     const leftChannel = await channelService.in(channel)?.leaveChannel(channel);
     state.commit('removeChannel', channel);
     if (leftChannel === null) {
       activityService.removeChannel(channel);
     }
+    state.commit('busy', false);
   },
 
   async joinChannel(state, { channelName, isPrivate }: {channelName:string, isPrivate:boolean}) {
+    state.commit('busy', true);
     const joinedChannel = await channelService.join(channelName).joinChannel(isPrivate);
     state.commit('newChannel', joinedChannel);
+    state.commit('busy', false);
   },
 
   async logout(state) {
     try {
+      state.commit('busy', true);
       await API.logout();
       authManager.removeToken();
       state.commit('setUser', null);
       // state.commit('setUserStatus', 'online');
+      state.commit('busy', false);
     } catch (error) {
       console.log(error);
     }
   }
-  // async logout(state) {
-  //   state.commit('busy', true);
-
-  //   const [, err] = await API.logout();
-
-  //   if (err) {
-  //     state.commit('busy', false);
-  //     throw err;
-  //   }
-
-  //   state.commit('setUser', null);
-  //   state.commit('setUserStatus', 'online');
-  //   state.commit('busy', false);
-  // },
 };
 
 export default actions;

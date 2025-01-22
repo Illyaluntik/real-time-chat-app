@@ -13,6 +13,7 @@ export default class MembersController {
         const channelId = await (await Channel.findByOrFail('channel_name', name)).id
 
         const channel = await Channel.find(channelId)
+
         if (channel?.admin === userId) {
             await Member.query().where('channel_id', channelId).delete()
             await channel?.delete()
