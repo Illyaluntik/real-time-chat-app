@@ -35,7 +35,6 @@
     </q-drawer>
     <q-drawer
       v-model="channelInfoOpen"
-      show-if-above
       side="right"
       bordered
     >
