@@ -101,6 +101,14 @@ export default defineComponent({
       user: 'account/user', channels: 'account/channels', activeChannel: 'channels/activeChannel', channel: 'channels/channel'
     })
   },
+  watch: {
+    channel(channel) {
+      if (channel === null) {
+        void this.$router.push({ name: 'channels' });
+        this.channelInfoOpen = false;
+      }
+    }
+  },
   methods: {
     async onSend() {
       const message = this.mainInput;
