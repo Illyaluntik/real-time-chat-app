@@ -28,8 +28,6 @@ class ActivitySocketManager extends SocketManager {
       void store.dispatch('channels/leave', channel);
     });
 
-    // add event for new message in other channel
-
     authManager.onChange((token) => {
       if (token) {
         this.socket.connect();
