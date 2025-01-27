@@ -1,6 +1,6 @@
 <template>
   <q-chat-message
-    :name="username"
+    :name="username || 'Deleted user'"
     :text="[text]"
     :stamp="timestamp"
     :sent="sent"
@@ -12,8 +12,7 @@
         :style="{backgroundColor: userColor}"
         :text-color="brightness < 128 ? 'grey-2' : 'grey-9'"
       >
-        {{username.charAt(0).toUpperCase()}}
-        <!-- {{brightness}} -->
+        {{username?.charAt(0).toUpperCase() || '?'}}
       </q-avatar>
     </template>
   </q-chat-message>
@@ -27,7 +26,7 @@ import { colors } from 'quasar';
 
 export default defineComponent({
   props: {
-    username: { type: String, required: true },
+    username: { type: String },
     userId: { type: String, required: true },
     text: { type: String, required: true },
     stamp: { type: String, required: true },
