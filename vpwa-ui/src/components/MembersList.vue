@@ -42,8 +42,7 @@ export default defineComponent({
     members: {
       type: Array as PropType<Account[]>,
       default: () => []
-    },
-    active: String
+    }
   },
   computed: {
     ...mapGetters({
@@ -53,9 +52,17 @@ export default defineComponent({
       return userStatusEnum;
     }
   },
+  watch: {
+    members() {
+      if (!this.members.some((member) => member.id === this.user.id)) {
+        void this.$store.dispatch('channels/leave', this.activeChannel);
+        // void this.$store.commit('account/removeChannel', this.activeChannel);
+      }
+    }
+  },
   methods: {
     onKickMember(username:string) {
-      return this.$store.dispatch('channels/handleRemoval', { channel: this.active, kickUser: username });
+      return this.$store.dispatch('channels/handleRemoval', { channel: this.activeChannel, kickUser: username });
     },
     isKickable(id: string) {
       if (this.user.id === id || this.channel.admin === id)

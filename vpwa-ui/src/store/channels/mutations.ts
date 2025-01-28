@@ -62,13 +62,16 @@ const mutation: MutationTree<ChannelsStateInterface> = {
   },
 
   addMember(state, { channel, newMember } : { channel: string, newMember: Account }) {
-    state.members[channel].push(newMember);
+    state.members[channel]?.push(newMember);
+    if (state.membersEnum[channel] && state.membersEnum[channel][newMember.id])
+      state.membersEnum[channel][newMember.id] = newMember.username;
   },
 
   removeMember(state, { channel, member } : { channel: string, member: Account }) {
-    const mIndex = state.members[channel].indexOf(member, 0);
-    if (mIndex !== undefined) {
+    const mIndex = state.members[channel]?.findIndex((element) => element.id === member.id);
+    if (mIndex !== undefined && mIndex !== -1) {
       state.members[channel].splice(mIndex, 1);
+      state.members[channel] = [...state.members[channel]];
     }
   },
 

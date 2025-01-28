@@ -40,12 +40,14 @@ const actions: ActionTree<ChannelsStateInterface, StateInterface> = {
     }
   },
 
-  leave(state, channel: string) {
+  async leave(state, channel: string) {
     if (channel === state.state.activeChannel)
       state.commit('removeChannel', channel);
     state.commit('removeMembers', channel);
     state.commit('setMessages', { channel, messages: [], rewrite: true });
     state.commit('removeMembersEnum', channel);
+    // const channelDetail = await channelService.in(channel)?.getChannel();
+    // state.commit('setChannel', channelDetail);
   },
 
   async loadMessages(state, page): Promise<Message[]> {

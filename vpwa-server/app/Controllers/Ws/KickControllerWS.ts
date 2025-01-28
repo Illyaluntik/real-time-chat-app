@@ -20,7 +20,7 @@ export default class KicksController {
         return banned
     }
 
-    async kick({ params, auth }: WsContextContract, kickedUser: string) {
+    async kick({ params, auth, socket }: WsContextContract, kickedUser: string) {
         const channel = await Channel.findByOrFail('channel_name', params.name)
         const channelAdmin = channel.admin
         const user = await User.findBy('username', kickedUser)
@@ -37,6 +37,7 @@ export default class KicksController {
             this.banUser(channel.id, user!.id)
             this.removeUser(channel.id, user!.id)
             await Kick.query().where('kicked_user', user!.id).where('kicked_in', channel.id).delete()
+            socket.nsp.emit('removedUser', params.name, user)
         } else {
             // eslint-disable-next-line max-len
             const kickCheck = await Kick.query().where('kicked_user', user!.id).where('kicked_by', auth.user!.id).where('kicked_in', channel.id).first()
@@ -55,7 +56,7 @@ export default class KicksController {
                 this.removeUser(channel.id, user!.id)
             } else if (kCount === 3) {
                 this.banUser(channel.id, user!.id)
-                await Kick.query().where('kicked_user', user!.id).where('kicked_in', channel.id).delete()
+                // await Kick.query().where('kicked_user', user!.id).where('kicked_in', channel.id).delete()
             }
         }
 
