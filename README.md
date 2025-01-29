@@ -1,4 +1,4 @@
-# VPWA IRC App
+# Real Time Chat App
 
 This app is bundled with Docker container. You need to have Docker installed to properly run this app.
 
